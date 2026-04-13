@@ -814,12 +814,12 @@
     }
 
     /* ─── SLIDE s-predio · EL PREDIO EN DETALLE ─────────── */
-    .predio-facts { margin-top: 1.8rem; display: flex; flex-direction: column; gap: 0; }
+    .predio-facts { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0; }
     .predio-fact {
       display: grid;
       grid-template-columns: 1fr 1.6fr;
       gap: 1rem;
-      padding: 0.75rem 0;
+      padding: 0.55rem 0;
       border-bottom: 1px solid rgba(240,235,224,0.07);
       align-items: baseline;
     }
@@ -1522,26 +1522,15 @@
   <!-- ════════════════════════════════════════════════ -->
   <section class="slide" id="s-predio" style="background: var(--coal);">
 
-    <div class="c" style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 5vw; align-items: center; z-index: 10; position: relative;">
+    <div class="c" style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 5vw; align-items: center; z-index: 10; position: relative;">
 
-      <!-- Left: property facts -->
+      <!-- Left: title + facts -->
       <div>
         <p class="eyebrow rv">07 · El Predio en Detalle</p>
-        <h2 class="h2 rv d1">15.71 hectáreas<br>escrituradas.</h2>
+        <h2 class="h2 rv d1" style="font-size: clamp(1.6rem,2.8vw,2.6rem);">15.71 hectáreas<br>escrituradas.</h2>
         <div class="rule rv d2"></div>
 
         <div class="predio-facts rv d2">
-          <div class="predio-fact" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
-            <div class="predio-label">Ubicación Macro</div>
-            <div style="width: 100%; border-radius: 3px; overflow: hidden; margin-top: 0.3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
-              <iframe
-                src="https://maps.google.com/maps?q=23.1802,-110.0996&z=9&output=embed"
-                width="100%" height="210" style="border:0; display:block; filter: saturate(0.7) brightness(0.88);"
-                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-              </iframe>
-            </div>
-            <div style="font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mist);">Corredor Pacífico · BCS — entre Todos Santos y Los Cabos</div>
-          </div>
           <div class="predio-fact">
             <div class="predio-label">Ubicación</div>
             <div class="predio-val">Ejido Plutarco Elías Calles · Todos Santos · La Paz, BCS</div>
@@ -1565,33 +1554,28 @@
         </div>
       </div>
 
-      <!-- Right: two aerials stacked -->
-      <div style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 82vh; overflow: hidden;" class="rv d2">
+      <!-- Right: aerial + macro map -->
+      <div style="display: flex; flex-direction: column; gap: 0.9rem; height: 82vh; max-height: 82vh;" class="rv d2">
 
-        <div style="position: relative; flex: 1; min-height: 0;">
+        <!-- Aerial photo — upper 55% -->
+        <div style="flex: 0 0 54%; min-height: 0; overflow: hidden;">
           <img src="./Cucunumic/07.%20Fotos/aerial_total.png"
                alt="Vista aérea total — Cucunumic 15.71 ha"
-               style="width: 100%; max-height: 70vh; object-fit: contain; border-radius: 2px; display: block; box-shadow: 0 6px 32px rgba(0,0,0,0.55);">
-          <p style="font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mist); margin-top: 0.4rem;">
+               style="width: 100%; height: 100%; object-fit: contain; border-radius: 2px; display: block; box-shadow: 0 6px 32px rgba(0,0,0,0.55);">
+          <p style="font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mist); margin-top: 0.35rem;">
             Vista aérea · polígono total del predio
           </p>
         </div>
 
-        <!-- Drone video (YouTube) -->
-        <div style="border-radius: 2px; overflow: hidden; box-shadow: 0 6px 32px rgba(0,0,0,0.55);">
-          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-            <iframe src="https://www.youtube.com/embed/XuLzZS5PDHU"
-                    title="Recorrido aéreo · Parcela 116"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                    style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;">
-            </iframe>
-          </div>
-          <p style="font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mist); margin-top: 0.4rem;">
-            Recorrido aéreo · Parcela 116
-          </p>
+        <!-- Macro map — lower 40% -->
+        <div style="flex: 1; min-height: 0; border-radius: 3px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+          <iframe
+            src="https://maps.google.com/maps?q=23.1802,-110.0996&z=9&output=embed"
+            width="100%" height="100%" style="border:0; display:block; filter: saturate(0.7) brightness(0.88);"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
         </div>
+        <p style="font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mist); margin-top: -0.5rem;">Corredor Pacífico · BCS — entre Todos Santos y Los Cabos</p>
 
       </div>
 
