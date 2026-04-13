@@ -1565,8 +1565,9 @@
 
         <div style="position: relative; flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column;">
           <img src="./Cucunumic/07.%20Fotos/aerial_total.png"
+               id="aerial-img"
                alt="Vista aérea total — Cucunumic 15.71 ha"
-               style="flex: 1; min-height: 0; width: 100%; object-fit: contain; object-position: center; border-radius: 2px; display: block; box-shadow: 0 6px 32px rgba(0,0,0,0.55);">
+               style="flex: 1; min-height: 0; width: 100%; object-fit: contain; object-position: center; border-radius: 2px; display: block; box-shadow: 0 6px 32px rgba(0,0,0,0.55); cursor: zoom-in;">
           <p style="font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mist); margin-top: 0.4rem;">
             Vista aérea · polígono total del predio
           </p>
@@ -1927,6 +1928,14 @@
             lbOpen(img.getAttribute('src'), caption.trim().replace(/^\s*·\s*/, ''));
           });
         })(strips[i]);
+      }
+
+      // Aerial image → lightbox
+      var aerialImg = document.getElementById('aerial-img');
+      if (aerialImg) {
+        aerialImg.addEventListener('click', function() {
+          lbOpen(aerialImg.getAttribute('src'), 'Vista aérea · polígono total del predio');
+        });
       }
 
       // Close on backdrop click, close button, or Escape
