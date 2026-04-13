@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cucunumic — Plataforma de Hospitalidad · Baja California Sur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --bone:     #E8DEC8;
+      --bone-dim: #D4C8B0;
+      --sand:     #BFB090;
+      --terra:    #A87850;
+      --rust:     #8A5A38;
+      --night:    #0D0B09;
+      --coal:     #1A1714;
+      --moon:     #CCBE9C;
+      --mist:     #8A8272;
+      --gold:     #C8A83A;
+
+      --serif: 'Cormorant SC', serif;
+      --body:  'Spectral', serif;
+      --sans:  'Jost', sans-serif;
+    }
+
+    /* ─── BASE ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-snap-type: y mandatory; overflow-y: scroll; }
+    body { font-family: var(--body); background: var(--night); color: var(--bone); }
+
+    /* Grain */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px;
+    }
+
+    /* ─── SLIDE ──────────────────────────────────────────── */
+    .slide {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      scroll-snap-align: start;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ─── BG PHOTO ───────────────────────────────────────── */
+    .bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.06);
+      transition: transform 14s ease-out;
+      image-orientation: from-image; /* respect EXIF */
+    }
+    .slide.active .bg img { transform: scale(1); }
+
+    /* BG VIDEO */
+    .bg video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Overlays */
+    .ov-dark    { position: absolute; inset: 0; background: rgba(13,11,9,0.68); }
+    .ov-bottom  { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,11,9,0.94) 0%, rgba(13,11,9,0.45) 50%, rgba(13,11,9,0.15) 100%); }
+    .ov-left    { position: absolute; inset: 0; background: linear-gradient(to right, rgba(13,11,9,0.97) 42%, rgba(13,11,9,0.55) 70%, rgba(13,11,9,0.1) 100%); }
+    .ov-right   { position: absolute; inset: 0; background: linear-gradient(to left,  rgba(13,11,9,0.97) 42%, rgba(13,11,9,0.55) 70%, rgba(13,11,9,0.1) 100%); }
+    .ov-center  { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(13,11,9,0.35) 0%, rgba(13,11,9,0.82) 100%); }
+    .ov-bone    { position: absolute; inset: 0; background: rgba(245,240,230,0.96); }
+
+    /* ─── CONTENT ────────────────────────────────────────── */
+    .c {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1380px;
+      padding: 0 7vw;
+    }
+
+    /* ─── NAV DOTS ───────────────────────────────────────── */
+    #dots {
+      position: fixed;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 8000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(240,235,224,0.25);
+      cursor: pointer;
+      transition: all 0.4s ease;
+      border: 1px solid rgba(240,235,224,0.15);
+    }
+    .dot.on {
+      background: var(--moon);
+      transform: scale(1.5);
+      border-color: var(--moon);
+    }
+    /* Appendix dots dimmed */
+    #dots .dot:nth-child(n+12) {
+      opacity: 0.4;
+    }
+    #dots .dot:nth-child(n+12).on {
+      opacity: 1;
+    }
+    /* Appendix divider dot gets a subtle gap */
+    #dots .dot:nth-child(12) {
+      margin-top: 0.6rem;
+    }
+
+    /* ─── PROGRESS ───────────────────────────────────────── */
+    #prog {
+      position: fixed;
+      left: 0; top: 0;
+      width: 2px;
+      background: var(--terra);
+      z-index: 8000;
+      transition: height 0.35s ease;
+    }
+
+    /* ─── SLIDE COUNTER ──────────────────────────────────── */
+    #counter {
+      position: fixed;
+      left: 2.2rem;
+      bottom: 2rem;
+      z-index: 8000;
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 200;
+      letter-spacing: 0.3em;
+      color: rgba(240,235,224,0.3);
+    }
+
+    /* ─── REVEAL ANIM ────────────────────────────────────── */
+    .rv {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.95s ease, transform 0.95s ease;
+    }
+    .rv.d1 { transition-delay: 0.12s; }
+    .rv.d2 { transition-delay: 0.26s; }
+    .rv.d3 { transition-delay: 0.40s; }
+    .rv.d4 { transition-delay: 0.54s; }
+    .rv.d5 { transition-delay: 0.68s; }
+    .rv.d6 { transition-delay: 0.82s; }
+    .rv.d7 { transition-delay: 0.96s; }
+    .slide.active .rv { opacity: 1; transform: translateY(0); }
+
+    /* ─── TYPE SCALE ─────────────────────────────────────── */
+    .eyebrow {
+      font-family: var(--sans);
+      font-weight: 200;
+      font-size: 0.65rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--moon);
+      margin-bottom: 1.4rem;
+    }
+    .eyebrow.dark { color: var(--rust); }
+    .eyebrow.prominent { font-size: 0.82rem; font-weight: 400; color: var(--terra); letter-spacing: 0.3em; }
+
+    .label {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--sand);
+      opacity: 1;
+    }
+    .label.dark { color: var(--rust); opacity: 0.85; }
+
+    .display {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(3.8rem, 9.5vw, 9rem);
+      line-height: 0.9;
+      letter-spacing: 0.07em;
+      color: var(--bone);
+    }
+
+    .h2 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(2rem, 4.5vw, 4.2rem);
+      line-height: 1.02;
+      letter-spacing: 0.04em;
+      color: var(--bone);
+    }
+    .h2.dark { color: var(--coal); }
+
+    .h3 {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.3rem, 2.5vw, 2.2rem);
+      letter-spacing: 0.03em;
+      color: var(--bone);
+    }
+
+    .body {
+      font-family: var(--body);
+      font-weight: 400;
+      font-size: clamp(0.95rem, 1.35vw, 1.08rem);
+      line-height: 1.82;
+      color: var(--bone-dim);
+    }
+    .body.dark { color: #5A5248; }
+
+    .large {
+      font-family: var(--body);
+      font-weight: 400;
+      font-size: clamp(1.08rem, 1.9vw, 1.4rem);
+      line-height: 1.72;
+      color: var(--bone);
+    }
+
+    .quote-text {
+      font-family: var(--body);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.3rem, 2.8vw, 2.1rem);
+      line-height: 1.5;
+      color: var(--moon);
+      text-shadow: 0 1px 20px rgba(0,0,0,0.6);
+    }
+
+    /* text-shadow for headings on photo backgrounds */
+    .photo-heading { text-shadow: 0 2px 28px rgba(0,0,0,0.55); }
+    .photo-body    { text-shadow: 0 1px 16px rgba(0,0,0,0.5); }
+
+    /* ─── DECORATIVE RULE ────────────────────────────────── */
+    .rule {
+      width: 3rem;
+      height: 1px;
+      background: var(--terra);
+      margin: 1.8rem 0;
+    }
+    .rule.bone { background: var(--bone-dim); opacity: 0.3; }
+
+    /* ─── GRID LAYOUTS ───────────────────────────────────── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8vw;
+      align-items: center;
+    }
+    .two-col-3-2 {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 8vw;
+      align-items: center;
+    }
+
+    /* ─── SLIDE 1 · COVER ────────────────────────────────── */
+    #s1 { justify-content: flex-end; align-items: flex-end; }
+    #s1 .c { padding-bottom: 9vh; text-align: center; display: flex; flex-direction: column; align-items: center; }
+    .moon-glyph {
+      font-size: 1.6rem;
+      opacity: 0.45;
+      display: block;
+      margin-bottom: 2rem;
+      color: var(--moon);
+    }
+    .cover-rule { width: 3.5rem; height: 1px; background: var(--terra); margin: 1.8rem 0 1.2rem; }
+    .cover-sub {
+      font-family: var(--sans);
+      font-weight: 200;
+      font-size: clamp(0.65rem, 1vw, 0.8rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--sand);
+    }
+    .cover-date {
+      font-family: var(--sans);
+      font-weight: 200;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-top: 0.6rem;
+    }
+
+    /* ─── SLIDE 2 · VIDEO ────────────────────────────────── */
+    #s2 {}
+    #video-text {
+      transition: opacity 1.4s ease;
+      text-align: center;
+    }
+    #video-text.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    /* ── SUBTITLES ───────────────────────────────────────── */
+    #subtitle-overlay {
+      position: absolute;
+      bottom: 9vh;
+      left: 0; right: 0;
+      text-align: center;
+      z-index: 20;
+      pointer-events: none;
+    }
+    #subtitle-line {
+      display: inline-block;
+      font-family: var(--serif);
+      font-size: clamp(1rem, 1.7vw, 1.35rem);
+      font-weight: 300;
+      color: var(--bone);
+      letter-spacing: 0.07em;
+      line-height: 1.65;
+      white-space: pre-line;
+      text-align: center;
+      text-shadow: 0 2px 18px rgba(0,0,0,0.85), 0 0 50px rgba(0,0,0,0.55);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    #subtitle-line.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .video-logo {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(2.8rem, 7vw, 6.5rem);
+      letter-spacing: 0.1em;
+      color: var(--bone);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .video-rule {
+      width: 2.5rem;
+      height: 1px;
+      background: var(--terra);
+      margin: 1.5rem auto;
+    }
+    .video-sub {
+      font-family: var(--body);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      line-height: 1.55;
+      color: var(--moon);
+      max-width: 38ch;
+      margin: 0 auto;
+    }
+    .video-label {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 200;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: rgba(240,235,224,0.35);
+      margin-top: 1.8rem;
+    }
+
+    /* ─── SLIDE 3 · INTRO ────────────────────────────────── */
+    #s3 .c { max-width: 780px; }
+
+    /* ─── SLIDE 4 · EL MERCADO ───────────────────────────── */
+    #s4 {}
+
+    /* ─── SLIDE 5 · LOS CABOS KPIs ──────────────────────── */
+    #s5 { background: var(--coal); }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: 3rem;
+    }
+    .kpi {
+      padding: 2.5rem 2rem;
+      border-left: 1px solid rgba(240,235,224,0.08);
+      position: relative;
+    }
+    .kpi:first-child { border-left: none; }
+    .kpi-num {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 300;
+      color: var(--moon);
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+    .kpi-unit {
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 200;
+      color: var(--terra);
+      margin-left: 0.2rem;
+    }
+    .kpi-label {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--sand);
+      margin-top: 0.8rem;
+    }
+    .kpi-sub {
+      font-family: var(--body);
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--sand);
+      margin-top: 0.4rem;
+      line-height: 1.4;
+    }
+    .kpi-bar {
+      width: 2rem;
+      height: 2px;
+      background: var(--terra);
+      margin-top: 1.5rem;
+    }
+    .origin-row {
+      display: flex;
+      gap: 3rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(240,235,224,0.08);
+    }
+    .origin-item {}
+    .origin-pct {
+      font-family: var(--serif);
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--bone);
+      line-height: 1;
+    }
+    .origin-flag {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 200;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-top: 0.4rem;
+    }
+    .airlift {
+      margin-top: 1rem;
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      color: var(--sand);
+      opacity: 0.7;
+    }
+
+    /* ─── SLIDE 6 · WELLNESS ECONOMY ────────────────────── */
+    #s6 { background: var(--night); }
+    .wellness-numbers {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+    .wn {
+      border-top: 1px solid rgba(240,235,224,0.1);
+      padding-top: 2rem;
+    }
+    .wn-num {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 4.5vw, 4rem);
+      font-weight: 300;
+      color: var(--moon);
+      line-height: 1;
+    }
+    .wn-label {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 200;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-top: 0.7rem;
+    }
+    .wn-desc {
+      font-family: var(--body);
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--sand);
+      margin-top: 0.5rem;
+      line-height: 1.55;
+    }
+    .mckinsey-box {
+      margin-top: 3.5rem;
+      padding: 2rem;
+      border: 1px solid rgba(155,111,71,0.3);
+      background: rgba(155,111,71,0.05);
+      max-width: 680px;
+    }
+    .mckinsey-box p {
+      font-family: var(--body);
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--bone-dim);
+      line-height: 1.65;
+    }
+    .mckinsey-box cite {
+      display: block;
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 200;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-top: 0.8rem;
+      font-style: normal;
+    }
+
+    /* ─── SLIDE 7 · MERCADO VALIDADO ────────────────────── */
+    #s7 {}
+    .ref-list { list-style: none; margin-top: 1.5rem; }
+    .ref-list li {
+      border-top: 1px solid rgba(240,235,224,0.1);
+      padding: 1rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .ref-list li:last-child { border-bottom: 1px solid rgba(240,235,224,0.1); }
+    .ref-name {
+      font-family: var(--serif);
+      font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+      letter-spacing: 0.02em;
+      color: var(--bone);
+    }
+    .ref-note {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sand);
+    }
+    .badge {
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 0.18rem 0.45rem;
+      white-space: nowrap;
+    }
+    .col-head {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 0.3rem;
+    }
+
+    /* ─── SLIDE 8 · EL TERRENO — ECOSYSTEM STRIPS ───────── */
+    #s8 { display: block; }
+
+    .eco-strips {
+      position: absolute;
+      inset: 0;
+      display: flex;
+    }
+    .eco-strip {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      transition: flex 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: default;
+    }
+    .eco-strip:hover { flex: 1.55; }
+    .eco-strip img, .eco-strip video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      image-orientation: from-image;
+      filter: saturate(0.85) contrast(1.08);
+      transition: transform 0.7s ease, filter 0.5s ease;
+    }
+    .eco-strip:hover img, .eco-strip:hover video {
+      transform: scale(1.04);
+      filter: saturate(1.0) contrast(1.05);
+    }
+    /* dark gradient bottom on each strip */
+    .eco-strip::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(13,11,9,0.90) 0%,
+        rgba(13,11,9,0.45) 35%,
+        rgba(13,11,9,0.05) 65%,
+        transparent 100%
+      );
+      z-index: 2;
+    }
+    /* thin separator between strips */
+    .eco-strip + .eco-strip {
+      border-left: 1px solid rgba(13,11,9,0.6);
+    }
+    /* label block at bottom of each strip */
+    .eco-label {
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+      padding: 0 1.8rem 2.2rem;
+      z-index: 5;
+    }
+    .eco-name {
+      display: block;
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 1.8vw, 1.7rem);
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: var(--bone);
+      margin-bottom: 0.4rem;
+    }
+    .eco-tag {
+      display: block;
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--sand);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .eco-strip:hover .eco-tag {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* top header bar */
+    .eco-header {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      padding: 3.5vh 1.4rem 4vh;
+      background: linear-gradient(to bottom, rgba(13,11,9,0.85) 0%, rgba(13,11,9,0.3) 70%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      align-items: flex-start;
+    }
+    .eco-header-left {}
+    .eco-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .eco-stat-num {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+      font-weight: 300;
+      color: var(--moon);
+      line-height: 1;
+    }
+    .eco-stat-lab {
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--sand);
+      margin-top: 0.35rem;
+    }
+
+    /* ─── SLIDE PROPVAL · VALOR DEL ACTIVO ──────────────── */
+    #s-propval { background: var(--coal); }
+    .propval-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: 3rem;
+    }
+    .pv-card {
+      padding: 2.5rem 2.5rem 2.5rem 0;
+      border-right: 1px solid rgba(240,235,224,0.08);
+      padding-right: 2.5rem;
+    }
+    .pv-card:last-child { border-right: none; padding-right: 0; }
+    .pv-card:not(:first-child) { padding-left: 2.5rem; }
+    .pv-num {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 300;
+      color: var(--moon);
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+    .pv-unit {
+      font-family: var(--sans);
+      font-size: 1.1rem;
+      font-weight: 200;
+      color: var(--terra);
+      margin-left: 0.2rem;
+    }
+    .pv-label {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--sand);
+      margin-top: 0.9rem;
+    }
+    .pv-desc {
+      font-family: var(--body);
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--bone-dim);
+      margin-top: 0.6rem;
+    }
+    .pv-bar { width: 2rem; height: 2px; background: var(--terra); margin-bottom: 1.8rem; }
+    .pv-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 3.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(240,235,224,0.08);
+    }
+    .pv-argument-title {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--bone);
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.02em;
+    }
+    .pv-argument-body {
+      font-family: var(--body);
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--bone-dim);
+    }
+
+    /* ─── SLIDE 9 · NUESTRA VISIÓN ───────────────────────── */
+    #s9 {}
+    #s9 .c { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; align-items: center; }
+    .pillars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem 2.5rem;
+      margin-top: 2.5rem;
+    }
+    .pillar {
+      border-top: 1px solid rgba(240,235,224,0.12);
+      padding-top: 1.1rem;
+    }
+    .pillar-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--moon);
+      margin-bottom: 0.45rem;
+      letter-spacing: 0.02em;
+    }
+    .pillar-desc {
+      font-family: var(--body);
+      font-size: 0.88rem;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--sand);
+    }
+    .model-box {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border: 1px solid rgba(155,111,71,0.25);
+      background: rgba(155,111,71,0.04);
+    }
+    .model-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(240,235,224,0.06);
+      font-family: var(--body);
+      font-size: 1rem;
+      color: var(--bone);
+    }
+    .model-row:last-child { border-bottom: none; }
+    .model-row span {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--terra);
+    }
+
+    /* ─── SLIDE s-predio · EL PREDIO EN DETALLE ─────────── */
+    .predio-facts { margin-top: 1.8rem; display: flex; flex-direction: column; gap: 0; }
+    .predio-fact {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(240,235,224,0.07);
+      align-items: baseline;
+    }
+    .predio-fact:last-child { border-bottom: none; }
+    .predio-label {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--terra);
+    }
+    .predio-val {
+      font-family: var(--body);
+      font-size: 0.92rem;
+      font-weight: 400;
+      color: var(--bone);
+      line-height: 1.45;
+    }
+
+    /* ─── SLIDE s-renders · OFICIO TALLER ───────────────── */
+    #s-renders { background: var(--night); }
+    .render-grid {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 3px;
+    }
+    .render-cell {
+      overflow: hidden;
+      position: relative;
+    }
+    .render-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s ease;
+    }
+    .render-cell:hover img { transform: scale(1.04); }
+    .render-cell.hero { grid-row: 1 / 3; }
+    .render-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13,11,9,0.75) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .render-tag {
+      position: absolute;
+      bottom: 1rem;
+      left: 1.2rem;
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--moon);
+    }
+    .renders-header {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 20;
+      padding: 2.5rem 3rem;
+      background: linear-gradient(to bottom, rgba(13,11,9,0.82) 0%, transparent 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .renders-credit {
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--terra);
+      text-align: right;
+      line-height: 1.8;
+    }
+
+    /* ─── SLIDE 10 · LA ESTRUCTURA ───────────────────────── */
+    #s10 { background: var(--bone); }
+    #s10 .c {}
+    .asset-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+      margin-top: 3rem;
+    }
+    .asset-card {
+      border-top: 2px solid var(--rust);
+      padding-top: 1.5rem;
+    }
+    .asset-card-icon {
+      font-size: 1.5rem;
+      opacity: 0.5;
+      margin-bottom: 1rem;
+      color: var(--rust);
+    }
+    .asset-card-title {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--coal);
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.02em;
+    }
+    .asset-card-body {
+      font-family: var(--body);
+      font-size: 0.88rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--mist);
+    }
+    .phase-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: 3rem;
+      border-top: 2px solid var(--rust);
+    }
+    .phase {
+      padding: 1.4rem 2rem 1.4rem 0;
+      border-right: 1px solid rgba(26,23,20,0.1);
+    }
+    .phase:last-child { border-right: none; padding-right: 0; }
+    .phase:not(:first-child) { padding-left: 2rem; padding-right: 2rem; }
+    .phase:last-child { padding-right: 0; }
+    .phase-dur {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 0.8rem;
+    }
+    .phase-num {
+      font-family: var(--sans);
+      font-size: 0.52rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(106,99,88,0.55);
+      margin-bottom: 0.3rem;
+    }
+    .phase-title {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      color: var(--coal);
+      margin: 0 0 0.6rem;
+    }
+    .phase-body {
+      font-family: var(--body);
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 1.55;
+      color: var(--mist);
+    }
+
+    /* ─── SLIDE 11 · LO QUE BUSCAMOS ────────────────────── */
+    #s11 { background: var(--bone); }
+    #s11 .c { display: flex; flex-direction: column; gap: 0; }
+    .s11-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; align-items: start; }
+    .ask-list, .offer-list { list-style: none; margin-top: 1.5rem; }
+    .ask-list li, .offer-list li {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(26,23,20,0.09);
+      font-family: var(--body);
+      font-weight: 300;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--coal);
+    }
+    .ask-list li:first-child, .offer-list li:first-child { border-top: 1px solid rgba(26,23,20,0.09); }
+    .ask-list li::before, .offer-list li::before {
+      content: '—';
+      color: var(--rust);
+      font-family: var(--sans);
+      font-weight: 200;
+      flex-shrink: 0;
+    }
+
+    /* ─── SLIDE 12 · CIERRE ──────────────────────────────── */
+    #s12 {}
+    #s12 .c { text-align: center; max-width: 700px; }
+    .cierre-moon { font-size: 2.8rem; opacity: 0.3; display: block; margin-bottom: 3rem; }
+    .cierre-quote {
+      font-family: var(--body);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.3rem, 2.5vw, 2rem);
+      line-height: 1.55;
+      color: var(--moon);
+      margin-bottom: 3rem;
+    }
+    .cierre-logo {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.5rem, 3vw, 2.8rem);
+      letter-spacing: 0.12em;
+      color: var(--bone);
+      margin-bottom: 0.6rem;
+    }
+    .cierre-sub {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 200;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--sand);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="prog"></div>
+  <div id="dots">
+    <div class="dot on"  data-i="0"></div>
+    <div class="dot" data-i="1"></div>
+    <div class="dot" data-i="2"></div>
+    <div class="dot" data-i="3"></div>
+    <div class="dot" data-i="4"></div>
+    <div class="dot" data-i="5"></div>
+    <div class="dot" data-i="6"></div>
+    <div class="dot" data-i="7"></div>
+    <div class="dot" data-i="8"></div>
+    <div class="dot" data-i="9"></div>
+    <div class="dot" data-i="10"></div>
+    <div class="dot" data-i="11"></div>
+    <div class="dot" data-i="12"></div>
+    <div class="dot" data-i="13"></div>
+    <div class="dot" data-i="14"></div>
+    <div class="dot" data-i="15"></div>
+    <div class="dot" data-i="16"></div>
+  </div>
+  <div id="counter">01 / 14</div>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 01 · COVER                                      -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s1">
+    <div class="bg">
+      <img src="./Cucunumic/07.%20Fotos/cover_arroyo.jpg" alt="Arroyo de Cucunumic · atardecer">
+    </div>
+    <div class="ov-dark"></div>
+    <div class="ov-bottom"></div>
+
+    <div class="c">
+      <span class="moon-glyph rv">◑</span>
+      <h1 class="display rv d1">Cucunumic</h1>
+      <div class="cover-rule rv d2"></div>
+      <p class="cover-sub rv d3">Baja California Sur</p>
+      <p class="cover-date rv d4">Conversación Inicial · Abril 2026</p>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 02 · VIDEO                                      -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s2">
+    <div class="bg">
+      <video autoplay muted loop playsinline id="terrain-video">
+        <source src="./Cucunumic/07.%20Fotos/cucunumic_video.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="ov-center"></div>
+
+    <div class="c" style="display:flex; align-items:center; justify-content:center; height:100%;">
+      <div id="video-text">
+        <p class="video-logo rv">Cucunumic</p>
+        <div class="video-rule rv d1"></div>
+        <p class="video-sub rv d2">
+          Un lugar definido por ciclos —<br>de luz, de oscuridad,<br>de estaciones, de presencia y ausencia.
+        </p>
+        <p class="video-label rv d3">15.71 Ha · El Pescadero · BCS · ~35 min de Cabo San Lucas</p>
+      </div>
+    </div>
+
+    <!-- Subtitle overlay — adjust start/end seconds to match your video -->
+    <div id="subtitle-overlay">
+      <span id="subtitle-line"></span>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 03 · INTRODUCCIÓN                               -->
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 04 · EL DESTINO / POR QUÉ AQUÍ                 -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s4">
+    <div class="bg">
+      <img src="./Cucunumic/07.%20Fotos/mountains.jpeg" alt="Vista panorámica desde la sierra">
+    </div>
+    <div class="ov-left"></div>
+
+    <div class="c" style="max-width: 44vw; padding-left: 0;">
+      <p class="eyebrow rv">02 · El Destino</p>
+      <h2 class="h2 rv d1">Por qué aquí.<br>Por qué ahora.</h2>
+      <div class="rule rv d2"></div>
+      <p class="body rv d2" style="max-width: 42ch; margin-top: 1.2rem;">
+        Baja California Sur es el mercado turístico de mayor crecimiento en México. El Corredor Pacífico — Todos Santos, El Pescadero, Cerritos — combina belleza excepcional con una demanda premium que ya está aquí.
+      </p>
+      <p class="body rv d3" style="max-width: 42ch; margin-top: 1.2rem;">
+        BCS lidera Mexico en apreciación inmobiliaria 2024 (datos SHF). La economía del estado es 72.9% terciaria — turismo y servicios son la columna vertebral. Y el lado Pacífico aún está dramáticamente sub-aprovechado frente a Los Cabos.
+      </p>
+      <p class="label rv d4" style="margin-top: 1.8rem;">Fuentes: INEGI PIB Estatal 2024 · SHF Índice de Precios de Vivienda 2024</p>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 05 · LOS CABOS: MOTOR DE LUJO                  -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s5" style="background: var(--coal);">
+    <div class="c" style="display: flex; flex-direction: column; gap: 0; padding-top: 0; padding-bottom: 0;">
+
+      <!-- Title -->
+      <div class="rv" style="margin-bottom: 1.4rem;">
+        <p class="eyebrow prominent" style="margin-bottom: 0.7rem;">04 · Contexto</p>
+        <h2 class="h2 rv d1" style="font-size: clamp(1.8rem,3.2vw,3rem); line-height: 1.1;">Cucunumic: Por qué el lugar,<br>por qué la zona.</h2>
+      </div>
+
+      <!-- Upper: Hospitality KPIs -->
+      <div style="padding: 1.2rem 0 1rem; border-top: 1px solid rgba(240,235,224,0.1); border-bottom: 1px solid rgba(240,235,224,0.1); margin-bottom: 1.2rem;">
+        <p class="eyebrow prominent rv d1" style="margin-bottom: 1rem;">Hospitalidad · BCS · Indicadores Clave</p>
+        <div style="display: grid; grid-template-columns: repeat(6,1fr); gap: 0;" class="rv d2">
+
+          <div style="padding: 0 1.4rem 0 0; border-right: 1px solid rgba(240,235,224,0.08);">
+            <div style="font-family: var(--serif); font-size: clamp(2rem,3.4vw,3.2rem); color: var(--bone); line-height: 1;">4.5M</div>
+            <div style="font-family: var(--sans); font-size: 0.78rem; color: var(--sand); letter-spacing: 0.12em; text-transform: uppercase; margin: 0.5rem 0 0.3rem;">Visitantes BCS</div>
+            <div style="font-family: var(--sans); font-size: 0.72rem; color: var(--terra); letter-spacing: 0.08em;">+3.2% vs 2024</div>
+          </div>
+
+          <div style="padding: 0 1.4rem; border-right: 1px solid rgba(240,235,224,0.08);">
+            <div style="font-family: var(--serif); font-size: clamp(2rem,3.4vw,3.2rem); color: var(--bone); line-height: 1;">4.1M</div>
+            <div style="font-family: var(--sans); font-size: 0.78rem; color: var(--sand); letter-spacing: 0.12em; text-transform: uppercase; margin: 0.5rem 0 0.3rem;">Visitantes Los Cabos</div>
+            <div style="font-family: var(--sans); font-size: 0.72rem; color: var(--terra); letter-spacing: 0.08em;">4° año récord consecutivo</div>
+          </div>
+
+          <div style="padding: 0 1.4rem; border-right: 1px solid rgba(240,235,224,0.08);">
+            <div style="font-family: var(--serif); font-size: clamp(2rem,3.4vw,3.2rem); color: var(--bone); line-height: 1;">$665</div>
+            <div style="font-family: var(--sans); font-size: 0.78rem; color: var(--sand); letter-spacing: 0.12em; text-transform: uppercase; margin: 0.5rem 0 0.3rem;">ADR · La Ruta Escénica</div>
+            <div style="font-family: var(--sans); font-size: 0.72rem; color: var(--terra); letter-spacing: 0.08em;">Promedio por noche · USD</div>
+          </div>
+
+          <div style="padding: 0 1.4rem; border-right: 1px solid rgba(240,235,224,0.08);">
+            <div style="font-family: var(--serif); font-size: clamp(2rem,3.4vw,3.2rem); color: var(--bone); line-height: 1;">78%</div>
+            <div style="font-family: var(--sans); font-size: 0.78rem; color: var(--sand); letter-spacing: 0.12em; text-transform: uppercase; margin: 0.5rem 0 0.3rem;">Ocupación Hotelera</div>
+            <div style="font-family: var(--sans); font-size: 0.72rem; color: var(--terra); letter-spacing: 0.08em;">Mar 2025: 80.7%</div>
+          </div>
+
+          <div style="padding: 0 1.4rem; border-right: 1px solid rgba(240,235,224,0.08);">
+            <div style="font-family: var(--serif); font-size: clamp(2rem,3.4vw,3.2rem); color: var(--bone); line-height: 1;">$783M</div>
+            <div style="font-family: var(--sans); font-size: 0.78rem; color: var(--sand); letter-spacing: 0.12em; text-transform: uppercase; margin: 0.5rem 0 0.3rem;">IED Turismo BCS</div>
+            <div style="font-family: var(--sans); font-size: 0.72rem; color: var(--terra); letter-spacing: 0.08em;">#1 México · Ene–Sep 2024</div>
+          </div>
+
+          <div style="padding: 0 0 0 1.4rem;">
+            <div style="font-family: var(--serif); font-size: clamp(2rem,3.4vw,3.2rem); color: var(--bone); line-height: 1;">36%</div>
+            <div style="font-family: var(--sans); font-size: 0.78rem; color: var(--sand); letter-spacing: 0.12em; text-transform: uppercase; margin: 0.5rem 0 0.3rem;">Turismo · PIB BCS</div>
+            <div style="font-family: var(--sans); font-size: 0.72rem; color: var(--terra); letter-spacing: 0.08em;">En ascenso</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Lower: Wellness -->
+      <div>
+        <p class="eyebrow prominent rv d3" style="margin-bottom: 1rem;">Salud &amp; Bienestar · Economía Global</p>
+        <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 0;" class="rv d4">
+
+          <div style="padding: 0 2rem 0 0; border-right: 1px solid rgba(240,235,224,0.08);">
+            <div style="font-family: var(--serif); font-size: clamp(2.2rem,3.6vw,3.4rem); color: var(--bone); line-height: 1;">$6.3T</div>
+            <div style="font-family: var(--sans); font-size: 0.8rem; color: var(--sand); letter-spacing: 0.12em; text-transform: uppercase; margin: 0.55rem 0 0.3rem;">Economía Global del Bienestar</div>
+            <div style="font-family: var(--sans); font-size: 0.72rem; color: var(--terra); letter-spacing: 0.08em;">Proyectado $9T para 2028 · GWI</div>
+          </div>
+
+          <div style="padding: 0 2rem; border-right: 1px solid rgba(240,235,224,0.08);">
+            <div style="font-family: var(--serif); font-size: clamp(2.2rem,3.6vw,3.4rem); color: var(--bone); line-height: 1;">$1T</div>
+            <div style="font-family: var(--sans); font-size: 0.8rem; color: var(--sand); letter-spacing: 0.12em; text-transform: uppercase; margin: 0.55rem 0 0.3rem;">Turismo de Bienestar 2024</div>
+            <div style="font-family: var(--sans); font-size: 0.72rem; color: var(--terra); letter-spacing: 0.08em;">→ $1.4T proyectado 2027 · GWI</div>
+          </div>
+
+          <div style="padding: 0 0 0 2rem;">
+            <div style="font-family: var(--serif); font-size: clamp(2.2rem,3.6vw,3.4rem); color: var(--bone); line-height: 1;">+53%</div>
+            <div style="font-family: var(--sans); font-size: 0.8rem; color: var(--sand); letter-spacing: 0.12em; text-transform: uppercase; margin: 0.55rem 0 0.3rem;">Gasto por noche</div>
+            <div style="font-family: var(--sans); font-size: 0.72rem; color: var(--terra); letter-spacing: 0.08em;">vs. turista convencional · McKinsey 2025</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 07 · MERCADO VALIDADO                           -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s7">
+    <div class="bg">
+      <img src="./Cucunumic/07.%20Fotos/20220227_164940.jpg" alt="Sierra y palmar desde la cresta">
+    </div>
+    <div class="ov-left" style="background: linear-gradient(to right, rgba(13,11,9,0.95) 40%, rgba(13,11,9,0.15) 100%);"></div>
+
+    <div class="c" style="display: flex; flex-direction: column; gap: 0; padding-left: 0;">
+
+      <!-- Header -->
+      <div style="margin-bottom: 1.8rem;">
+        <p class="eyebrow rv">05 · Mercado Validado</p>
+        <h2 class="h2 rv d1">Mercado validado.</h2>
+        <div class="rule rv d2"></div>
+        <p class="body rv d2" style="max-width: 52ch; margin-top: 0.6rem;">
+          El corredor Todos Santos – El Pescadero ya atrae hospitalidad y gastronomía de referencia internacional. El espacio disponible es para conceptos más íntimos, sensibles y bien diseñados.
+        </p>
+      </div>
+
+      <!-- Two lists at the same level -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4vw; align-items: start;" class="rv d3">
+
+        <div>
+          <div class="col-head">Gastronomía de Referencia</div>
+          <ul class="ref-list">
+            <li><span class="ref-name">Benno</span> <span class="badge">MICHELIN</span></li>
+            <li><span class="ref-name">TENOCH · Paradero Todos Santos</span> <span class="badge">MICHELIN</span></li>
+            <li><span class="ref-name">Cocina de Campo by Agricole</span> <span class="badge">BIB GOURMAND</span></li>
+            <li><span class="ref-name">Oystera · Todos Santos</span> <span class="badge">MICHELIN</span></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="col-head">Hoteles de Referencia</div>
+          <ul class="ref-list">
+            <li><span class="ref-name">Paradero Todos Santos</span><span class="badge">Diseño · Experiencia</span></li>
+            <li><span class="ref-name">Hotel San Cristóbal</span><span class="badge">Beach hospitality</span></li>
+            <li><span class="ref-name">Villa Santa Cruz</span><span class="badge">Íntimo · Frente al mar</span></li>
+            <li><span class="ref-name">Todos Santos Boutique Hotel</span><span class="badge">Pequeño · Sofisticado</span></li>
+          </ul>
+          <p class="label" style="margin-top: 1.5rem;">Fuente: Guía MICHELIN · Hospitality México</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 08 · EL TERRENO                                -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s8">
+
+    <!-- 5-strip ecosystem showcase -->
+    <div class="eco-strips">
+
+      <div class="eco-strip rv">
+        <video src="./Cucunumic/07.%20Fotos/20220220_133447.mp4"
+               autoplay loop muted playsinline
+               aria-label="El Arroyo — Cañón de granito"></video>
+        <div class="eco-header">
+          <div class="eco-header-left">
+            <p class="eyebrow rv" style="margin-bottom: 0.6rem;">06 · El Terreno</p>
+            <h2 class="h2 rv d1" style="font-size: clamp(1.6rem, 3vw, 2.8rem);">
+              Un sistema vivo<br>con cinco rostros.
+            </h2>
+          </div>
+        </div>
+        <div class="eco-label">
+          <span class="eco-name">El Arroyo</span>
+          <span class="eco-tag">Cañón de granito · corredor hídrico estacional</span>
+        </div>
+      </div>
+
+      <div class="eco-strip rv d1">
+        <img src="./Cucunumic/07.%20Fotos/palmar_new.jpg"
+             alt="El Palmar — Oasis de palmas nativas">
+        <div class="eco-label">
+          <span class="eco-name">El Palmar</span>
+          <span class="eco-tag">Oasis de palmas nativas · microclima de sombra</span>
+        </div>
+      </div>
+
+      <div class="eco-strip rv d2">
+        <video src="./Cucunumic/07.%20Fotos/PXL_20240427_143957918.TS.mp4"
+               autoplay loop muted playsinline
+               aria-label="El Desierto — Cardonal y flora endémica"></video>
+        <div class="eco-label">
+          <span class="eco-name">El Desierto</span>
+          <span class="eco-tag">Cardonal · torote · flora endémica de BCS</span>
+        </div>
+      </div>
+
+      <div class="eco-strip rv d3">
+        <img src="./Cucunumic/07.%20Fotos/mountains.jpeg"
+             alt="La Sierra — Vistas panorámicas">
+        <div class="eco-label">
+          <span class="eco-name">La Sierra</span>
+          <span class="eco-tag">Vistas 360° · crestas · silencio absoluto</span>
+        </div>
+      </div>
+
+      <div class="eco-strip rv d4">
+        <img src="./Cucunumic/07.%20Fotos/green_season.jpg"
+             alt="La Temporada Verde — el paisaje en su momento más vivo">
+        <div class="eco-header">
+          <div class="eco-stats rv d2">
+            <div>
+              <div class="eco-stat-num">15.71</div>
+              <div class="eco-stat-lab">Hectáreas</div>
+            </div>
+            <div>
+              <div class="eco-stat-num">5</div>
+              <div class="eco-stat-lab">Ecosistemas</div>
+            </div>
+            <div>
+              <div class="eco-stat-num">~40'</div>
+              <div class="eco-stat-lab">de Cabo San Lucas</div>
+            </div>
+          </div>
+        </div>
+        <div class="eco-label">
+          <span class="eco-name">La Temporada Verde</span>
+          <span class="eco-tag">Lluvia · vegetación explosiva · mar al fondo</span>
+        </div>
+      </div>
+
+    </div>
+
+
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 07 · EL PREDIO EN DETALLE                      -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s-predio" style="background: var(--coal);">
+
+    <div class="c" style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 5vw; align-items: center; z-index: 10; position: relative;">
+
+      <!-- Left: property facts -->
+      <div>
+        <p class="eyebrow rv">07 · El Predio en Detalle</p>
+        <h2 class="h2 rv d1">15.71 hectáreas<br>tituladas.</h2>
+        <div class="rule rv d2"></div>
+
+        <div class="predio-facts rv d2">
+          <div class="predio-fact">
+            <div class="predio-label">Clave Catastral</div>
+            <div class="predio-val">1-03-059-0663</div>
+          </div>
+          <div class="predio-fact">
+            <div class="predio-label">Ubicación</div>
+            <div class="predio-val">Ejido Plutarco Elías Calles · Todos Santos · La Paz, BCS</div>
+          </div>
+          <div class="predio-fact">
+            <div class="predio-label">Coordenadas</div>
+            <div class="predio-val">23°10'44" N · 109°52'50" O</div>
+          </div>
+          <div class="predio-fact">
+            <div class="predio-label">Estructura legal</div>
+            <div class="predio-val">SAPI de C.V. · escriturado</div>
+          </div>
+          <div class="predio-fact">
+            <div class="predio-label">Superficie de desarrollo</div>
+            <div class="predio-val">3–5 ha · zona baja del predio · acceso por arroyo</div>
+          </div>
+          <div class="predio-fact">
+            <div class="predio-label">Elementos naturales</div>
+            <div class="predio-val">Arroyo estacional · cardonal · palmar · crestas</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: two aerials stacked -->
+      <div style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 82vh; overflow: hidden;" class="rv d2">
+
+        <div style="position: relative; flex: 1; min-height: 0;">
+          <img src="./Cucunumic/07.%20Fotos/aerial_total.png"
+               alt="Vista aérea total — Cucunumic 15.71 ha"
+               style="width: 100%; max-height: 70vh; object-fit: contain; border-radius: 2px; display: block; box-shadow: 0 6px 32px rgba(0,0,0,0.55);">
+          <p style="font-family: var(--sans); font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mist); margin-top: 0.4rem;">
+            Vista aérea · polígono total del predio
+          </p>
+        </div>
+
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 08 · NUESTRA VISIÓN                            -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s-vision">
+    <div class="bg">
+      <img src="./Cucunumic/07.%20Fotos/20220225_155103.jpg" alt="Cardón en la niebla · Cucunumic">
+    </div>
+    <div class="ov-left"></div>
+
+    <div class="c" style="max-width: 54vw; padding-left: 0; align-self: center; display: flex; flex-direction: column; justify-content: center; gap: 0;">
+
+      <p class="eyebrow rv" style="margin-bottom: 0.7rem;">08 · Nuestra Visión</p>
+      <h2 class="h2 rv d1" style="margin-bottom: 0.5rem;">Un lugar que nace<br>del territorio.</h2>
+      <div class="rule rv d2" style="margin-bottom: 1.6rem;"></div>
+
+      <!-- Two-column manifesto list -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem 3.5rem;" class="rv d2">
+
+        <div style="display: flex; flex-direction: column; gap: 0.55rem;">
+          <div style="font-family: var(--body); font-size: clamp(0.78rem,1.1vw,0.9rem); color: var(--bone); line-height: 1.5; padding-bottom: 0.55rem; border-bottom: 1px solid rgba(240,235,224,0.1);">
+            Toma su nombre de <em>Cucunumic</em>, deidad pericú que dio origen a la luna — un territorio definido por ciclos de luz, estaciones y presencia.
+          </div>
+          <div style="font-family: var(--body); font-size: clamp(0.78rem,1.1vw,0.9rem); color: var(--bone); line-height: 1.5; padding-bottom: 0.55rem; border-bottom: 1px solid rgba(240,235,224,0.1);">
+            Hospitalidad de escala íntima — más cercano a retiro y comunidad temporal que a hotel convencional.
+          </div>
+          <div style="font-family: var(--body); font-size: clamp(0.78rem,1.1vw,0.9rem); color: var(--bone); line-height: 1.5; padding-bottom: 0.55rem; border-bottom: 1px solid rgba(240,235,224,0.1);">
+            Arquitectura que acompañe el sitio en lugar de imponerse sobre él.
+          </div>
+          <div style="font-family: var(--body); font-size: clamp(0.78rem,1.1vw,0.9rem); color: var(--bone); line-height: 1.5;">
+            Experiencias nacidas del territorio, no de amenities genéricas.
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.55rem;">
+          <div style="font-family: var(--body); font-size: clamp(0.78rem,1.1vw,0.9rem); color: var(--bone); line-height: 1.5; padding-bottom: 0.55rem; border-bottom: 1px solid rgba(240,235,224,0.1);">
+            Naturaleza, familia, bienestar, fuego, mesa, movimiento y comunidad — como parte del concepto, no como extras.
+          </div>
+          <div style="font-family: var(--body); font-size: clamp(0.78rem,1.1vw,0.9rem); color: var(--bone); line-height: 1.5; padding-bottom: 0.55rem; border-bottom: 1px solid rgba(240,235,224,0.1);">
+            Un proyecto económicamente viable sin comprometer su esencia.
+          </div>
+          <div style="font-family: var(--body); font-size: clamp(0.78rem,1.1vw,0.9rem); color: var(--bone); line-height: 1.5;">
+            Cuidado del sistema vivo del sitio: río, palmar, desierto, flora, fauna y oscuridad natural.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 09 · ARQUITECTURA · OFICIO TALLER              -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s-renders-main">
+
+    <div class="render-grid">
+
+      <div class="render-cell hero rv">
+        <img src="./Cucunumic/07.%20Fotos/render_fachada_hero.jpg" alt="Fachada exterior · Oficio Taller">
+        <div class="render-overlay"></div>
+        <span class="render-tag">Fachada · exterior</span>
+      </div>
+
+      <div class="render-cell rv d1">
+        <img src="./Cucunumic/07.%20Fotos/render_fireroom.jpg" alt="Sala de fuego · interior">
+        <div class="render-overlay"></div>
+        <span class="render-tag">Sala de fuego · interior</span>
+      </div>
+
+      <div class="render-cell rv d2">
+        <img src="./Cucunumic/07.%20Fotos/render_templo.png" alt="Templo · fachada al atardecer">
+        <div class="render-overlay"></div>
+        <span class="render-tag">Templo · atardecer</span>
+      </div>
+
+      <div class="render-cell rv d3">
+        <img src="./Cucunumic/07.%20Fotos/render_sauna.jpg" alt="Sauna · wellness">
+        <div class="render-overlay"></div>
+        <span class="render-tag">Sauna · wellness</span>
+      </div>
+
+    </div>
+
+    <div class="renders-header">
+      <div>
+        <p class="eyebrow rv" style="margin-bottom: 0.4rem;">09 · Arquitectura</p>
+        <h2 class="h2 rv d1" style="font-size: clamp(1.4rem, 2.5vw, 2.2rem);">Diseño que nace<br>del territorio.</h2>
+      </div>
+      <div class="renders-credit rv d1">
+        Oficio Taller<br>
+        Arquitecta regional · socia silenciosa<br>
+        El Pescadero · BCS
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 10 · LO QUE BUSCAMOS                           -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s11">
+    <div class="ov-bone"></div>
+    <div class="c" style="z-index: 10; position: relative;">
+      <p class="eyebrow dark rv">10 · Lo Que Buscamos</p>
+      <h2 class="h2 dark rv d1" style="max-width: 36ch; margin-bottom: 0.5rem;">Un socio para darle forma,<br>factibilidad y dirección.</h2>
+      <div class="rule rv d2" style="background: var(--rust); margin-bottom: 2rem;"></div>
+
+      <div class="s11-cols rv d2">
+        <div>
+          <p class="eyebrow dark" style="margin-bottom: 1rem; letter-spacing: 0.22em;">Lo Que Buscamos</p>
+          <ul class="ask-list">
+            <li class="rv d2">Visión de negocio combinada con sensibilidad por el lugar</li>
+            <li class="rv d3">Capacidad de estructurar y coordinar la inversión (Fase 0 → cierre de financiamiento)</li>
+            <li class="rv d4">Red para identificar operador y plantear fee + promote estructura estándar</li>
+            <li class="rv d5">Alinear y ejecutar manteniendo rentabilidad sin comprometer la esencia</li>
+          </ul>
+        </div>
+        <div>
+          <p class="eyebrow dark" style="margin-bottom: 1rem; letter-spacing: 0.22em;">Lo Que Aportamos</p>
+          <ul class="offer-list">
+            <li class="rv d2">15.71 ha tituladas dentro de SAPI de C.V. — predio escriturado y listo para estructurar</li>
+            <li class="rv d3">Visión creativa y concepto desarrollado con identidad clara</li>
+            <li class="rv d4">Arquitecta regional silenciosa — ejecución real, no solo credencial</li>
+            <li class="rv d5">Red de contactos profunda en el corredor BCS y en sector turístico México</li>
+            <li class="rv d6">Involucramiento total del equipo fundador en todas las fases de ejecución</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 12 · CIERRE                                    -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s12">
+    <div class="bg">
+      <img src="./Cucunumic/07.%20Fotos/PXL_20240427_173818500.jpg" alt="Palmar en el arroyo">
+    </div>
+    <div class="ov-dark"></div>
+    <div class="ov-center"></div>
+
+    <div class="c" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+      <span class="cierre-moon rv">◑</span>
+      <p class="cierre-quote rv d1">
+        "Hoy no buscamos tener<br>todas las respuestas.<br>Buscamos confirmar que vale la pena<br>responderlas juntos."
+      </p>
+      <div class="rule rv d2" style="margin: 0 auto 2.5rem;"></div>
+      <p class="cierre-logo rv d3">Cucunumic</p>
+      <p class="cierre-sub rv d4">Baja California Sur · Abril 2026</p>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- APPENDIX A · DIVIDER                           -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s-appendix" style="background: var(--night);">
+    <div class="c" style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start; height: 100%;">
+      <p style="font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--rust); margin-bottom: 1.2rem;">Material de Referencia</p>
+      <h2 style="font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 300; color: var(--bone); line-height: 1.0; margin: 0 0 1.5rem;">Apéndice A</h2>
+      <div style="width: 3rem; height: 1px; background: var(--rust); margin-bottom: 1.5rem;"></div>
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <p style="font-family: var(--sans); font-size: 0.75rem; color: var(--mist); letter-spacing: 0.1em;">A1 · Valor del Activo</p>
+        <p style="font-family: var(--sans); font-size: 0.75rem; color: var(--mist); letter-spacing: 0.1em;">A2 · Visión · Modelo de Negocio</p>
+        <p style="font-family: var(--sans); font-size: 0.75rem; color: var(--mist); letter-spacing: 0.1em;">A3 · El Activo · La Estructura</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- A1 · OFICIO TALLER · RENDERS                   -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s-renders">
+
+    <!-- 4-cell render grid: hero left, 3 right -->
+    <div class="render-grid">
+
+      <div class="render-cell hero rv">
+        <img src="./Cucunumic/07.%20Fotos/render_fachada_hero.jpg" alt="Fachada exterior · Oficio Taller">
+        <div class="render-overlay"></div>
+        <span class="render-tag">Fachada · exterior</span>
+      </div>
+
+      <div class="render-cell rv d1">
+        <img src="./Cucunumic/07.%20Fotos/render_fireroom.jpg" alt="Sala de fuego · interior">
+        <div class="render-overlay"></div>
+        <span class="render-tag">Sala de fuego · interior</span>
+      </div>
+
+      <div class="render-cell rv d2">
+        <img src="./Cucunumic/07.%20Fotos/render_templo.png" alt="Templo · fachada al atardecer">
+        <div class="render-overlay"></div>
+        <span class="render-tag">Templo · atardecer</span>
+      </div>
+
+      <div class="render-cell rv d3">
+        <img src="./Cucunumic/07.%20Fotos/render_sauna.jpg" alt="Sauna · wellness">
+        <div class="render-overlay"></div>
+        <span class="render-tag">Sauna · wellness</span>
+      </div>
+
+    </div>
+
+    <!-- Header overlay -->
+    <div class="renders-header">
+      <div>
+        <p class="eyebrow rv" style="margin-bottom: 0.4rem;">— · Arquitectura · Referencia</p>
+        <h2 class="h2 rv d1" style="font-size: clamp(1.4rem, 2.5vw, 2.2rem);">Diseño que nace<br>del territorio.</h2>
+      </div>
+      <div class="renders-credit rv d1">
+        Oficio Taller<br>
+        Arquitecta regional · socia silenciosa<br>
+        El Pescadero · BCS
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- A2 · VALOR DEL ACTIVO                          -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s-propval">
+    <div class="c">
+      <p class="eyebrow rv">A1 · Valor del Activo</p>
+      <h2 class="h2 rv d1">El terreno aprecia<br>con o sin proyecto.</h2>
+
+      <div class="propval-grid rv d2">
+        <div class="pv-card">
+          <div class="pv-bar"></div>
+          <div class="pv-num">#1<span class="pv-unit"></span></div>
+          <div class="pv-label">BCS en Plusvalía Nacional 2024</div>
+          <div class="pv-desc">Baja California Sur lideró todos los estados de México en apreciación de vivienda según el Índice SHF 2024</div>
+        </div>
+        <div class="pv-card">
+          <div class="pv-bar"></div>
+          <div class="pv-num">+9.2<span class="pv-unit">%</span></div>
+          <div class="pv-label">Apreciación Promedio Nacional 2024</div>
+          <div class="pv-desc">BCS supera este benchmark nacional. El corredor Todos Santos–Pescadero registra apreciación acelerada al converger con Los Cabos</div>
+        </div>
+        <div class="pv-card">
+          <div class="pv-bar"></div>
+          <div class="pv-num">72.9<span class="pv-unit">%</span></div>
+          <div class="pv-label">Economía Terciaria del Estado</div>
+          <div class="pv-desc">El PIB de BCS es 251,902M MXN (2024, INEGI). Turismo y servicios son la columna vertebral — la tierra en destino turístico no es un activo estático</div>
+        </div>
+      </div>
+
+      <div class="pv-bottom rv d3">
+        <div>
+          <div class="pv-argument-title">El Piso de Valor</div>
+          <div class="pv-argument-body">
+            El predio de 15.71 ha ya es un activo con valor de mercado independiente del proyecto. Está escriturado, dentro de una estructura SAPI, en una zona que atrae demanda norteamericana sostenida. La inversión en el proyecto agrega valor sobre un piso ya sólido — no parte de cero.
+          </div>
+        </div>
+        <div>
+          <div class="pv-argument-title">La Ventana del Corredor Pacífico</div>
+          <div class="pv-argument-body">
+            El lado Pacífico (El Pescadero, Cerritos, Todos Santos) cotiza hoy 30–40% por debajo del corredor hotelero de Cabo San Lucas, con demanda convergiendo desde el sur. La ventana de entrada a precio de sub-mercado es estrecha — y se está cerrando.
+          </div>
+        </div>
+      </div>
+
+      <p class="label rv d4" style="margin-top: 2rem;">Fuentes: SHF Índice de Precios de Vivienda Q4 2024 · INEGI PIB Estatal BCS 2024 · El Economista análisis SHF 2024–2025</p>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- A3 · NUESTRA VISIÓN                            -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s9">
+    <div class="bg">
+      <img src="./Cucunumic/07.%20Fotos/20220225_155103.jpg" alt="Cardón en la niebla">
+    </div>
+    <div class="ov-left"></div>
+
+    <div class="c" style="max-width: 52vw; padding-left: 0; align-self: center; display: flex; flex-direction: column; justify-content: center; gap: 0;">
+      <!-- Header row -->
+      <div style="margin-bottom: 2rem;">
+        <p class="eyebrow rv">A2 · Visión · Modelo de Negocio</p>
+        <h2 class="h2 rv d1">Hospitalidad íntima<br>+ Bienestar.</h2>
+        <div class="rule rv d2"></div>
+        <p class="body rv d2" style="max-width: 46ch; margin-top: 0.8rem;">
+          Un concepto que combina lodging íntimo con un circuit de bienestar — del territorio, a escala humana, con una economía sólida detrás.
+        </p>
+      </div>
+
+      <!-- Two-column: model + pillars -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start;">
+
+        <div class="model-box rv d3" style="margin-top: 0;">
+          <div class="model-row">Suites &amp; Residencias <span>3–5 unidades · escala íntima</span></div>
+          <div class="model-row">Wellness Circuit <span>Day passes · membresías · retiros</span></div>
+          <div class="model-row">Gastronomía del lugar <span>Sencillo, honesto, de calidad</span></div>
+          <div class="model-row">Experiencias de territorio <span>Naturaleza · cultura · comunidad</span></div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem 1.5rem;" class="rv d4">
+          <div class="pillar">
+            <div class="pillar-title">Escala Íntima</div>
+            <div class="pillar-desc">Sin masificación. Cada visita irrepetible</div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-title">Del Territorio</div>
+            <div class="pillar-desc">Experiencias que nacen del lugar</div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-title">Arquitectura Viva</div>
+            <div class="pillar-desc">Diseño que acompaña al sitio</div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-title">Viable</div>
+            <div class="pillar-desc">Económicamente sólido sin comprometer la esencia</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- A4 · LA ESTRUCTURA / EL ACTIVO                 -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s10">
+    <div class="ov-bone"></div>
+    <div class="c" style="z-index: 10; position: relative;">
+      <p class="eyebrow dark rv">A3 · El Activo</p>
+      <h2 class="h2 dark rv d1">Ya es invertible.<br>La estructura está lista.</h2>
+      <div class="rule rv d2"></div>
+
+      <div class="asset-cards rv d2">
+        <div class="asset-card">
+          <div class="asset-card-icon">◼</div>
+          <div class="asset-card-title">Predio Titulado</div>
+          <div class="asset-card-body">
+            15.71 ha escrituradas, con vista al Pacífico, arroyo estacional y corredor ecológico. Elimina el principal riesgo de proyectos Baja: incertidumbre de dominio.
+          </div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-card-icon">◼</div>
+          <div class="asset-card-title">SAPI de C.V.</div>
+          <div class="asset-card-body">
+            Estructura corporativa diseñada para inversión: permite emisión de clases de acciones, derechos de veto, restricciones de transferencia y mecanismos de salida alineados con capital institucional.
+          </div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-card-icon">◼</div>
+          <div class="asset-card-title">Arquitecta Regional</div>
+          <div class="asset-card-body">
+            Socia silenciosa con profundo conocimiento de Cerritos / El Pescadero / Los Cabos. Ventaja real en diseño-permiso, red de contratistas y ejecución costera.
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-strip rv d3">
+        <div class="phase">
+          <div class="phase-dur">6 – 12 meses</div>
+          <div class="phase-num">Fase 0</div>
+          <div class="phase-title">Preinversión</div>
+          <div class="phase-body">Topografía, geotécnica, master plan esquemático, estrategia de permisos (MIA/SEMARNAT), concepto de utilities off-grid.</div>
+        </div>
+        <div class="phase">
+          <div class="phase-dur">12 – 24 meses</div>
+          <div class="phase-num">Fase 1</div>
+          <div class="phase-title">Construcción</div>
+          <div class="phase-body">Infraestructura core + habitaciones iniciales + primer wellness circuit. Probar ADR y ocupación antes de escalar.</div>
+        </div>
+        <div class="phase">
+          <div class="phase-dur">Según resultados</div>
+          <div class="phase-num">Fase 2</div>
+          <div class="phase-title">Expansión</div>
+          <div class="phase-body">Habitaciones adicionales, villas, residencias de marca — solo tras validar métricas de demanda y precio en Fase 1.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <script>
+    const slides   = [...document.querySelectorAll('.slide')];
+    const dots     = [...document.querySelectorAll('.dot')];
+    const prog     = document.getElementById('prog');
+    const counter  = document.getElementById('counter');
+    const total    = slides.length;
+    let   current  = 0;
+
+    function activate(idx) {
+      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+      dots.forEach((d, i)   => d.classList.toggle('on', i === idx));
+      prog.style.height = `${(idx / (total - 1)) * 100}vh`;
+      counter.textContent = `${String(idx + 1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
+      current = idx;
+    }
+
+    // Intersection observer
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) activate(slides.indexOf(e.target)); });
+    }, { threshold: 0.55 });
+    slides.forEach(s => io.observe(s));
+    activate(0);
+
+    // Dot clicks
+    dots.forEach((d, i) => d.addEventListener('click', () => slides[i].scrollIntoView({ behavior: 'smooth' })));
+
+    // Keyboard
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') {
+        e.preventDefault();
+        slides[Math.min(current + 1, total - 1)].scrollIntoView({ behavior: 'smooth' });
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        slides[Math.max(current - 1, 0)].scrollIntoView({ behavior: 'smooth' });
+      } else if (e.key === 'Escape') {
+        slides[0].scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
+    // Pause/resume video + fade text when playing
+    const videoEl  = document.getElementById('terrain-video');
+    const videoTxt = document.getElementById('video-text');
+    const subLine  = document.getElementById('subtitle-line');
+
+    // ── Subtitle cues (seconds) — adjust start/end to match your video ──
+    const subtitleCues = [
+      { start:  3, end: 11, text: "Todo comenzó con cuatro amigos\nque encontraron un lugar." },
+      { start: 11, end: 21, text: "Un paisaje crudo, silencioso, abierto…\nque nos detuvo y nos cambió el ritmo." },
+      { start: 21, end: 28, text: "Ahí imaginamos un sueño en común." },
+      { start: 30, end: 40, text: "Cucunumic toma su nombre de la deidad pericú\nque creó la luna." },
+      { start: 40, end: 51, text: "No es solo una referencia,\nes una forma de entender este territorio." },
+      { start: 51, end: 61, text: "Un lugar definido por ciclos…\nde luz y sombra, de sequía y abundancia." },
+      { start: 62, end: 69, text: "Buscamos habitar esos ciclos." },
+      { start: 70, end: 82, text: "Nace de una idea simple: vivir distinto.\nMás lento, más consciente, más cerca de la tierra." },
+      { start: 82, end: 92, text: "Un lugar para quedarse,\ny también para volver al cuerpo." },
+      { start: 93, end: 105, text: "Habitar también es aprender.\nEntender la tierra, trabajarla, dejar que nos transforme." },
+      { start: 105, end: 114, text: "Una forma de bienestar:\ndel cuerpo en movimiento, de la mente en pausa." },
+      { start: 115, end: 125, text: "Cucunumic es un punto de encuentro.\nUna invitación a formar parte." },
+    ];
+
+    if (videoEl) {
+      // Fade intro text out once video starts playing
+      videoEl.addEventListener('playing', () => {
+        setTimeout(() => videoTxt && videoTxt.classList.add('fade-out'), 1200);
+      });
+
+      // Show/hide subtitle lines based on currentTime
+      let activeCue = null;
+      videoEl.addEventListener('timeupdate', () => {
+        const t = videoEl.currentTime;
+        const cue = subtitleCues.find(c => t >= c.start && t < c.end) || null;
+        if (cue !== activeCue) {
+          activeCue = cue;
+          if (cue) {
+            subLine.textContent = cue.text;
+            subLine.classList.add('visible');
+          } else {
+            subLine.classList.remove('visible');
+          }
+        }
+      });
+
+      // Restore text if slide re-enters view
+      const vio = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          videoEl.play().catch(() => {});
+        } else {
+          videoEl.pause();
+          if (videoTxt) videoTxt.classList.remove('fade-out');
+          if (subLine) subLine.classList.remove('visible');
+        }
+      }, { threshold: 0.4 });
+      vio.observe(document.getElementById('s2'));
+    }
+  </script>
+
+</body>
+</html>
