@@ -593,7 +593,7 @@
       position: relative;
       overflow: hidden;
       transition: flex 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: default;
+      cursor: zoom-in;
     }
     .eco-strip:hover { flex: 1.55; }
     .eco-strip img, .eco-strip video {
@@ -1047,6 +1047,68 @@
       text-transform: uppercase;
       color: var(--sand);
     }
+
+    /* ─── LIGHTBOX ───────────────────────────────────────── */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(13,11,9,0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      cursor: zoom-out;
+    }
+    #lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    #lightbox img {
+      max-width: 92vw;
+      max-height: 90vh;
+      object-fit: contain;
+      image-orientation: from-image;
+      border: 1px solid rgba(200,168,90,0.25);
+      box-shadow: 0 0 80px rgba(0,0,0,0.8);
+      transform: scale(0.96);
+      transition: transform 0.3s ease;
+    }
+    #lightbox.open img {
+      transform: scale(1);
+    }
+    #lightbox-caption {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sand);
+      opacity: 0.7;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    #lightbox-close {
+      position: fixed;
+      top: 1.4rem;
+      right: 1.8rem;
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sand);
+      opacity: 0.6;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    #lightbox-close:hover { opacity: 1; }
   </style>
 </head>
 <body>
@@ -1346,10 +1408,6 @@
             <div>
               <div class="eco-stat-num">15.71</div>
               <div class="eco-stat-lab">Hectáreas</div>
-            </div>
-            <div>
-              <div class="eco-stat-num">5</div>
-              <div class="eco-stat-lab">Ecosistemas</div>
             </div>
             <div>
               <div class="eco-stat-num">~40'</div>
@@ -1910,6 +1968,53 @@
       }, { threshold: 0.4 });
       vio.observe(document.getElementById('s2'));
     }
+  </script>
+
+  <!-- ── LIGHTBOX ──────────────────────────────────────── -->
+  <div id="lightbox">
+    <img id="lightbox-img" src="" alt="">
+    <div id="lightbox-caption"></div>
+    <div id="lightbox-close">✕ &nbsp;cerrar</div>
+  </div>
+
+  <script>
+    (function () {
+      const lb      = document.getElementById('lightbox');
+      const lbImg   = document.getElementById('lightbox-img');
+      const lbCap   = document.getElementById('lightbox-caption');
+      const lbClose = document.getElementById('lightbox-close');
+
+      function open(src, caption) {
+        lbImg.src = src;
+        lbCap.textContent = caption || '';
+        lb.classList.add('open');
+        document.documentElement.style.overflow = 'hidden';
+      }
+      function close() {
+        lb.classList.remove('open');
+        document.documentElement.style.overflow = '';
+        setTimeout(() => { lbImg.src = ''; }, 300);
+      }
+
+      // Click on any eco-strip image/video → open lightbox
+      document.querySelectorAll('.eco-strip').forEach(strip => {
+        strip.addEventListener('click', () => {
+          const img  = strip.querySelector('img');
+          if (!img) return;
+          const name = strip.querySelector('.eco-name');
+          const tag  = strip.querySelector('.eco-tag');
+          const caption = [name?.textContent, tag?.textContent].filter(Boolean).join(' · ');
+          open(img.src, caption);
+        });
+      });
+
+      // Close on backdrop click, close button, or Escape
+      lb.addEventListener('click', e => { if (e.target === lb) close(); });
+      lbClose.addEventListener('click', close);
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && lb.classList.contains('open')) close();
+      });
+    })();
   </script>
 
 </body>
