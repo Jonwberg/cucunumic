@@ -901,6 +901,67 @@
       line-height: 1.8;
     }
 
+    /* ─── SLIDES 09a-c · ARQUITECTURA ──────────────────── */
+    .arq-grid {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      gap: 3px;
+    }
+    .arq-grid.split-2 { grid-template-columns: 1.45fr 1fr; }
+    .arq-grid.split-3 { grid-template-columns: 1.45fr 1fr; grid-template-rows: 1fr 1fr; }
+
+    .arq-cell {
+      overflow: hidden;
+      position: relative;
+    }
+    .arq-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 12s ease-out;
+      image-orientation: from-image;
+    }
+    .slide.active .arq-cell img { transform: scale(1.03); }
+    .arq-cell.span-col { grid-row: 1 / 3; }
+
+    .arq-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 20;
+      padding: 2.5rem 3rem 3.5rem;
+      background: linear-gradient(to top, rgba(13,11,9,0.97) 0%, rgba(13,11,9,0.7) 55%, transparent 100%);
+      width: 56%;
+    }
+    .arq-body {
+      font-family: var(--body);
+      font-size: clamp(1.0rem, 1.35vw, 1.2rem);
+      line-height: 1.9;
+      color: var(--bone-dim);
+    }
+    .arq-header {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 20;
+      padding: 2.2rem 3rem;
+      background: linear-gradient(to bottom, rgba(13,11,9,0.75) 0%, transparent 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .arq-credit {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--terra);
+      text-align: right;
+      line-height: 1.8;
+    }
+
     /* ─── SLIDE 10 · LA ESTRUCTURA ───────────────────────── */
     #s10 { background: var(--bone); }
     #s10 .c {}
@@ -1119,8 +1180,6 @@
     <div class="dot" data-i="12"></div>
     <div class="dot" data-i="13"></div>
     <div class="dot" data-i="14"></div>
-    <div class="dot" data-i="15"></div>
-    <div class="dot" data-i="16"></div>
   </div>
   <div id="counter">01 / 14</div>
 
@@ -1174,6 +1233,29 @@
   <!-- ════════════════════════════════════════════════ -->
   <!-- 03 · INTRODUCCIÓN                               -->
   <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s3">
+    <div class="bg">
+      <img src="./Cucunumic/07.%20Fotos/desierto_cardon.jpg" alt="Cardón · sierra BCS">
+    </div>
+    <div class="ov-left"></div>
+
+    <div class="c">
+      <p class="eyebrow rv">01 · Quiénes Somos</p>
+      <h2 class="h2 rv d1 photo-heading">Cuatro personas.<br>Un lugar en común.</h2>
+      <div class="rule rv d2"></div>
+      <p class="body rv d2 photo-body" style="max-width: 50ch; margin-top: 1.2rem;">
+        Cucunumic nace de un encuentro: cuatro personas que llegaron al mismo rincón de Baja California Sur y decidieron no irse del todo.
+      </p>
+      <p class="body rv d3 photo-body" style="max-width: 50ch; margin-top: 1.2rem;">
+        No venimos de la industria hotelera. Venimos de la arquitectura, el diseño, el desarrollo y las operaciones — y de la convicción compartida de que este territorio merece algo distinto.
+      </p>
+      <p class="body rv d4 photo-body" style="max-width: 50ch; margin-top: 1.2rem;">
+        Somos el primer cliente del proyecto. Eso define cada decisión.
+      </p>
+    </div>
+  </section>
+
+
   <!-- ════════════════════════════════════════════════ -->
   <!-- 04 · EL DESTINO / POR QUÉ AQUÍ                 -->
   <!-- ════════════════════════════════════════════════ -->
@@ -1280,6 +1362,24 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 06 · LA GRIETA EN EL MERCADO                   -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s6">
+    <div class="c" style="max-width: 780px; display: flex; flex-direction: column; align-items: flex-start;">
+      <p class="eyebrow rv" style="margin-bottom: 1.8rem;">La Oportunidad</p>
+      <p class="quote-text rv d1">
+        Los Cabos perfeccionó<br>el lujo convencional.<br><br>
+        El corredor Pacífico tiene<br>algo que todavía no<br>ha sido capturado.
+      </p>
+      <div class="rule rv d2" style="margin-top: 2.8rem;"></div>
+      <p class="rv d3" style="font-family: var(--body); font-size: clamp(1rem,1.3vw,1.15rem); color: var(--sand); line-height: 1.7; max-width: 54ch; margin-top: 1.5rem;">
+        Todos Santos · El Pescadero · Cerritos: hospitalidad de referencia internacional, sin un retiro boutique de escala íntima. Ese es el espacio que Cucunumic ocupa.
+      </p>
     </div>
   </section>
 
@@ -1543,48 +1643,93 @@
 
 
   <!-- ════════════════════════════════════════════════ -->
-  <!-- 09 · ARQUITECTURA · OFICIO TALLER              -->
+  <!-- 09a · ARQUITECTURA — EL TERRITORIO COMO ORIGEN  -->
   <!-- ════════════════════════════════════════════════ -->
-  <section class="slide" id="s-renders-main">
+  <section class="slide" id="s-arq-1">
 
-    <div class="render-grid">
-
-      <div class="render-cell hero rv">
-        <img src="./Cucunumic/07.%20Fotos/render_fachada_hero.jpg" alt="Fachada exterior · Oficio Taller">
-        <div class="render-overlay"></div>
-        <span class="render-tag">Fachada · exterior</span>
+    <div class="arq-grid split-2">
+      <div class="arq-cell">
+        <img src="./Cucunumic/07.%20Fotos/VISTA20_FACHADA_JM.jpg" alt="Fachada · Oficio Taller">
       </div>
-
-      <div class="render-cell rv d1">
-        <img src="./Cucunumic/07.%20Fotos/render_fireroom.jpg" alt="Sala de fuego · interior">
-        <div class="render-overlay"></div>
-        <span class="render-tag">Sala de fuego · interior</span>
+      <div class="arq-cell">
+        <img src="./Cucunumic/07.%20Fotos/VISTA01_ALBERCA_2.jpg" alt="Alberca · Oficio Taller">
       </div>
-
-      <div class="render-cell rv d2">
-        <img src="./Cucunumic/07.%20Fotos/render_templo.png" alt="Templo · fachada al atardecer">
-        <div class="render-overlay"></div>
-        <span class="render-tag">Templo · atardecer</span>
-      </div>
-
-      <div class="render-cell rv d3">
-        <img src="./Cucunumic/07.%20Fotos/render_sauna.jpg" alt="Sauna · wellness">
-        <div class="render-overlay"></div>
-        <span class="render-tag">Sauna · wellness</span>
-      </div>
-
     </div>
 
-    <div class="renders-header">
-      <div>
-        <p class="eyebrow rv" style="margin-bottom: 0.4rem;">09 · Arquitectura</p>
-        <h2 class="h2 rv d1" style="font-size: clamp(1.4rem, 2.5vw, 2.2rem);">Diseño que nace<br>del territorio.</h2>
-      </div>
-      <div class="renders-credit rv d1">
-        Oficio Taller<br>
-        Arquitecta regional · socia silenciosa<br>
+    <div class="arq-header">
+      <p class="eyebrow rv" style="margin-bottom: 0;">09 · Arquitectura · Oficio Taller</p>
+      <div class="arq-credit rv d1">
         El Pescadero · BCS
       </div>
+    </div>
+
+    <div class="arq-caption">
+      <h2 class="h2 rv photo-heading" style="font-size: clamp(1.5rem, 2.4vw, 2.2rem); margin-bottom: 1rem;">El territorio<br>como origen.</h2>
+      <div class="rule rv d1" style="margin: 0 0 1.1rem;"></div>
+      <p class="arq-body rv d2">La arquitectura no se impone.<br>Se construye desde el territorio.<br>El desierto como materia, clima y ritmo.</p>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 09b · ARQUITECTURA — EL CUERPO COMO EXPERIENCIA -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s-arq-2">
+
+    <div class="arq-grid split-3">
+      <div class="arq-cell span-col">
+        <img src="./Cucunumic/07.%20Fotos/VISTA04_BAÑO-REGADERA.jpg" alt="Baño · regadera exterior · Oficio Taller">
+      </div>
+      <div class="arq-cell">
+        <img src="./Cucunumic/07.%20Fotos/VISTA18_FIREROOM_JM.jpg" alt="Sala de fuego · interior">
+      </div>
+      <div class="arq-cell">
+        <img src="./Cucunumic/07.%20Fotos/VISTA19_SAUNA.jpg" alt="Sauna · wellness">
+      </div>
+    </div>
+
+    <div class="arq-header">
+      <p class="eyebrow rv" style="margin-bottom: 0;">09 · Arquitectura · Oficio Taller</p>
+      <div class="arq-credit rv d1">
+        El Pescadero · BCS
+      </div>
+    </div>
+
+    <div class="arq-caption">
+      <h2 class="h2 rv photo-heading" style="font-size: clamp(1.5rem, 2.4vw, 2.2rem); margin-bottom: 1rem;">El cuerpo<br>como experiencia.</h2>
+      <div class="rule rv d1" style="margin: 0 0 1.1rem;"></div>
+      <p class="arq-body rv d2">Agua, calor, contraste.<br>Espacios para el descanso, el movimiento y la restauración.<br>El bienestar como experiencia espacial.</p>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 09c · ARQUITECTURA — RITUAL, COMUNIDAD, TIEMPO  -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="slide" id="s-arq-3">
+
+    <div class="arq-grid split-2">
+      <div class="arq-cell">
+        <img src="./Cucunumic/07.%20Fotos/VISTA06_TEMPLO-INTERIOR.jpg" alt="Templo · interior · Oficio Taller">
+      </div>
+      <div class="arq-cell">
+        <img src="./Cucunumic/07.%20Fotos/VISTA12_FACHADA-DE-ACCESO_NOCHE.jpg" alt="Fachada de acceso · noche">
+      </div>
+    </div>
+
+    <div class="arq-header">
+      <p class="eyebrow rv" style="margin-bottom: 0;">09 · Arquitectura · Oficio Taller</p>
+      <div class="arq-credit rv d1">
+        El Pescadero · BCS
+      </div>
+    </div>
+
+    <div class="arq-caption">
+      <h2 class="h2 rv photo-heading" style="font-size: clamp(1.5rem, 2.4vw, 2.2rem); margin-bottom: 1rem;">Ritual, comunidad,<br>tiempo.</h2>
+      <div class="rule rv d1" style="margin: 0 0 1.1rem;"></div>
+      <p class="arq-body rv d2">Lugares para reunirse, para pausar, para habitar el tiempo.<br>Arquitectura que construye comunidad.<br>Un sistema vivo.</p>
     </div>
 
   </section>
