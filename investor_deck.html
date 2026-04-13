@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cucunumic — Investor Presentation · April 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ══════════════════════════════════════════════════════════
+       DESIGN TOKENS
+    ══════════════════════════════════════════════════════════ */
+    :root {
+      --bone:     #E8DEC8;
+      --bone-dim: #D4C8B0;
+      --sand:     #BFB090;
+      --terra:    #A87850;
+      --rust:     #8A5A38;
+      --night:    #0D0B09;
+      --coal:     #1A1714;
+      --moon:     #CCBE9C;
+      --mist:     #8A8272;
+      --gold:     #C8A83A;
+
+      --serif:    'Cormorant SC', serif;
+      --serif-it: 'Cormorant', serif;
+      --body:     'Spectral', serif;
+      --sans:     'Jost', sans-serif;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       BASE
+    ══════════════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-snap-type: y mandatory; overflow-y: scroll; scroll-behavior: smooth; }
+    body { font-family: var(--body); background: var(--night); color: var(--bone); }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       SLIDE STRUCTURE
+    ══════════════════════════════════════════════════════════ */
+    .slide {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      scroll-snap-align: start;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       BACKGROUND SYSTEM
+    ══════════════════════════════════════════════════════════ */
+    .bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .bg img, .bg video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.06);
+      transition: transform 16s ease-out;
+      image-orientation: from-image;
+    }
+    .slide.active .bg img,
+    .slide.active .bg video { transform: scale(1); }
+
+    .ov-dark   { position: absolute; inset: 0; background: rgba(13,11,9,0.72); }
+    .ov-bottom { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,11,9,0.96) 0%, rgba(13,11,9,0.5) 50%, rgba(13,11,9,0.15) 100%); }
+    .ov-left   { position: absolute; inset: 0; background: linear-gradient(to right, rgba(13,11,9,0.97) 40%, rgba(13,11,9,0.6) 65%, rgba(13,11,9,0.1) 100%); }
+    .ov-right  { position: absolute; inset: 0; background: linear-gradient(to left, rgba(13,11,9,0.97) 40%, rgba(13,11,9,0.6) 65%, rgba(13,11,9,0.1) 100%); }
+    .ov-center { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(13,11,9,0.42) 0%, rgba(13,11,9,0.88) 100%); }
+    .ov-heavy  { position: absolute; inset: 0; background: rgba(13,11,9,0.82); }
+
+    /* ══════════════════════════════════════════════════════════
+       CONTENT CONTAINER
+    ══════════════════════════════════════════════════════════ */
+    .c {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1400px;
+      padding: 0 7vw;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       NAVIGATION
+    ══════════════════════════════════════════════════════════ */
+    #prog {
+      position: fixed;
+      left: 0; top: 0;
+      width: 2px;
+      background: var(--terra);
+      z-index: 8000;
+      transition: height 0.4s ease;
+    }
+    #dots {
+      position: fixed;
+      right: 1.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 8000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(240,235,224,0.2);
+      cursor: pointer;
+      transition: all 0.4s ease;
+      border: 1px solid rgba(240,235,224,0.12);
+    }
+    .dot.on {
+      background: var(--moon);
+      transform: scale(1.6);
+      border-color: var(--moon);
+    }
+    #counter {
+      position: fixed;
+      left: 2.2rem;
+      bottom: 2rem;
+      z-index: 8000;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 200;
+      letter-spacing: 0.35em;
+      color: rgba(240,235,224,0.25);
+    }
+    .slide-num {
+      position: absolute;
+      bottom: 2.2rem;
+      right: 4.5rem;
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      font-weight: 200;
+      letter-spacing: 0.35em;
+      color: rgba(240,235,224,0.18);
+      z-index: 20;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       REVEAL ANIMATIONS
+    ══════════════════════════════════════════════════════════ */
+    .rv {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.95s ease, transform 0.95s ease;
+    }
+    .slide.active .rv { opacity: 1; transform: translateY(0); }
+    .rv.d1 { transition-delay: 0.1s; }
+    .rv.d2 { transition-delay: 0.24s; }
+    .rv.d3 { transition-delay: 0.38s; }
+    .rv.d4 { transition-delay: 0.52s; }
+    .rv.d5 { transition-delay: 0.66s; }
+    .rv.d6 { transition-delay: 0.80s; }
+    .rv.d7 { transition-delay: 0.95s; }
+    .rv.d8 { transition-delay: 1.10s; }
+
+    /* ══════════════════════════════════════════════════════════
+       TYPE SCALE
+    ══════════════════════════════════════════════════════════ */
+    .eyebrow {
+      font-family: var(--sans);
+      font-weight: 200;
+      font-size: 0.78rem;
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: var(--moon);
+      margin-bottom: 1.2rem;
+    }
+    .eyebrow.terra { color: var(--terra); }
+    .eyebrow.sand  { color: var(--sand); }
+    .eyebrow.mist  { color: var(--mist); }
+    .act-label {
+      font-family: var(--sans);
+      font-weight: 200;
+      font-size: 0.62rem;
+      letter-spacing: 0.65em;
+      text-transform: uppercase;
+      color: rgba(204,190,156,0.35);
+      margin-bottom: 0.4rem;
+    }
+    .display {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(4rem, 10vw, 9.5rem);
+      line-height: 0.88;
+      letter-spacing: 0.07em;
+      color: var(--bone);
+    }
+    .h2 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(2rem, 4.2vw, 3.8rem);
+      line-height: 1.08;
+      letter-spacing: 0.04em;
+      color: var(--bone);
+    }
+    .h3 {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.4rem, 2.6vw, 2.4rem);
+      letter-spacing: 0.03em;
+      color: var(--bone);
+      line-height: 1.25;
+    }
+    .body {
+      font-family: var(--body);
+      font-weight: 400;
+      font-size: clamp(1rem, 1.4vw, 1.18rem);
+      line-height: 1.85;
+      color: var(--bone-dim);
+    }
+    .large {
+      font-family: var(--body);
+      font-weight: 400;
+      font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+      line-height: 1.78;
+      color: var(--bone);
+    }
+    .ph-text { text-shadow: 0 2px 28px rgba(0,0,0,0.6); }
+    .rule { width: 2.8rem; height: 1px; background: var(--terra); margin: 1.6rem 0; }
+    .rule.center { margin-left: auto; margin-right: auto; }
+
+    /* ══════════════════════════════════════════════════════════
+       COVER
+    ══════════════════════════════════════════════════════════ */
+    #s1 .c {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding-bottom: 5vh;
+    }
+    .cover-glyph {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      opacity: 0.3;
+      color: var(--moon);
+      letter-spacing: 0.8em;
+      margin-bottom: 2.5rem;
+    }
+    .cover-rule { width: 3rem; height: 1px; background: var(--terra); margin: 1.6rem auto 1.2rem; }
+    .cover-sub {
+      font-family: var(--sans);
+      font-weight: 200;
+      font-size: clamp(0.68rem, 0.9vw, 0.88rem);
+      letter-spacing: 0.52em;
+      text-transform: uppercase;
+      color: var(--sand);
+    }
+    .cover-date {
+      font-family: var(--sans);
+      font-weight: 200;
+      font-size: 0.65rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: rgba(191,176,144,0.38);
+      margin-top: 0.5rem;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       THE LAND (S2)
+    ══════════════════════════════════════════════════════════ */
+    .land-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 8vw;
+      align-items: center;
+    }
+    .land-num {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(7rem, 14vw, 12rem);
+      line-height: 0.85;
+      letter-spacing: 0.04em;
+      color: var(--bone);
+    }
+    .land-unit {
+      font-family: var(--sans);
+      font-weight: 200;
+      font-size: clamp(0.75rem, 1.1vw, 1rem);
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: var(--terra);
+      display: block;
+      margin-top: 0.6rem;
+    }
+    .land-facts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.6rem 2.5rem;
+      margin-top: 2.5rem;
+    }
+    .land-fact-label {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 200;
+      letter-spacing: 0.48em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: 0.28rem;
+    }
+    .land-fact-val {
+      font-family: var(--serif);
+      font-size: clamp(1rem, 1.6vw, 1.4rem);
+      font-weight: 300;
+      color: var(--bone);
+      letter-spacing: 0.03em;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       ARCHITECTURE RENDERS (S3)
+    ══════════════════════════════════════════════════════════ */
+    .render-grid {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 5px;
+    }
+    .render-cell {
+      position: relative;
+      overflow: hidden;
+    }
+    .render-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.9s ease;
+    }
+    .render-cell:hover img { transform: scale(1.05); }
+    .render-cell .rc-cap {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(13,11,9,0.88) 0%, transparent 100%);
+      padding: 2rem 1rem 0.8rem;
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 200;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--sand);
+    }
+    .render-cell .rc-num {
+      position: absolute;
+      top: 0.9rem;
+      left: 1rem;
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      font-weight: 200;
+      letter-spacing: 0.5em;
+      color: rgba(232,222,200,0.28);
+    }
+    .render-cell.feat { grid-column: 1 / 3; }
+    .render-title-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 2.5rem 5rem;
+      z-index: 20;
+      background: linear-gradient(to bottom, rgba(13,11,9,0.55) 0%, transparent 100%);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       MARKET (S4)
+    ══════════════════════════════════════════════════════════ */
+    .market-kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 3rem;
+    }
+    .mkpi {
+      padding: 2rem 2.5rem 2rem 0;
+      border-right: 1px solid rgba(240,235,224,0.07);
+    }
+    .mkpi:last-child { border-right: none; }
+    .mkpi-num {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 300;
+      color: var(--moon);
+      line-height: 1;
+    }
+    .mkpi-unit { font-family: var(--sans); font-size: 0.85rem; font-weight: 200; color: var(--terra); }
+    .mkpi-bar { width: 1.5rem; height: 2px; background: var(--terra); margin: 1rem 0 0.6rem; }
+    .mkpi-label {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--sand);
+    }
+    .mkpi-sub {
+      font-family: var(--body);
+      font-size: 0.88rem;
+      color: var(--mist);
+      margin-top: 0.3rem;
+      line-height: 1.45;
+    }
+    .market-footer {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(240,235,224,0.06);
+      display: flex;
+      gap: 4rem;
+      align-items: baseline;
+    }
+    .mf-num { font-family: var(--serif); font-size: 2rem; font-weight: 300; color: var(--bone); }
+    .mf-label {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 200;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-top: 0.25rem;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       THE GAP (S5)
+    ══════════════════════════════════════════════════════════ */
+    .gap-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 8vw;
+      align-items: start;
+    }
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+    }
+    .comp-table th {
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 300;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--mist);
+      padding: 0.6rem 0.6rem 0.6rem 0;
+      border-bottom: 1px solid rgba(240,235,224,0.08);
+      text-align: left;
+    }
+    .comp-table td {
+      font-family: var(--sans);
+      font-size: 0.76rem;
+      font-weight: 300;
+      color: rgba(191,176,144,0.55);
+      padding: 0.72rem 0.6rem 0.72rem 0;
+      border-bottom: 1px solid rgba(240,235,224,0.045);
+    }
+    .comp-table tr.us td { color: var(--bone); font-weight: 400; }
+    .comp-table tr.us td:first-child { color: var(--terra); }
+    .check { color: var(--terra); }
+    .cross { color: rgba(200,190,165,0.22); }
+    .gap-callout {
+      margin-top: 2rem;
+      padding: 1.5rem 1.5rem 1.5rem 1.8rem;
+      border-left: 2px solid var(--terra);
+    }
+    .gap-callout p {
+      font-family: var(--serif-it);
+      font-style: italic;
+      font-size: clamp(1.05rem, 1.7vw, 1.4rem);
+      color: var(--moon);
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       THREE PILLARS (S6)
+    ══════════════════════════════════════════════════════════ */
+    .pillars-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5vw;
+      margin-top: 2.8rem;
+    }
+    .pillar-col {
+      padding: 2rem;
+      border: 1px solid rgba(240,235,224,0.09);
+      position: relative;
+      background: rgba(13,11,9,0.55);
+    }
+    .pillar-ghost {
+      font-family: var(--serif);
+      font-size: 5rem;
+      font-weight: 300;
+      color: rgba(168,120,80,0.09);
+      line-height: 1;
+      position: absolute;
+      top: 0.8rem;
+      right: 1rem;
+      letter-spacing: 0.05em;
+    }
+    .pillar-stripe { width: 2rem; height: 1px; background: var(--terra); margin-bottom: 1.4rem; }
+    .pillar-title {
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 2vw, 1.9rem);
+      font-weight: 300;
+      color: var(--bone);
+      letter-spacing: 0.04em;
+      margin-bottom: 0.4rem;
+    }
+    .pillar-sub {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      font-weight: 200;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 1.1rem;
+    }
+    .pillar-body {
+      font-family: var(--body);
+      font-size: 0.9rem;
+      color: var(--sand);
+      line-height: 1.68;
+      margin-bottom: 1.4rem;
+    }
+    .pillar-rev {
+      font-family: var(--serif);
+      font-size: 1.65rem;
+      font-weight: 300;
+      color: var(--moon);
+      line-height: 1;
+    }
+    .pillar-rev-label {
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 200;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-top: 0.2rem;
+    }
+    .pillar-bullets { list-style: none; margin-top: 1rem; }
+    .pillar-bullets li {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: var(--sand);
+      padding: 0.3rem 0 0.3rem 1rem;
+      position: relative;
+    }
+    .pillar-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--terra); }
+
+    /* ══════════════════════════════════════════════════════════
+       WELLNESS (S7)
+    ══════════════════════════════════════════════════════════ */
+    .circuit-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin-top: 2rem;
+    }
+    .circuit-node {
+      flex: 1;
+      border-top: 1px solid rgba(240,235,224,0.1);
+      padding: 1.2rem 1rem;
+      position: relative;
+    }
+    .circuit-node::after {
+      content: '→';
+      position: absolute;
+      right: -0.7rem;
+      top: 1.4rem;
+      color: rgba(168,120,80,0.35);
+      font-size: 0.75rem;
+      z-index: 1;
+    }
+    .circuit-node:last-child::after { display: none; }
+    .cn-name {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 0.4rem;
+    }
+    .cn-dur {
+      font-family: var(--serif);
+      font-size: 1.55rem;
+      font-weight: 300;
+      color: var(--moon);
+      line-height: 1;
+    }
+    .cn-unit { font-family: var(--sans); font-size: 0.58rem; font-weight: 200; color: var(--sand); letter-spacing: 0.3em; }
+    .cn-desc { font-family: var(--body); font-size: 0.78rem; color: var(--mist); margin-top: 0.35rem; line-height: 1.42; }
+
+    .price-tiers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-top: 1.8rem;
+    }
+    .price-tier {
+      padding: 1.4rem;
+      border: 1px solid rgba(240,235,224,0.08);
+    }
+    .price-tier.featured { border-color: rgba(168,120,80,0.45); background: rgba(168,120,80,0.05); }
+    .pt-label {
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 200;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 0.7rem;
+    }
+    .pt-price {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 2.8vw, 2.6rem);
+      font-weight: 300;
+      color: var(--moon);
+      line-height: 1;
+    }
+    .pt-duration {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      font-weight: 200;
+      color: var(--sand);
+      letter-spacing: 0.28em;
+      margin-top: 0.28rem;
+    }
+    .pt-includes { font-family: var(--body); font-size: 0.8rem; color: var(--mist); margin-top: 0.7rem; line-height: 1.48; }
+
+    /* ══════════════════════════════════════════════════════════
+       CASITAS (S8)
+    ══════════════════════════════════════════════════════════ */
+    .casita-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 7vw;
+      align-items: center;
+    }
+    .casita-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.1rem 2rem;
+      margin-top: 1.8rem;
+    }
+    .cs-label {
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 200;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: 0.22rem;
+    }
+    .cs-val { font-family: var(--body); font-size: 0.9rem; color: var(--sand); line-height: 1.42; }
+    .casita-rates { margin-top: 1.8rem; }
+    .cr-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(240,235,224,0.055);
+    }
+    .cr-name { font-family: var(--body); font-size: 0.9rem; color: var(--sand); }
+    .cr-price { font-family: var(--serif); font-size: 1.25rem; font-weight: 300; color: var(--moon); white-space: nowrap; }
+    .cr-night { font-family: var(--sans); font-size: 0.6rem; color: var(--mist); }
+
+    /* ══════════════════════════════════════════════════════════
+       CULTURE (S9)
+    ══════════════════════════════════════════════════════════ */
+    .culture-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 3vw;
+      margin-top: 2.5rem;
+    }
+    .cc-col { border-top: 1px solid rgba(240,235,224,0.1); padding-top: 1.5rem; }
+    .cc-eyebrow {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 200;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 0.7rem;
+    }
+    .cc-title {
+      font-family: var(--serif);
+      font-size: clamp(1.1rem, 1.9vw, 1.7rem);
+      font-weight: 300;
+      color: var(--bone);
+      margin-bottom: 0.7rem;
+    }
+    .cc-body { font-family: var(--body); font-size: 0.88rem; color: var(--sand); line-height: 1.62; }
+    .event-list { list-style: none; margin-top: 1rem; }
+    .event-list li {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: var(--sand);
+      padding: 0.42rem 0;
+      border-bottom: 1px solid rgba(240,235,224,0.045);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .ev-freq { color: var(--mist); font-size: 0.65rem; }
+    .cc-stat {
+      margin-top: 1.4rem;
+      padding-top: 1.4rem;
+      border-top: 1px solid rgba(240,235,224,0.08);
+    }
+    .cc-stat-num { font-family: var(--serif); font-size: 1.5rem; font-weight: 300; color: var(--moon); }
+    .cc-stat-label {
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 200;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-top: 0.2rem;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       REVENUE ARCHITECTURE (S10)
+    ══════════════════════════════════════════════════════════ */
+    .rev-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+    .year-bars {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+      align-items: end;
+    }
+    .year-col { display: flex; flex-direction: column; align-items: center; gap: 0.45rem; }
+    .year-bar-wrap { width: 100%; height: 190px; display: flex; align-items: flex-end; }
+    .year-bar {
+      width: 100%;
+      background: linear-gradient(to top, var(--rust), var(--terra));
+      transform-origin: bottom;
+      transform: scaleY(0);
+      transition: transform 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 1px 1px 0 0;
+    }
+    .slide.active .year-bar { transform: scaleY(1); }
+    .year-bar.d1 { transition-delay: 0.15s; }
+    .year-bar.d2 { transition-delay: 0.38s; }
+    .year-bar.d3 { transition-delay: 0.62s; }
+    .year-bar.d4 { transition-delay: 0.86s; }
+    .year-bar.d5 { transition-delay: 1.10s; }
+    .year-rev { font-family: var(--serif); font-size: 1.15rem; font-weight: 300; color: var(--moon); }
+    .year-label {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 200;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+    .stream-legend {
+      display: flex;
+      gap: 2.2rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+      padding-top: 1.4rem;
+      border-top: 1px solid rgba(240,235,224,0.06);
+    }
+    .sl-item { display: flex; align-items: center; gap: 0.45rem; }
+    .sl-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .sl-label {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 200;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--sand);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       FINANCIAL SUMMARY (S11)
+    ══════════════════════════════════════════════════════════ */
+    .fin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.8rem;
+    }
+    .fin-table th {
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 200;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--mist);
+      padding: 0.65rem 1rem 0.65rem 0;
+      border-bottom: 1px solid rgba(240,235,224,0.08);
+      text-align: right;
+    }
+    .fin-table th:first-child { text-align: left; }
+    .fin-table td {
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: var(--sand);
+      padding: 0.6rem 1rem 0.6rem 0;
+      border-bottom: 1px solid rgba(240,235,224,0.04);
+      text-align: right;
+    }
+    .fin-table td:first-child { text-align: left; color: var(--bone-dim); font-size: 0.82rem; }
+    .fin-table tr.total td { color: var(--moon); border-top: 1px solid rgba(240,235,224,0.1); border-bottom: none; font-weight: 400; font-size: 0.85rem; }
+    .fin-table tr.ebitda td { color: var(--terra); font-weight: 400; }
+    .fin-table tr.margin td { color: var(--mist); font-family: var(--body); font-style: italic; font-size: 0.76rem; }
+
+    .margin-track { margin-top: 2rem; }
+    .margin-bars {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .mb-year {}
+    .mb-label {
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 200;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: 0.45rem;
+      text-align: center;
+    }
+    .mb-bar-wrap { height: 5px; background: rgba(240,235,224,0.07); border-radius: 3px; overflow: hidden; }
+    .mb-bar {
+      height: 100%;
+      background: var(--terra);
+      border-radius: 3px;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 1s ease;
+    }
+    .slide.active .mb-bar { transform: scaleX(1); }
+    .mb-pct { font-family: var(--serif); font-size: 1.1rem; font-weight: 300; color: var(--moon); text-align: center; margin-top: 0.35rem; }
+
+    /* ══════════════════════════════════════════════════════════
+       CAPITAL STRUCTURE (S12)
+    ══════════════════════════════════════════════════════════ */
+    .capex-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7vw;
+      align-items: start;
+    }
+    .capex-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(240,235,224,0.055);
+    }
+    .capex-name { font-family: var(--body); font-size: 0.88rem; color: var(--sand); }
+    .capex-amt { font-family: var(--serif); font-size: 1.18rem; font-weight: 300; color: var(--moon); }
+    .capex-total-row .capex-name { color: var(--bone); font-weight: 500; }
+    .capex-total-row .capex-amt { color: var(--terra); font-size: 1.45rem; }
+    .capex-total-row { border-bottom: none; margin-top: 0.4rem; }
+
+    .cap-vis { margin-top: 1.5rem; }
+    .cap-bar {
+      height: 44px;
+      border-radius: 2px;
+      display: flex;
+      overflow: hidden;
+      margin-bottom: 0.8rem;
+    }
+    .cap-seg {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 300;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+    }
+    .cap-seg.eq  { background: var(--terra); color: var(--bone); flex: 1; }
+    .cap-seg.dt  { background: rgba(168,120,80,0.32); color: var(--sand); flex: 1; }
+    .cap-seg.wc  { background: rgba(168,120,80,0.13); color: var(--mist); flex: 0 0 12%; border: 1px solid rgba(168,120,80,0.2); }
+    .cap-legend { display: flex; gap: 2rem; margin-top: 0.6rem; }
+    .cl-item { display: flex; align-items: center; gap: 0.45rem; }
+    .cl-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .cl-label {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      font-weight: 200;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--sand);
+    }
+    .debt-box {
+      margin-top: 1.8rem;
+      padding: 1.2rem;
+      border: 1px solid rgba(168,120,80,0.2);
+      background: rgba(168,120,80,0.04);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       RETURNS (S13)
+    ══════════════════════════════════════════════════════════ */
+    .returns-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.8rem;
+      margin-top: 2.2rem;
+    }
+    .return-card {
+      padding: 1.8rem 2rem;
+      border: 1px solid rgba(240,235,224,0.08);
+    }
+    .rc-eyebrow {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 200;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 0.7rem;
+    }
+    .rc-num {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 4.8vw, 4.3rem);
+      font-weight: 300;
+      color: var(--moon);
+      line-height: 1;
+    }
+    .rc-context { font-family: var(--body); font-size: 0.88rem; color: var(--sand); margin-top: 0.55rem; line-height: 1.52; }
+
+    /* ══════════════════════════════════════════════════════════
+       THE ASK (S14)
+    ══════════════════════════════════════════════════════════ */
+    .ask-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7vw;
+      align-items: start;
+    }
+    .ask-amount {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 6.5vw, 5.8rem);
+      font-weight: 300;
+      color: var(--bone);
+      line-height: 0.9;
+    }
+    .ask-stake {
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      font-weight: 200;
+      color: var(--terra);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      display: block;
+      margin-top: 0.6rem;
+    }
+    .ask-list { list-style: none; margin-top: 2rem; }
+    .ask-list li {
+      font-family: var(--body);
+      font-size: 0.98rem;
+      color: var(--sand);
+      padding: 0.75rem 0 0.75rem 1.2rem;
+      border-bottom: 1px solid rgba(240,235,224,0.055);
+      position: relative;
+      line-height: 1.52;
+    }
+    .ask-list li::before { content: '—'; position: absolute; left: 0; color: var(--terra); }
+    .offer-box {
+      padding: 2rem;
+      border: 1px solid rgba(168,120,80,0.28);
+      background: rgba(168,120,80,0.04);
+    }
+    .offer-title {
+      font-family: var(--serif);
+      font-size: 1.45rem;
+      font-weight: 300;
+      color: var(--bone);
+      margin-bottom: 1.4rem;
+    }
+    .offer-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.58rem 0;
+      border-bottom: 1px solid rgba(240,235,224,0.05);
+    }
+    .or-label {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      font-weight: 200;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+    .or-val { font-family: var(--serif); font-size: 0.98rem; font-weight: 300; color: var(--moon); }
+
+    /* ══════════════════════════════════════════════════════════
+       CLOSE (S15)
+    ══════════════════════════════════════════════════════════ */
+    #s15 .c {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+    .close-tagline {
+      font-family: var(--serif-it);
+      font-style: italic;
+      font-size: clamp(1.15rem, 2.3vw, 2.1rem);
+      font-weight: 300;
+      color: var(--moon);
+      max-width: 44ch;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+    .close-contact {
+      font-family: var(--sans);
+      font-size: 0.68rem;
+      font-weight: 200;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: rgba(191,176,144,0.42);
+      margin-top: 2.2rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="prog"></div>
+<nav id="dots"></nav>
+<div id="counter">01 / 15</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     01 · COVER — Night Facade
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s1">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/VISTA12_FACHADA-DE-ACCESO_NOCHE.png" alt="Cucunumic — Night Entrance">
+    <div class="ov-center"></div>
+    <div class="ov-bottom"></div>
+  </div>
+  <div class="c">
+    <span class="cover-glyph rv d1">· · · · · · ·</span>
+    <div class="display rv d2 ph-text">cucunumic</div>
+    <div class="cover-rule rv d3"></div>
+    <div class="cover-sub rv d4">An Integrated Wellness Estate · Baja California Sur</div>
+    <div class="cover-date rv d5">Investor Presentation · April 2026 · Confidential</div>
+  </div>
+  <div class="slide-num">01 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     02 · THE LAND — Aerial View
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s2">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/aerial_total.png" alt="Aerial View — 38 Acres">
+    <div class="ov-right"></div>
+  </div>
+  <div class="c">
+    <div class="land-grid">
+      <div>
+        <p class="eyebrow rv d1">01 — The Property</p>
+        <div class="land-num rv d2 ph-text">38</div>
+        <span class="land-unit rv d3">Acres · Off-Grid · Pacific Corridor · BCS, Mexico</span>
+        <div class="rule rv d4"></div>
+        <p class="large rv d5 ph-text">A private estate at the edge of the Baja desert — 5 km from the Pacific, adjacent to the Modern Elder Academy campus, at the corridor's inflection between discovery and establishment.</p>
+        <div class="land-facts rv d6">
+          <div class="land-fact">
+            <div class="land-fact-label">Coordinates</div>
+            <div class="land-fact-val">23.1802°N · 110.0996°W</div>
+          </div>
+          <div class="land-fact">
+            <div class="land-fact-label">Airport</div>
+            <div class="land-fact-val">25 min to SJD International</div>
+          </div>
+          <div class="land-fact">
+            <div class="land-fact-label">Climate Advantage</div>
+            <div class="land-fact-val">10–15°C cooler than Cabo</div>
+          </div>
+          <div class="land-fact">
+            <div class="land-fact-label">Infrastructure</div>
+            <div class="land-fact-val">Solar · Well · Starlink</div>
+          </div>
+          <div class="land-fact">
+            <div class="land-fact-label">Title</div>
+            <div class="land-fact-val">Escriturado · Clear</div>
+          </div>
+          <div class="land-fact">
+            <div class="land-fact-label">Ocean Distance</div>
+            <div class="land-fact-val">5 km · Playa Cerritos</div>
+          </div>
+        </div>
+      </div>
+      <div></div>
+    </div>
+  </div>
+  <div class="slide-num">02 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     03 · ARCHITECTURE — Six Renders
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s3">
+  <div class="render-grid">
+    <div class="render-cell feat rv d2">
+      <img src="./Cucunumic/07. Fotos/render_fachada_hero.jpg" alt="Main Facade">
+      <span class="rc-num">01</span>
+      <div class="rc-cap">Main Entrance · Arrivals Sequence · Natural Stone + Palapa</div>
+    </div>
+    <div class="render-cell rv d3">
+      <img src="./Cucunumic/07. Fotos/VISTA01_ALBERCA_2.jpg" alt="Pool">
+      <span class="rc-num">02</span>
+      <div class="rc-cap">Pool · Reflection Garden</div>
+    </div>
+    <div class="render-cell rv d4">
+      <img src="./Cucunumic/07. Fotos/VISTA17_INTERIOR.jpg" alt="Casita Interior">
+      <span class="rc-num">03</span>
+      <div class="rc-cap">Casita Interior · Natural Light</div>
+    </div>
+    <div class="render-cell rv d5">
+      <img src="./Cucunumic/07. Fotos/render_sauna.jpg" alt="Cedar Sauna">
+      <span class="rc-num">04</span>
+      <div class="rc-cap">Cedar Sauna · Wellness Circuit</div>
+    </div>
+    <div class="render-cell rv d6">
+      <img src="./Cucunumic/07. Fotos/VISTA06_TEMPLO-INTERIOR.png" alt="Temple">
+      <span class="rc-num">05</span>
+      <div class="rc-cap">Temple Pavilion · Events &amp; Residency</div>
+    </div>
+    <div class="render-cell rv d7">
+      <img src="./Cucunumic/07. Fotos/VISTA04_BANO-REGADERA.png" alt="Outdoor Shower">
+      <span class="rc-num">06</span>
+      <div class="rc-cap">Outdoor Shower Among Cardón Cactus</div>
+    </div>
+  </div>
+  <div class="render-title-overlay">
+    <p class="eyebrow rv d1">02 — The Architecture</p>
+    <p class="h3 rv d1 ph-text">Built from the land,<br>designed for transformation.</p>
+  </div>
+  <div class="slide-num">03 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     04 · THE MARKET
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s4" style="background: var(--coal)">
+  <div class="c">
+    <div style="max-width: 860px">
+      <p class="act-label rv d1">Act I — The Opportunity</p>
+      <p class="eyebrow rv d2">03 — The Market · Los Cabos &amp; BCS</p>
+      <h2 class="h2 rv d3">Four consecutive records.<br>The market isn't slowing down.</h2>
+      <div class="market-kpis rv d4">
+        <div class="mkpi">
+          <div class="mkpi-num">4.1<span class="mkpi-unit">M</span></div>
+          <div class="mkpi-bar"></div>
+          <div class="mkpi-label">Visitors · 2025</div>
+          <div class="mkpi-sub">4th consecutive annual record; +5% YoY</div>
+        </div>
+        <div class="mkpi">
+          <div class="mkpi-num">$7.7<span class="mkpi-unit">B</span></div>
+          <div class="mkpi-bar"></div>
+          <div class="mkpi-label">Tourism GDP · BCS</div>
+          <div class="mkpi-sub">36% of state GDP · 44K direct jobs</div>
+        </div>
+        <div class="mkpi">
+          <div class="mkpi-num">18<span class="mkpi-unit">%</span></div>
+          <div class="mkpi-bar"></div>
+          <div class="mkpi-label">Wellness-Primary Visitors</div>
+          <div class="mkpi-sub">738K annual wellness travelers in corridor</div>
+        </div>
+        <div class="mkpi">
+          <div class="mkpi-num">$3<span class="mkpi-unit">K</span></div>
+          <div class="mkpi-bar"></div>
+          <div class="mkpi-label">Avg Wellness Spend / Trip</div>
+          <div class="mkpi-sub">Highest segment · 91% satisfaction rate</div>
+        </div>
+      </div>
+      <div class="market-footer rv d5">
+        <div>
+          <div class="mf-num">$783M</div>
+          <div class="mf-label">Foreign Tourism Investment · BCS · Jan–Sep 2024</div>
+        </div>
+        <div>
+          <div class="mf-num">$650B</div>
+          <div class="mf-label">Global Wellness Economy · Annual · Growing</div>
+        </div>
+        <div>
+          <div class="mf-num">+12%</div>
+          <div class="mf-label">Pacific Corridor Rental Rate Growth · 2019–2024</div>
+        </div>
+        <div>
+          <div class="mf-num">~2,950</div>
+          <div class="mf-label">Addressable Annual Visitor Pool · Pacific Boutique</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">04 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     05 · THE GAP
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s5">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/desierto_cardon.jpg" alt="Baja Desert">
+    <div class="ov-left"></div>
+  </div>
+  <div class="c">
+    <div class="gap-layout">
+      <div>
+        <p class="eyebrow rv d1">04 — The Competitive Gap</p>
+        <h2 class="h2 rv d2 ph-text">Everything they offer.<br>Nothing we are.</h2>
+        <div class="rule rv d3"></div>
+        <table class="comp-table rv d4">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>HBOT</th>
+              <th>Infrared</th>
+              <th>Casitas</th>
+              <th>Pacific Side</th>
+              <th>Off-Grid</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Waldorf Astoria Pedregal</td>
+              <td class="cross">✕</td>
+              <td class="cross">✕</td>
+              <td class="cross">Resort Only</td>
+              <td class="cross">✕</td>
+              <td class="cross">✕</td>
+            </tr>
+            <tr>
+              <td>Esperanza Auberge</td>
+              <td class="cross">✕</td>
+              <td class="cross">✕</td>
+              <td class="cross">Resort Only</td>
+              <td class="cross">✕</td>
+              <td class="cross">✕</td>
+            </tr>
+            <tr>
+              <td>Rancho Pescadero</td>
+              <td class="cross">✕</td>
+              <td class="cross">✕</td>
+              <td class="check">Yes · 12</td>
+              <td class="check">Yes</td>
+              <td class="cross">✕</td>
+            </tr>
+            <tr>
+              <td>Modern Elder Academy</td>
+              <td class="cross">✕</td>
+              <td class="cross">✕</td>
+              <td class="cross">Program Only</td>
+              <td class="check">Yes</td>
+              <td class="cross">✕</td>
+            </tr>
+            <tr class="us">
+              <td>Cucunumic</td>
+              <td class="check">✓</td>
+              <td class="check">✓</td>
+              <td class="check">Yes · 5</td>
+              <td class="check">Yes</td>
+              <td class="check">Yes</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="gap-callout rv d5">
+          <p>The only property on the Pacific side of Baja California Sur combining clinical-grade recovery technology with boutique overnight accommodation — in an off-grid estate rooted in culture, community, and chef-driven simplicity.</p>
+        </div>
+      </div>
+      <div></div>
+    </div>
+  </div>
+  <div class="slide-num">05 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     06 · THREE PILLARS
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s6">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/render_templo.png" alt="Temple Pavilion">
+    <div class="ov-heavy"></div>
+    <div class="ov-bottom"></div>
+  </div>
+  <div class="c">
+    <p class="act-label rv d1">Act II — The Business</p>
+    <p class="eyebrow rv d2">05 — Three-Pillar Integrated Model</p>
+    <h2 class="h2 rv d3">One estate. Three revenue engines.<br>Triple yield per overnight guest.</h2>
+    <div class="pillars-row rv d4">
+      <div class="pillar-col">
+        <div class="pillar-ghost">I</div>
+        <div class="pillar-stripe"></div>
+        <div class="pillar-title">Wellness &amp; Recovery</div>
+        <div class="pillar-sub">Clinical Technology · Full Circuit</div>
+        <div class="pillar-body">HBOT · Infrared · Cold Plunge · Cedar Sauna. Medical-grade modalities unavailable at any competing property on the Pacific corridor — the market's highest-margin offering.</div>
+        <div class="pillar-rev">$912K</div>
+        <div class="pillar-rev-label">Year 3 Revenue Target · Day Visits</div>
+        <ul class="pillar-bullets">
+          <li>160 day clients/month at maturity</li>
+          <li>$350–$600 per session · 3 tiers</li>
+          <li>55%+ gross margin</li>
+        </ul>
+      </div>
+      <div class="pillar-col">
+        <div class="pillar-ghost">II</div>
+        <div class="pillar-stripe"></div>
+        <div class="pillar-title">Boutique Casitas</div>
+        <div class="pillar-sub">5 Standalone Suites · Slow Stays</div>
+        <div class="pillar-body">Five private casitas dispersed across 38 acres — stone, reclaimed wood, palapa thatch, handmade tile. No air conditioning by design: passive cooling, Pacific breeze, outdoor showers among cardón.</div>
+        <div class="pillar-rev">$617K</div>
+        <div class="pillar-rev-label">Year 3 Revenue · Room + Treatment</div>
+        <ul class="pillar-bullets">
+          <li>$250–$350/night · room only</li>
+          <li>70% of guests book treatment</li>
+          <li>3.5-night avg stay · $945 incr. rev</li>
+        </ul>
+      </div>
+      <div class="pillar-col">
+        <div class="pillar-ghost">III</div>
+        <div class="pillar-stripe"></div>
+        <div class="pillar-title">Culture &amp; Community</div>
+        <div class="pillar-sub">Events · Artist Residency · Children</div>
+        <div class="pillar-body">Curated events, artist residencies, and a children's program rooted in El Pescadero. The infrastructure that transforms a property into an institution — building the moats no resort can replicate.</div>
+        <div class="pillar-rev">$88K</div>
+        <div class="pillar-rev-label">Year 3 Revenue · Direct Events</div>
+        <ul class="pillar-bullets">
+          <li>8 events/year · up to 40 guests</li>
+          <li>5 artist residencies/year</li>
+          <li>MEA alumni partnership · adjacent campus</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">06 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     07 · PILLAR I — WELLNESS
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s7">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/render_sauna.jpg" alt="Cedar Sauna">
+    <div class="ov-right"></div>
+  </div>
+  <div class="c">
+    <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:8vw;align-items:center">
+      <div>
+        <p class="eyebrow rv d1">06 — Pillar I · Wellness &amp; Recovery</p>
+        <h2 class="h2 rv d2 ph-text">The circuit no resort<br>in Baja California Sur offers.</h2>
+        <div class="circuit-flow rv d3">
+          <div class="circuit-node">
+            <div class="cn-name">Cold Plunge</div>
+            <div class="cn-dur">10<span class="cn-unit"> min</span></div>
+            <div class="cn-desc">50–55°F. Anti-inflammatory, metabolic activation, circulation.</div>
+          </div>
+          <div class="circuit-node">
+            <div class="cn-name">Infrared</div>
+            <div class="cn-dur">30<span class="cn-unit"> min</span></div>
+            <div class="cn-desc">ELEVE LED beds. Cellular energy, collagen, deep recovery.</div>
+          </div>
+          <div class="circuit-node">
+            <div class="cn-name">HBOT</div>
+            <div class="cn-dur">60<span class="cn-unit"> min</span></div>
+            <div class="cn-desc">100% O₂ at 2.0 ATA. Hard shell. Cognition, anti-aging.</div>
+          </div>
+          <div class="circuit-node">
+            <div class="cn-name">Cedar Sauna</div>
+            <div class="cn-dur">20<span class="cn-unit"> min</span></div>
+            <div class="cn-desc">Contrast therapy, cardiovascular, deep detox.</div>
+          </div>
+          <div class="circuit-node">
+            <div class="cn-name">Recovery</div>
+            <div class="cn-dur">Open</div>
+            <div class="cn-desc">Herbal teas, light nourishment, integration lounge.</div>
+          </div>
+        </div>
+        <div class="price-tiers rv d4">
+          <div class="price-tier">
+            <div class="pt-label">Essential Circuit</div>
+            <div class="pt-price">$350</div>
+            <div class="pt-duration">75 min · Cold + Sauna + Infrared</div>
+            <div class="pt-includes">First-timers, local residents, day guests from Cabo</div>
+          </div>
+          <div class="price-tier featured">
+            <div class="pt-label">Performance Recovery</div>
+            <div class="pt-price">$450</div>
+            <div class="pt-duration">120 min · Full Circuit + HBOT Soft Shell</div>
+            <div class="pt-includes">Athletes, active travelers, biohackers</div>
+          </div>
+          <div class="price-tier">
+            <div class="pt-label">Elite Optimization</div>
+            <div class="pt-price">$600</div>
+            <div class="pt-duration">150 min · Hard Shell HBOT 2.0 ATA</div>
+            <div class="pt-includes">UHNW, serious biohackers, protocol seekers</div>
+          </div>
+        </div>
+      </div>
+      <div></div>
+    </div>
+  </div>
+  <div class="slide-num">07 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     08 · PILLAR II — CASITAS
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s8">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/VISTA17_INTERIOR.jpg" alt="Casita Interior">
+    <div class="ov-left"></div>
+  </div>
+  <div class="c">
+    <div class="casita-layout">
+      <div>
+        <p class="eyebrow rv d1">07 — Pillar II · Boutique Casitas</p>
+        <h2 class="h2 rv d2 ph-text">Five casitas. No two alike.<br>One philosophy.</h2>
+        <div class="rule rv d3"></div>
+        <p class="large rv d4 ph-text">Natural materials. Passive cooling. Outdoor shower among cardón cactus under open sky. No air conditioning is a feature, not a limitation — the Pacific breeze keeps the property 10–15°C cooler than Cabo year-round.</p>
+        <div class="casita-specs rv d5">
+          <div>
+            <div class="cs-label">Floor Area</div>
+            <div class="cs-val">350–400 sq ft + 80 sq ft terrace</div>
+          </div>
+          <div>
+            <div class="cs-label">Construction</div>
+            <div class="cs-val">Stone · Wood · Palapa · Seismic</div>
+          </div>
+          <div>
+            <div class="cs-label">Bathroom</div>
+            <div class="cs-val">Indoor + Outdoor Shower · Natural Surround</div>
+          </div>
+          <div>
+            <div class="cs-label">Climate</div>
+            <div class="cs-val">Passive Cooling · Ceiling Fans · No AC</div>
+          </div>
+          <div>
+            <div class="cs-label">Power</div>
+            <div class="cs-val">Solar · 12V LED Warm Light</div>
+          </div>
+          <div>
+            <div class="cs-label">Connectivity</div>
+            <div class="cs-val">Starlink + Optional Disconnect Package</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow rv d3">Stay Options &amp; Pricing</p>
+        <div class="casita-rates rv d4">
+          <div class="cr-item">
+            <span class="cr-name">Casita · Room &amp; Breakfast</span>
+            <span class="cr-price">$250–$350<span class="cr-night">/night</span></span>
+          </div>
+          <div class="cr-item">
+            <span class="cr-name">Casita + Daily Wellness</span>
+            <span class="cr-price">$400–$550<span class="cr-night">/night</span></span>
+          </div>
+          <div class="cr-item">
+            <span class="cr-name">3-Night Immersion</span>
+            <span class="cr-price">$1,050–$1,575</span>
+          </div>
+          <div class="cr-item">
+            <span class="cr-name">5-Day Renewal Protocol</span>
+            <span class="cr-price">$2,000–$2,750</span>
+          </div>
+          <div class="cr-item">
+            <span class="cr-name">Artist Residency · 4 wks</span>
+            <span class="cr-price">$1,200–$2,000<span class="cr-night">/mo</span></span>
+          </div>
+          <div class="cr-item">
+            <span class="cr-name">Full Property Buyout</span>
+            <span class="cr-price">On Request</span>
+          </div>
+        </div>
+        <div class="rv d5" style="margin-top:1.8rem;padding:1.4rem;border:1px solid rgba(168,120,80,0.22)">
+          <div class="eyebrow terra" style="margin-bottom:0.6rem">Triple Revenue Per Guest</div>
+          <p class="body" style="font-size:0.88rem">70% of casita guests book at least one treatment. Average stay: 3.5 nights · 2.1 sessions · $945 incremental treatment revenue per guest. Room + treatment + F&amp;B = triple yield vs. day-visit-only model.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">08 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     09 · PILLAR III — CULTURE & COMMUNITY
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s9" style="background:var(--night)">
+  <div class="bg" style="opacity:0.2">
+    <img src="./Cucunumic/07. Fotos/render_fireroom.jpg" alt="Fire Room">
+    <div class="ov-dark"></div>
+  </div>
+  <div class="c">
+    <p class="eyebrow rv d1">08 — Pillar III · Culture &amp; Community</p>
+    <h2 class="h2 rv d2">The infrastructure that turns<br>a property into an institution.</h2>
+    <div class="culture-cols rv d3">
+      <div class="cc-col">
+        <div class="cc-eyebrow">A · Special Events</div>
+        <div class="cc-title">8 Events Per Year · $88K Y3</div>
+        <div class="cc-body">Curated gatherings for 16–40 guests — scheduled in shoulder and low season to fill revenue gaps while building an earned media library money cannot buy.</div>
+        <ul class="event-list">
+          <li><span>Wellness Weekend Retreat</span><span class="ev-freq">4× · $950–1,400pp</span></li>
+          <li><span>Surf + Recovery Camp</span><span class="ev-freq">2× · $1,400–1,800pp</span></li>
+          <li><span>Photography Workshop</span><span class="ev-freq">3× · $1,200–1,600pp</span></li>
+          <li><span>Full Moon / Solstice</span><span class="ev-freq">4× · $350–500pp</span></li>
+          <li><span>Corporate Property Buyout</span><span class="ev-freq">2× · $8K–16K/night</span></li>
+          <li><span>Chef's Table Dinner Series</span><span class="ev-freq">6× · $120–180pp</span></li>
+        </ul>
+      </div>
+      <div class="cc-col">
+        <div class="cc-eyebrow">B · Artist Residency</div>
+        <div class="cc-title">5 Residents · 4 Weeks Each</div>
+        <div class="cc-body">Visual art, photography, ceramics, writing, music, culinary art. Reduced rate in exchange for one community-facing output: a workshop, an installation, a public talk, or a work that remains at Cucunumic.</div>
+        <div class="cc-stat">
+          <div class="cc-stat-num">$1,200–2,000<span style="font-size:0.65rem;color:var(--mist)">/mo</span></div>
+          <div class="cc-stat-label">vs. $250–350/night standard rate</div>
+        </div>
+        <p class="cc-body" style="margin-top:1rem">Artist alumni become lifetime ambassadors — their work and posts reach audiences Cucunumic cannot buy. The residency differentiates at essentially zero marginal cost.</p>
+      </div>
+      <div class="cc-col">
+        <div class="cc-eyebrow">C · MEA Partnership + Children</div>
+        <div class="cc-title">The Partnership That Changes Everything</div>
+        <div class="cc-body">The Modern Elder Academy campus is directly adjacent to the property. 30–40 high-net-worth participants per cohort, multiple cohorts per year — the highest-value wellness-forward demographic in the corridor.</div>
+        <div class="cc-stat">
+          <div class="cc-stat-num">15–20<span style="font-size:0.65rem;color:var(--mist)">%</span></div>
+          <div class="cc-stat-label">of Year 1 casita revenue from MEA alone</div>
+        </div>
+        <p class="cc-body" style="margin-top:1rem">Children's program: art workshops, garden education, surf safety for children of El Pescadero — $10–12K/year, non-negotiable, funded entirely from operations.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">09 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     10 · REVENUE ARCHITECTURE — 5-Year Chart
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s10" style="background:var(--coal)">
+  <div class="c">
+    <p class="act-label rv d1">Act III — The Numbers</p>
+    <p class="eyebrow rv d2">09 — Five-Year Revenue Architecture</p>
+    <div class="rev-header-row rv d3">
+      <h2 class="h2">Five streams.<br>Five years. One estate.</h2>
+      <div style="text-align:right">
+        <div style="font-family:var(--serif);font-size:clamp(2rem,3.8vw,3.6rem);font-weight:300;color:var(--moon);line-height:1">$2.13M</div>
+        <div style="font-family:var(--sans);font-size:0.6rem;font-weight:200;letter-spacing:0.42em;text-transform:uppercase;color:var(--terra);margin-top:0.3rem">Year 5 Total Revenue</div>
+        <div style="font-family:var(--serif);font-size:1.4rem;font-weight:300;color:var(--sand);margin-top:0.8rem">$3.73M</div>
+        <div style="font-family:var(--sans);font-size:0.58rem;font-weight:200;letter-spacing:0.38em;text-transform:uppercase;color:var(--mist);margin-top:0.2rem">5-Year Cumulative Net Income</div>
+      </div>
+    </div>
+
+    <div class="year-bars rv d4">
+      <div class="year-col">
+        <div class="year-bar-wrap"><div class="year-bar d1" style="height:42%"></div></div>
+        <div class="year-rev">$903K</div>
+        <div class="year-label">Year 1</div>
+      </div>
+      <div class="year-col">
+        <div class="year-bar-wrap"><div class="year-bar d2" style="height:63%"></div></div>
+        <div class="year-rev">$1.34M</div>
+        <div class="year-label">Year 2</div>
+      </div>
+      <div class="year-col">
+        <div class="year-bar-wrap"><div class="year-bar d3" style="height:83%"></div></div>
+        <div class="year-rev">$1.76M</div>
+        <div class="year-label">Year 3</div>
+      </div>
+      <div class="year-col">
+        <div class="year-bar-wrap"><div class="year-bar d4" style="height:91%"></div></div>
+        <div class="year-rev">$1.94M</div>
+        <div class="year-label">Year 4</div>
+      </div>
+      <div class="year-col">
+        <div class="year-bar-wrap"><div class="year-bar d5" style="height:100%"></div></div>
+        <div class="year-rev">$2.13M</div>
+        <div class="year-label">Year 5</div>
+      </div>
+    </div>
+
+    <div class="stream-legend rv d5">
+      <div class="sl-item"><div class="sl-dot" style="background:var(--terra)"></div><span class="sl-label">Wellness Day Visits</span></div>
+      <div class="sl-item"><div class="sl-dot" style="background:rgba(168,120,80,0.65)"></div><span class="sl-label">Casita Rooms</span></div>
+      <div class="sl-item"><div class="sl-dot" style="background:rgba(168,120,80,0.45)"></div><span class="sl-label">Overnight Treatments</span></div>
+      <div class="sl-item"><div class="sl-dot" style="background:rgba(168,120,80,0.28)"></div><span class="sl-label">Food &amp; Beverage</span></div>
+      <div class="sl-item"><div class="sl-dot" style="background:rgba(168,120,80,0.15)"></div><span class="sl-label">Events &amp; Residency</span></div>
+    </div>
+
+    <div class="rv d6" style="margin-top:1.2rem;padding:1rem 1.5rem;border-left:2px solid var(--terra);max-width:620px">
+      <p class="body" style="font-size:0.88rem">Break-even at $512K annual revenue. Year 1 projects $903K — 76% above break-even. The wellness center alone covers fixed costs; casitas and events are structurally additive from day one.</p>
+    </div>
+  </div>
+  <div class="slide-num">10 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     11 · FINANCIAL SUMMARY
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s11" style="background:var(--night)">
+  <div class="c">
+    <p class="eyebrow rv d1">10 — Five-Year Profitability</p>
+    <h2 class="h2 rv d2">EBITDA margins that<br>compound with scale.</h2>
+
+    <table class="fin-table rv d3">
+      <thead>
+        <tr>
+          <th style="text-align:left">Metric</th>
+          <th>Year 1</th>
+          <th>Year 2</th>
+          <th>Year 3</th>
+          <th>Year 4</th>
+          <th>Year 5</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="total">
+          <td>Total Revenue</td>
+          <td>$903K</td>
+          <td>$1,339K</td>
+          <td>$1,760K</td>
+          <td>$1,936K</td>
+          <td>$2,129K</td>
+        </tr>
+        <tr>
+          <td>Total OpEx</td>
+          <td>$512K</td>
+          <td>$667K</td>
+          <td>$795K</td>
+          <td>$847K</td>
+          <td>$903K</td>
+        </tr>
+        <tr class="ebitda">
+          <td>EBITDA</td>
+          <td>$391K</td>
+          <td>$672K</td>
+          <td>$965K</td>
+          <td>$1,089K</td>
+          <td>$1,226K</td>
+        </tr>
+        <tr class="margin">
+          <td>EBITDA Margin</td>
+          <td>43%</td>
+          <td>50%</td>
+          <td>55%</td>
+          <td>56%</td>
+          <td>58%</td>
+        </tr>
+        <tr>
+          <td>Debt Service</td>
+          <td>$122K</td>
+          <td>$122K</td>
+          <td>$122K</td>
+          <td>$122K</td>
+          <td>$122K</td>
+        </tr>
+        <tr class="total">
+          <td>Net Income</td>
+          <td>$269K</td>
+          <td>$550K</td>
+          <td>$843K</td>
+          <td>$967K</td>
+          <td>$1,104K</td>
+        </tr>
+        <tr class="margin">
+          <td>Net Margin</td>
+          <td>30%</td>
+          <td>41%</td>
+          <td>48%</td>
+          <td>50%</td>
+          <td>52%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="margin-track rv d4">
+      <p class="eyebrow mist" style="margin-bottom:0.8rem">EBITDA Margin Progression</p>
+      <div class="margin-bars">
+        <div class="mb-year">
+          <div class="mb-label">Year 1</div>
+          <div class="mb-bar-wrap"><div class="mb-bar" style="width:43%;transition-delay:0.3s"></div></div>
+          <div class="mb-pct">43%</div>
+        </div>
+        <div class="mb-year">
+          <div class="mb-label">Year 2</div>
+          <div class="mb-bar-wrap"><div class="mb-bar" style="width:50%;transition-delay:0.5s"></div></div>
+          <div class="mb-pct">50%</div>
+        </div>
+        <div class="mb-year">
+          <div class="mb-label">Year 3</div>
+          <div class="mb-bar-wrap"><div class="mb-bar" style="width:55%;transition-delay:0.7s"></div></div>
+          <div class="mb-pct">55%</div>
+        </div>
+        <div class="mb-year">
+          <div class="mb-label">Year 4</div>
+          <div class="mb-bar-wrap"><div class="mb-bar" style="width:56%;transition-delay:0.9s"></div></div>
+          <div class="mb-pct">56%</div>
+        </div>
+        <div class="mb-year">
+          <div class="mb-label">Year 5</div>
+          <div class="mb-bar-wrap"><div class="mb-bar" style="width:58%;transition-delay:1.1s"></div></div>
+          <div class="mb-pct">58%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">11 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     12 · CAPITAL STRUCTURE
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s12" style="background:var(--coal)">
+  <div class="c">
+    <p class="eyebrow rv d1">11 — Capital Requirements &amp; Structure</p>
+    <h2 class="h2 rv d2">$1.76M builds the full vision.<br>Phased path available.</h2>
+    <div class="capex-layout rv d3">
+      <div>
+        <p class="eyebrow sand" style="margin-bottom:1.2rem">CapEx Breakdown · Recommended Scenario</p>
+        <div class="capex-row">
+          <span class="capex-name">Wellness Center · HBOT Hard Shell + Build</span>
+          <span class="capex-amt">$1,100K</span>
+        </div>
+        <div class="capex-row">
+          <span class="capex-name">5 Casitas · Construction ($75K avg)</span>
+          <span class="capex-amt">$375K</span>
+        </div>
+        <div class="capex-row">
+          <span class="capex-name">Casitas · Off-Grid Solar + Water Hookup</span>
+          <span class="capex-amt">$45K</span>
+        </div>
+        <div class="capex-row">
+          <span class="capex-name">Casitas · FF&amp;E + Baja Art ($12K avg)</span>
+          <span class="capex-amt">$60K</span>
+        </div>
+        <div class="capex-row">
+          <span class="capex-name">Open-Air Event Pavilion · Palapa Structure</span>
+          <span class="capex-amt">$67K</span>
+        </div>
+        <div class="capex-row">
+          <span class="capex-name">Kitchen Upgrade + Juice Bar + Pantry</span>
+          <span class="capex-amt">$23K</span>
+        </div>
+        <div class="capex-row">
+          <span class="capex-name">Contingency (15%)</span>
+          <span class="capex-amt">$90K</span>
+        </div>
+        <div class="capex-row capex-total-row">
+          <span class="capex-name">Total Project Cost</span>
+          <span class="capex-amt">$1,760K</span>
+        </div>
+        <div class="rv d4" style="margin-top:1.5rem;padding:0.9rem 1rem;border:1px solid rgba(240,235,224,0.07)">
+          <p class="body" style="font-size:0.82rem"><strong style="color:var(--bone)">Phased Option:</strong> Wellness Center + 3 Casitas in Year 1 for $1,520K. Add 2 casitas in Year 2 from operating cash flow — $240K funded without additional equity.</p>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow sand" style="margin-bottom:1.2rem">Capital Structure · Recommended</p>
+        <div class="cap-vis rv d4">
+          <div class="cap-bar">
+            <div class="cap-seg eq">Equity 50%</div>
+            <div class="cap-seg dt">Debt 50%</div>
+            <div class="cap-seg wc">WC</div>
+          </div>
+          <div class="cap-legend">
+            <div class="cl-item"><div class="cl-dot" style="background:var(--terra)"></div><span class="cl-label">Partner Equity · $880K</span></div>
+            <div class="cl-item"><div class="cl-dot" style="background:rgba(168,120,80,0.35)"></div><span class="cl-label">Debt · $880K @ 7% · 10yr</span></div>
+            <div class="cl-item"><div class="cl-dot" style="background:rgba(168,120,80,0.15)"></div><span class="cl-label">Working Capital · $200K</span></div>
+          </div>
+        </div>
+        <div class="debt-box rv d5">
+          <div class="eyebrow terra" style="margin-bottom:0.5rem">Annual Debt Service</div>
+          <div style="font-family:var(--serif);font-size:1.7rem;font-weight:300;color:var(--moon)">$122K<span style="font-family:var(--sans);font-size:0.68rem;color:var(--mist);margin-left:0.3rem">/ year</span></div>
+          <p class="body" style="font-size:0.85rem;margin-top:0.5rem">Comfortably covered from Year 1 EBITDA of $391K. The property services its own debt from the first full year of operations.</p>
+        </div>
+        <div class="rv d6" style="margin-top:1.2rem">
+          <div class="capex-row" style="border-bottom:none">
+            <span class="capex-name" style="font-size:0.82rem;color:var(--mist)">Total Liquid Capital Required</span>
+            <span class="capex-amt" style="color:var(--terra)">$1,080K</span>
+          </div>
+          <p style="font-family:var(--sans);font-size:0.62rem;font-weight:200;letter-spacing:0.3em;text-transform:uppercase;color:var(--mist);margin-top:0.4rem">Equity $880K + Working Capital $200K</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">12 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     13 · RETURNS
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s13">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/VISTA06_TEMPLO-INTERIOR.png" alt="Temple Interior">
+    <div class="ov-heavy"></div>
+  </div>
+  <div class="c">
+    <p class="act-label rv d1">Act IV — The Case</p>
+    <p class="eyebrow rv d2">12 — Investor Returns</p>
+    <h2 class="h2 rv d3" style="max-width:28ch">The numbers that justify<br>the conviction.</h2>
+    <div class="returns-grid rv d4">
+      <div class="return-card">
+        <div class="rc-eyebrow">Projected IRR · 5-Year Horizon</div>
+        <div class="rc-num">24–28<span style="font-size:48%;color:var(--terra)">%</span></div>
+        <div class="rc-context">Based on $1.76M total investment, 50/50 equity-debt structure, and conservative Year 1–5 revenue projections grounded in Fiturca market data and BCS corridor comps.</div>
+      </div>
+      <div class="return-card">
+        <div class="rc-eyebrow">5-Year Cumulative ROI</div>
+        <div class="rc-num">212<span style="font-size:48%;color:var(--terra)">%</span></div>
+        <div class="rc-context">$3.73M cumulative net income on $1.76M investment over 5 years. Vs. 140% ROI under the original single-pillar wellness-only scenario — the integrated model is the right model.</div>
+      </div>
+      <div class="return-card">
+        <div class="rc-eyebrow">Equity Payback Period</div>
+        <div class="rc-num">2.5<span style="font-size:48%;color:var(--terra)"> yrs</span></div>
+        <div class="rc-context">$880K equity + $200K working capital = $1,080K liquid requirement. Year 1 net income of $269K begins immediate repayment. Cash-flow-positive from the first full year of operation.</div>
+      </div>
+      <div class="return-card">
+        <div class="rc-eyebrow">Exit Value · Year 3 · 6–8× Revenue</div>
+        <div class="rc-num">$10.5–14<span style="font-size:48%;color:var(--terra)">M</span></div>
+        <div class="rc-context">At Year 3 revenue of $1.76M. Boutique wellness properties with cultural identity and off-grid positioning command premium multiples. Hold or position for sale at a transformative multiple on invested capital.</div>
+      </div>
+    </div>
+    <div class="rv d5" style="margin-top:1.8rem;padding:0.9rem 1.5rem;border-left:2px solid var(--terra);max-width:640px">
+      <p class="large" style="font-size:0.98rem">Bear case: 55% wellness volume + 35% casita occupancy still breaks even without loss. The wellness center alone covers fixed costs — casitas and events are structurally additive, not required for solvency.</p>
+    </div>
+  </div>
+  <div class="slide-num">13 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     14 · THE ASK
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s14" style="background:var(--night)">
+  <div class="c">
+    <p class="eyebrow rv d1">13 — The Opportunity</p>
+    <div class="ask-layout">
+      <div>
+        <h2 class="h2 rv d2">What we are<br>building together.</h2>
+        <div class="rule rv d3"></div>
+        <div class="ask-amount rv d4">
+          $880K
+          <span class="ask-stake">50% Equity Stake · 38-Acre Off-Grid Estate</span>
+        </div>
+        <ul class="ask-list rv d5">
+          <li>50% ownership of the only integrated wellness estate on the Pacific side of Baja California Sur — HBOT, infrared, cold plunge, sauna, 5 casitas, event pavilion, and a cultural programming identity that resorts cannot replicate</li>
+          <li>Access to 738,000 annual wellness visitors spending $3K/trip — the corridor's highest-value, most-underserved demographic</li>
+          <li>A first-mover brand position: clinical technology + boutique accommodation + artist residency + MEA adjacency form moats that compound over time</li>
+          <li>Year 3 property generating $843K net income on $1.76M total investment — 48% net margin at maturity</li>
+          <li>Exit pathway at $10.5M–$14M at Year 3 revenue multiples, or hold a $1M+ net income asset with optionality to expand to East Cape, La Paz, or a second Cucunumic</li>
+        </ul>
+      </div>
+      <div>
+        <div class="offer-box rv d3">
+          <div class="offer-title">Partnership Terms · Recommended Scenario</div>
+          <div class="offer-row">
+            <span class="or-label">Total Project Cost</span>
+            <span class="or-val">$1,760,000</span>
+          </div>
+          <div class="offer-row">
+            <span class="or-label">Equity Required (50%)</span>
+            <span class="or-val">$880,000</span>
+          </div>
+          <div class="offer-row">
+            <span class="or-label">Working Capital Reserve</span>
+            <span class="or-val">$200,000</span>
+          </div>
+          <div class="offer-row">
+            <span class="or-label">Total Liquid Capital Required</span>
+            <span class="or-val">$1,080,000</span>
+          </div>
+          <div class="offer-row">
+            <span class="or-label">Debt Financing</span>
+            <span class="or-val">$880K @ 7% · 10yr</span>
+          </div>
+          <div class="offer-row">
+            <span class="or-label">Annual Debt Service</span>
+            <span class="or-val">$122,000</span>
+          </div>
+          <div class="offer-row">
+            <span class="or-label">Year 1 Net Income</span>
+            <span class="or-val">$269,000</span>
+          </div>
+          <div class="offer-row">
+            <span class="or-label">Year 3 Net Income</span>
+            <span class="or-val">$843,000</span>
+          </div>
+          <div class="offer-row" style="border-bottom:none">
+            <span class="or-label">Exit Value (Year 3 · 6–8× Rev)</span>
+            <span class="or-val">$10.5M–$14M</span>
+          </div>
+        </div>
+        <div class="rv d4" style="margin-top:1.2rem;padding:1rem 1.2rem;border:1px solid rgba(240,235,224,0.07)">
+          <p class="eyebrow mist" style="margin-bottom:0.45rem;font-size:0.6rem">Build Timeline · 12 Months to Grand Opening</p>
+          <p class="body" style="font-size:0.82rem">M1–3: Planning, legal, architect, ELEVE order placed. M4–10: Wellness center + casitas built concurrently. M9–11: Fit-out, staff hired, soft opening. M12: Grand Opening with MEA alumni, concierge FAM tour, and founding member launch.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">14 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     15 · CLOSE
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s15">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/VISTA15_FACHADA.jpg" alt="Cucunumic — Fachada">
+    <div class="ov-center"></div>
+    <div class="ov-bottom"></div>
+  </div>
+  <div class="c">
+    <div class="display rv d1 ph-text">cucunumic</div>
+    <div class="cover-rule rv d2"></div>
+    <p class="close-tagline rv d3">A place where the land is not backdrop but protagonist — where wellness is not an amenity but a purpose, and where a business earns its place in a community by caring for it.</p>
+    <div class="rule center rv d4" style="margin-top:2.5rem;margin-bottom:2.5rem"></div>
+    <p class="close-contact rv d5">El Pescadero – Cabo San Lucas Corridor · Baja California Sur, Mexico</p>
+    <p class="close-contact rv d6" style="margin-top:0.4rem">This document is confidential and intended for authorized recipients only · April 2026</p>
+  </div>
+  <div class="slide-num">15 / 15</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════════════ -->
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dotsEl  = document.getElementById('dots');
+  const progEl  = document.getElementById('prog');
+  const ctrEl   = document.getElementById('counter');
+  const total   = slides.length;
+
+  // Build nav dots
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' on' : '');
+    d.title = `Slide ${i + 1}`;
+    d.addEventListener('click', () => slides[i].scrollIntoView({ behavior: 'smooth' }));
+    dotsEl.appendChild(d);
+  });
+  const dots = Array.from(dotsEl.querySelectorAll('.dot'));
+
+  let currentIdx = 0;
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const idx = slides.indexOf(entry.target);
+      if (idx === -1) return;
+      currentIdx = idx;
+
+      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+      dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+
+      const pct = total > 1 ? (idx / (total - 1)) * 100 : 100;
+      progEl.style.height = pct + '%';
+      ctrEl.textContent = String(idx + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    });
+  }, { threshold: 0.5 });
+
+  slides.forEach(s => io.observe(s));
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault();
+      const next = Math.min(currentIdx + 1, total - 1);
+      slides[next].scrollIntoView({ behavior: 'smooth' });
+    }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const prev = Math.max(currentIdx - 1, 0);
+      slides[prev].scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>
+
+</body>
+</html>
