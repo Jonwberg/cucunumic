@@ -122,18 +122,6 @@
       transform: scale(1.5);
       border-color: var(--moon);
     }
-    /* Appendix dots dimmed */
-    #dots .dot:nth-child(n+12) {
-      opacity: 0.4;
-    }
-    #dots .dot:nth-child(n+12).on {
-      opacity: 1;
-    }
-    /* Appendix divider dot gets a subtle gap */
-    #dots .dot:nth-child(12) {
-      margin-top: 0.6rem;
-    }
-
     /* ─── PROGRESS ───────────────────────────────────────── */
     #prog {
       position: fixed;
@@ -176,7 +164,7 @@
     .eyebrow {
       font-family: var(--sans);
       font-weight: 200;
-      font-size: 0.65rem;
+      font-size: 0.75rem;
       letter-spacing: 0.45em;
       text-transform: uppercase;
       color: var(--moon);
@@ -187,7 +175,7 @@
 
     .label {
       font-family: var(--sans);
-      font-size: 0.62rem;
+      font-size: 0.72rem;
       font-weight: 300;
       letter-spacing: 0.35em;
       text-transform: uppercase;
@@ -226,7 +214,7 @@
     .body {
       font-family: var(--body);
       font-weight: 400;
-      font-size: clamp(0.95rem, 1.35vw, 1.08rem);
+      font-size: clamp(1.05rem, 1.5vw, 1.2rem);
       line-height: 1.82;
       color: var(--bone-dim);
     }
@@ -1439,7 +1427,7 @@
       <!-- Left: property facts -->
       <div>
         <p class="eyebrow rv">07 · El Predio en Detalle</p>
-        <h2 class="h2 rv d1">15.71 hectáreas<br>tituladas.</h2>
+        <h2 class="h2 rv d1">15.71 hectáreas<br>escrituradas.</h2>
         <div class="rule rv d2"></div>
 
         <div class="predio-facts rv d2">
@@ -1650,217 +1638,6 @@
       <div class="rule rv d2" style="margin: 0 auto 2.5rem;"></div>
       <p class="cierre-logo rv d3">Cucunumic</p>
       <p class="cierre-sub rv d4">Baja California Sur · Abril 2026</p>
-    </div>
-  </section>
-
-
-  <!-- ════════════════════════════════════════════════ -->
-  <!-- APPENDIX A · DIVIDER                           -->
-  <!-- ════════════════════════════════════════════════ -->
-  <section class="slide" id="s-appendix" style="background: var(--night);">
-    <div class="c" style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start; height: 100%;">
-      <p style="font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--rust); margin-bottom: 1.2rem;">Material de Referencia</p>
-      <h2 style="font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 300; color: var(--bone); line-height: 1.0; margin: 0 0 1.5rem;">Apéndice A</h2>
-      <div style="width: 3rem; height: 1px; background: var(--rust); margin-bottom: 1.5rem;"></div>
-      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-        <p style="font-family: var(--sans); font-size: 0.75rem; color: var(--mist); letter-spacing: 0.1em;">A1 · Visión · Modelo de Negocio</p>
-        <p style="font-family: var(--sans); font-size: 0.75rem; color: var(--mist); letter-spacing: 0.1em;">A2 · El Activo · La Estructura</p>
-        <p style="font-family: var(--sans); font-size: 0.75rem; color: var(--mist); letter-spacing: 0.1em;">A3 · Posibles Subdivisiones</p>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ════════════════════════════════════════════════ -->
-  <!-- A1 · OFICIO TALLER · RENDERS                   -->
-  <!-- ════════════════════════════════════════════════ -->
-  <section class="slide" id="s-renders">
-
-    <!-- 4-cell render grid: hero left, 3 right -->
-    <div class="render-grid">
-
-      <div class="render-cell hero rv">
-        <img src="./Cucunumic/07.%20Fotos/render_fachada_hero.jpg" alt="Fachada exterior · Oficio Taller">
-        <div class="render-overlay"></div>
-        <span class="render-tag">Fachada · exterior</span>
-      </div>
-
-      <div class="render-cell rv d1">
-        <img src="./Cucunumic/07.%20Fotos/render_fireroom.jpg" alt="Sala de fuego · interior">
-        <div class="render-overlay"></div>
-        <span class="render-tag">Sala de fuego · interior</span>
-      </div>
-
-      <div class="render-cell rv d2">
-        <img src="./Cucunumic/07.%20Fotos/render_templo.png" alt="Templo · fachada al atardecer">
-        <div class="render-overlay"></div>
-        <span class="render-tag">Templo · atardecer</span>
-      </div>
-
-      <div class="render-cell rv d3">
-        <img src="./Cucunumic/07.%20Fotos/render_sauna.jpg" alt="Sauna · wellness">
-        <div class="render-overlay"></div>
-        <span class="render-tag">Sauna · wellness</span>
-      </div>
-
-    </div>
-
-    <!-- Header overlay -->
-    <div class="renders-header">
-      <div>
-        <p class="eyebrow rv" style="margin-bottom: 0.4rem;">— · Arquitectura · Referencia</p>
-        <h2 class="h2 rv d1" style="font-size: clamp(1.4rem, 2.5vw, 2.2rem);">Diseño que nace<br>del territorio.</h2>
-      </div>
-      <div class="renders-credit rv d1">
-        Oficio Taller<br>
-        Arquitecta regional · socia silenciosa<br>
-        El Pescadero · BCS
-      </div>
-    </div>
-
-  </section>
-
-
-
-
-  <!-- ════════════════════════════════════════════════ -->
-  <!-- A3 · NUESTRA VISIÓN                            -->
-  <!-- ════════════════════════════════════════════════ -->
-  <section class="slide" id="s9">
-    <div class="bg">
-      <img src="./Cucunumic/07.%20Fotos/20220225_155103.jpg" alt="Cardón en la niebla">
-    </div>
-    <div class="ov-left"></div>
-
-    <div class="c" style="max-width: 52vw; padding-left: 0; align-self: center; display: flex; flex-direction: column; justify-content: center; gap: 0;">
-      <!-- Header row -->
-      <div style="margin-bottom: 2rem;">
-        <p class="eyebrow rv">A2 · Visión · Modelo de Negocio</p>
-        <h2 class="h2 rv d1">Hospitalidad íntima<br>+ Bienestar.</h2>
-        <div class="rule rv d2"></div>
-        <p class="body rv d2" style="max-width: 46ch; margin-top: 0.8rem;">
-          Un concepto que combina lodging íntimo con un circuit de bienestar — del territorio, a escala humana, con una economía sólida detrás.
-        </p>
-      </div>
-
-      <!-- Two-column: model + pillars -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start;">
-
-        <div class="model-box rv d3" style="margin-top: 0;">
-          <div class="model-row">Suites &amp; Residencias <span>3–5 unidades · escala íntima</span></div>
-          <div class="model-row">Wellness Circuit <span>Day passes · membresías · retiros</span></div>
-          <div class="model-row">Gastronomía del lugar <span>Sencillo, honesto, de calidad</span></div>
-          <div class="model-row">Experiencias de territorio <span>Naturaleza · cultura · comunidad</span></div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem 1.5rem;" class="rv d4">
-          <div class="pillar">
-            <div class="pillar-title">Escala Íntima</div>
-            <div class="pillar-desc">Sin masificación. Cada visita irrepetible</div>
-          </div>
-          <div class="pillar">
-            <div class="pillar-title">Del Territorio</div>
-            <div class="pillar-desc">Experiencias que nacen del lugar</div>
-          </div>
-          <div class="pillar">
-            <div class="pillar-title">Arquitectura Viva</div>
-            <div class="pillar-desc">Diseño que acompaña al sitio</div>
-          </div>
-          <div class="pillar">
-            <div class="pillar-title">Viable</div>
-            <div class="pillar-desc">Económicamente sólido sin comprometer la esencia</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ════════════════════════════════════════════════ -->
-  <!-- A4 · LA ESTRUCTURA / EL ACTIVO                 -->
-  <!-- ════════════════════════════════════════════════ -->
-  <section class="slide" id="s10">
-    <div class="ov-bone"></div>
-    <div class="c" style="z-index: 10; position: relative;">
-      <p class="eyebrow dark rv">A3 · El Activo</p>
-      <h2 class="h2 dark rv d1">Ya es invertible.<br>La estructura está lista.</h2>
-      <div class="rule rv d2"></div>
-
-      <div class="asset-cards rv d2">
-        <div class="asset-card">
-          <div class="asset-card-icon">◼</div>
-          <div class="asset-card-title">Predio Titulado</div>
-          <div class="asset-card-body">
-            15.71 ha escrituradas, con vista al Pacífico, arroyo estacional y corredor ecológico. Elimina el principal riesgo de proyectos Baja: incertidumbre de dominio.
-          </div>
-        </div>
-        <div class="asset-card">
-          <div class="asset-card-icon">◼</div>
-          <div class="asset-card-title">SAPI de C.V.</div>
-          <div class="asset-card-body">
-            Estructura corporativa diseñada para inversión: permite emisión de clases de acciones, derechos de veto, restricciones de transferencia y mecanismos de salida alineados con capital institucional.
-          </div>
-        </div>
-        <div class="asset-card">
-          <div class="asset-card-icon">◼</div>
-          <div class="asset-card-title">Arquitecta Regional</div>
-          <div class="asset-card-body">
-            Socia silenciosa con profundo conocimiento de Cerritos / El Pescadero / Los Cabos. Ventaja real en diseño-permiso, red de contratistas y ejecución costera.
-          </div>
-        </div>
-      </div>
-
-      <div class="phase-strip rv d3">
-        <div class="phase">
-          <div class="phase-dur">6 – 12 meses</div>
-          <div class="phase-num">Fase 0</div>
-          <div class="phase-title">Preinversión</div>
-          <div class="phase-body">Topografía, geotécnica, master plan esquemático, estrategia de permisos (MIA/SEMARNAT), concepto de utilities off-grid.</div>
-        </div>
-        <div class="phase">
-          <div class="phase-dur">12 – 24 meses</div>
-          <div class="phase-num">Fase 1</div>
-          <div class="phase-title">Construcción</div>
-          <div class="phase-body">Infraestructura core + habitaciones iniciales + primer wellness circuit. Probar ADR y ocupación antes de escalar.</div>
-        </div>
-        <div class="phase">
-          <div class="phase-dur">Según resultados</div>
-          <div class="phase-num">Fase 2</div>
-          <div class="phase-title">Expansión</div>
-          <div class="phase-body">Habitaciones adicionales, villas, residencias de marca — solo tras validar métricas de demanda y precio en Fase 1.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ════════════════════════════════════════════════ -->
-  <!-- A3 · POSIBLES SUBDIVISIONES                    -->
-  <!-- ════════════════════════════════════════════════ -->
-  <section class="slide" id="s-subdivisions" style="background: var(--night);">
-    <div class="c" style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 6vw; align-items: center; height: 100%; position: relative; z-index: 10;">
-
-      <div>
-        <p class="eyebrow rv">A3 · Material de Referencia</p>
-        <h2 class="h2 rv d1" style="margin-bottom: 0.8rem;">Posibles<br>Subdivisiones.</h2>
-        <div class="rule rv d2" style="margin-bottom: 1.4rem;"></div>
-        <p class="body rv d2" style="color: var(--mist); max-width: 36ch; line-height: 1.7;">
-          Vista aérea del polígono con subdivisiones potenciales marcadas. Referencia para análisis de estructura de propiedad y estrategia de desarrollo por etapas.
-        </p>
-      </div>
-
-      <div class="rv d2" style="display: flex; flex-direction: column; gap: 0.6rem;">
-        <img src="./Cucunumic/07.%20Fotos/google_earth_subdivisions.jpg"
-             alt="Posibles subdivisiones — Cucunumic 15.71 ha"
-             style="width: 100%; max-height: 78vh; object-fit: contain; border-radius: 2px;
-                    box-shadow: 0 8px 40px rgba(0,0,0,0.7); display: block;
-                    image-orientation: from-image;">
-        <p style="font-family: var(--sans); font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mist);">
-          Google Earth · subdivisiones potenciales del predio
-        </p>
-      </div>
-
     </div>
   </section>
 
