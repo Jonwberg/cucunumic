@@ -624,6 +624,7 @@
         transparent 100%
       );
       z-index: 2;
+      pointer-events: none;
     }
     /* thin separator between strips */
     .eco-strip + .eco-strip {
@@ -1979,40 +1980,41 @@
 
   <script>
     (function () {
-      const lb      = document.getElementById('lightbox');
-      const lbImg   = document.getElementById('lightbox-img');
-      const lbCap   = document.getElementById('lightbox-caption');
-      const lbClose = document.getElementById('lightbox-close');
+      var lb      = document.getElementById('lightbox');
+      var lbImg   = document.getElementById('lightbox-img');
+      var lbCap   = document.getElementById('lightbox-caption');
+      var lbClose = document.getElementById('lightbox-close');
 
-      function open(src, caption) {
-        lbImg.src = src;
+      function lbOpen(src, caption) {
+        lbImg.setAttribute('src', src);
         lbCap.textContent = caption || '';
         lb.classList.add('open');
-        document.documentElement.style.overflow = 'hidden';
       }
-      function close() {
+      function lbClose2() {
         lb.classList.remove('open');
-        document.documentElement.style.overflow = '';
-        setTimeout(() => { lbImg.src = ''; }, 300);
+        setTimeout(function() { lbImg.setAttribute('src', ''); }, 350);
       }
 
-      // Click on any eco-strip image/video → open lightbox
-      document.querySelectorAll('.eco-strip').forEach(strip => {
-        strip.addEventListener('click', () => {
-          const img  = strip.querySelector('img');
-          if (!img) return;
-          const name = strip.querySelector('.eco-name');
-          const tag  = strip.querySelector('.eco-tag');
-          const caption = [name?.textContent, tag?.textContent].filter(Boolean).join(' · ');
-          open(img.src, caption);
-        });
-      });
+      // Click on any eco-strip → open lightbox with that strip's image
+      var strips = document.querySelectorAll('.eco-strip');
+      for (var i = 0; i < strips.length; i++) {
+        (function(strip) {
+          strip.addEventListener('click', function(e) {
+            var img = strip.querySelector('img');
+            if (!img) return;
+            var name    = strip.querySelector('.eco-name');
+            var tag     = strip.querySelector('.eco-tag');
+            var caption = (name ? name.textContent : '') + (tag ? ' · ' + tag.textContent : '');
+            lbOpen(img.getAttribute('src'), caption.trim().replace(/^\s*·\s*/, ''));
+          });
+        })(strips[i]);
+      }
 
       // Close on backdrop click, close button, or Escape
-      lb.addEventListener('click', e => { if (e.target === lb) close(); });
-      lbClose.addEventListener('click', close);
-      document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && lb.classList.contains('open')) close();
+      lb.addEventListener('click', function(e) { if (e.target === lb) lbClose2(); });
+      lbClose.addEventListener('click', lbClose2);
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && lb.classList.contains('open')) lbClose2();
       });
     })();
   </script>
