@@ -1230,11 +1230,28 @@
       var container = document.getElementById('yt-bg-container');
       var ifr = document.createElement('iframe');
       ifr.className = 'yt-bg';
-      ifr.src = 'https://www.youtube.com/embed/HmcuXfRLwx0?autoplay=1&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1';
+      ifr.src = 'https://www.youtube.com/embed/HmcuXfRLwx0?autoplay=1&controls=1&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&version=3';
       ifr.allow = 'autoplay; encrypted-media';
       ifr.allowFullscreen = true;
+      ifr.onload = function() {
+        ifr.contentWindow.postMessage(JSON.stringify({event:'listening'}), '*');
+      };
       container.appendChild(ifr);
       document.getElementById('yt-play-btn').style.display='none';
+
+      // Listen for video ended (YT state 0)
+      window.addEventListener('message', function onYTMsg(e) {
+        try {
+          var data = JSON.parse(e.data);
+          if (data.event === 'onStateChange' && data.info === 0) {
+            // Video ended — remove iframe, restore cover, show button
+            container.removeChild(ifr);
+            container.style.background = '#0d0b09';
+            document.getElementById('yt-play-btn').style.display='flex';
+            window.removeEventListener('message', onYTMsg);
+          }
+        } catch(err) {}
+      });
     })()">
       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
       <span>Reproducir</span>
@@ -1618,7 +1635,7 @@
     </div>
 
     <div class="arq-caption">
-      <h2 class="h2 rv photo-heading" style="font-size: clamp(1.5rem, 2.4vw, 2.2rem); margin-bottom: 1rem;">El territorio<br>como origen.</h2>
+      <h2 class="h2 rv photo-heading" style="font-size: clamp(1.5rem, 2.4vw, 2.2rem); margin-bottom: 1rem;">El desierto<br>como origen.</h2>
       <div class="rule rv d1" style="margin: 0 0 1.1rem;"></div>
       <p class="arq-body rv d2">La arquitectura no se impone.<br>Se construye desde el territorio.<br>El desierto como materia, clima y ritmo.</p>
     </div>
