@@ -79,6 +79,11 @@
       object-fit: cover;
       object-position: center;
     }
+    #yt-player-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
     #yt-play-btn {
       position: absolute;
       bottom: 2.5rem;
@@ -1221,46 +1226,25 @@
   <!-- ════════════════════════════════════════════════ -->
   <!-- 01 · VIDEO                                      -->
   <!-- ════════════════════════════════════════════════ -->
-  <section class="slide" id="s2">
-    <div class="bg" id="yt-bg-container" style="background:#0d0b09;"></div>
-    <div class="ov-center"></div>
+  <section class="slide" id="s2" style="background:#0d0b09;">
+
+    <!-- YouTube player mounts here -->
+    <div id="yt-player-wrap" style="display:none; position:absolute; inset:0; z-index:2;"></div>
+
+    <!-- Cover title (always visible until video plays) -->
+    <div id="yt-cover" style="position:absolute; inset:0; z-index:3; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none;">
+      <span class="moon-glyph" style="font-size:2rem; color:var(--bone); opacity:0.6; margin-bottom:1.2rem;">◑</span>
+      <h1 style="font-family:var(--display); font-size:clamp(3rem,7vw,6rem); font-weight:300; letter-spacing:0.18em; color:var(--bone); margin:0;">Cucunumic</h1>
+      <div style="width:3.5rem; height:1px; background:var(--terra); margin:1.2rem 0;"></div>
+      <p style="font-family:var(--sans); font-size:0.8rem; letter-spacing:0.28em; text-transform:uppercase; color:var(--sand);">Baja California Sur</p>
+    </div>
 
     <!-- Play button -->
-    <button id="yt-play-btn" onclick="(function(){
-      var container = document.getElementById('yt-bg-container');
-      var ifr = document.createElement('iframe');
-      ifr.className = 'yt-bg';
-      ifr.src = 'https://www.youtube.com/embed/HmcuXfRLwx0?autoplay=1&controls=1&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&version=3';
-      ifr.allow = 'autoplay; encrypted-media';
-      ifr.allowFullscreen = true;
-      ifr.onload = function() {
-        ifr.contentWindow.postMessage(JSON.stringify({event:'listening'}), '*');
-      };
-      container.appendChild(ifr);
-      document.getElementById('yt-play-btn').style.display='none';
-
-      // Listen for video ended (YT state 0)
-      window.addEventListener('message', function onYTMsg(e) {
-        try {
-          var data = JSON.parse(e.data);
-          if (data.event === 'onStateChange' && data.info === 0) {
-            // Video ended — remove iframe, restore cover, show button
-            container.removeChild(ifr);
-            container.style.background = '#0d0b09';
-            document.getElementById('yt-play-btn').style.display='flex';
-            window.removeEventListener('message', onYTMsg);
-          }
-        } catch(err) {}
-      });
-    })()">
+    <button id="yt-play-btn">
       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
       <span>Reproducir</span>
     </button>
 
-    <!-- Subtitle overlay -->
-    <div id="subtitle-overlay">
-      <span id="subtitle-line"></span>
-    </div>
   </section>
 
 
@@ -1760,6 +1744,39 @@
   </section>
 
 
+  <!-- YouTube IFrame API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    // ── YouTube player ──────────────────────────────
+    var ytPlayer = null;
+    function onYouTubeIframeAPIReady() {}
+
+    function ytShowCover() {
+      document.getElementById('yt-player-wrap').style.display = 'none';
+      document.getElementById('yt-cover').style.display = 'flex';
+      document.getElementById('yt-play-btn').style.display = 'flex';
+      if (ytPlayer) { ytPlayer.destroy(); ytPlayer = null; }
+    }
+
+    document.getElementById('yt-play-btn').addEventListener('click', function() {
+      document.getElementById('yt-cover').style.display = 'none';
+      document.getElementById('yt-play-btn').style.display = 'none';
+      var wrap = document.getElementById('yt-player-wrap');
+      wrap.style.display = 'block';
+      wrap.innerHTML = '<div id="yt-player-el"></div>';
+      ytPlayer = new YT.Player('yt-player-el', {
+        videoId: 'HmcuXfRLwx0',
+        playerVars: { autoplay:1, controls:1, rel:0, modestbranding:1, playsinline:1 },
+        width: '100%', height: '100%',
+        events: {
+          onStateChange: function(e) {
+            if (e.data === YT.PlayerState.ENDED) { ytShowCover(); }
+          }
+        }
+      });
+    });
+
+  </script>
   <script>
     const slides   = [...document.querySelectorAll('.slide')];
     const dots     = [...document.querySelectorAll('.dot')];
