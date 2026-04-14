@@ -347,6 +347,23 @@
       white-space: nowrap;
     }
 
+    /* Hook */
+    .cover-hook {
+      font-family: var(--serif-it);
+      font-weight: 300;
+      font-size: clamp(1rem, 1.7vw, 1.5rem);
+      line-height: 1.75;
+      color: var(--moon);
+      text-align: center;
+      max-width: 46ch;
+      margin: 0 auto;
+      text-shadow: 0 1px 20px rgba(0,0,0,0.8);
+    }
+    .cover-hook em {
+      font-style: italic;
+      color: var(--terra);
+    }
+
     /* Pillars descriptor */
     .cover-pillars {
       font-family: var(--sans);
@@ -1194,7 +1211,8 @@
 <section class="slide" id="s1">
   <div class="bg">
     <img src="./Cucunumic/07. Fotos/VISTA12_FACHADA-DE-ACCESO_NOCHE.png" alt="Cucunumic — Night Entrance">
-    <div class="ov-center"></div>
+    <!-- Flat dark base guarantees legibility over any lit area of the image -->
+    <div style="position:absolute;inset:0;background:rgba(13,11,9,0.74)"></div>
     <div class="ov-bottom"></div>
   </div>
 
@@ -1205,7 +1223,7 @@
   <div class="cover-glow"></div>
 
   <div class="c">
-    <!-- Coordinates row -->
+    <!-- Coordinates -->
     <div class="cover-coords rv d2">
       <span class="cover-coords-line"></span>
       <span class="cover-coords-text">23.1802° N &nbsp;·&nbsp; 110.0996° W &nbsp;·&nbsp; El Pescadero, Baja California Sur</span>
@@ -1215,22 +1233,21 @@
     <!-- Main title -->
     <div class="cover-title rv d3">cucunumic</div>
 
-    <!-- Flanked subtitle -->
-    <div class="cover-subtitle-row rv d4">
-      <div class="cover-thin-rule"></div>
-      <span class="cover-subtitle-text">An Integrated Wellness Estate</span>
-      <div class="cover-thin-rule"></div>
-    </div>
+    <!-- Terra rule -->
+    <div style="width:3.5rem;height:1px;background:var(--terra);margin:2rem auto 2rem;opacity:0.9" class="rv d4"></div>
 
-    <!-- Pillar descriptors -->
-    <div class="cover-pillars rv d5">Wellness &nbsp;·&nbsp; Boutique Casitas &nbsp;·&nbsp; Culture &nbsp;·&nbsp; 38 Acres &nbsp;·&nbsp; Off-Grid &nbsp;·&nbsp; Pacific Corridor</div>
+    <!-- THE HOOK -->
+    <p class="cover-hook rv d5">738,000 wellness travelers arrive in Los Cabos each year.<br>Not one can stay at a clinical-grade off-grid retreat on the Pacific side.<br><em>That property does not yet exist. Until now.</em></p>
+
+    <!-- Pillar line -->
+    <div class="cover-pillars rv d6">Cryotherapy &nbsp;·&nbsp; HBOT &nbsp;·&nbsp; Infrared &nbsp;·&nbsp; 5 Casitas &nbsp;·&nbsp; 38 Acres &nbsp;·&nbsp; Off-Grid &nbsp;·&nbsp; Pacific Corridor</div>
 
     <!-- Confidential -->
-    <div class="cover-date rv d6">Investor Presentation &nbsp;·&nbsp; April 2026 &nbsp;·&nbsp; Confidential</div>
+    <div class="cover-date rv d7">Investor Presentation &nbsp;·&nbsp; April 2026 &nbsp;·&nbsp; Confidential</div>
   </div>
 
   <!-- Scroll indicator -->
-  <div class="cover-scroll rv d7">
+  <div class="cover-scroll rv d8">
     <div class="cover-scroll-line"></div>
     <span class="cover-scroll-label">Explore</span>
   </div>
