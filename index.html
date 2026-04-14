@@ -922,6 +922,7 @@
       display: block;
       transition: transform 12s ease-out;
       image-orientation: from-image;
+      cursor: zoom-in;
     }
     .slide.active .arq-cell img { transform: scale(1.03); }
     .arq-cell.span-col { grid-row: 1 / 3; }
@@ -1665,7 +1666,7 @@
         <img src="./Cucunumic/07.%20Fotos/VISTA02_JACUZZI.jpg" alt="Jacuzzi · Oficio Taller">
       </div>
       <div class="arq-cell">
-        <img src="./Cucunumic/07.%20Fotos/VISTA17_INTERIOR.jpg" alt="Interior · Oficio Taller">
+        <img src="./Cucunumic/07.%20Fotos/VISTA07_FACHADA-TEMPLO.png" alt="Fachada templo · Oficio Taller">
       </div>
     </div>
 
@@ -1692,7 +1693,7 @@
 
     <div class="arq-grid split-2">
       <div class="arq-cell">
-        <img src="./Cucunumic/07.%20Fotos/VISTA06_TEMPLO-INTERIOR.png" alt="Templo · interior · Oficio Taller">
+        <img src="./Cucunumic/07.%20Fotos/VISTA18_FIREROOM_JM.jpg" alt="Fireroom · Oficio Taller">
       </div>
       <div class="arq-cell">
         <img src="./Cucunumic/07.%20Fotos/VISTA12_FACHADA-DE-ACCESO_NOCHE.png" alt="Fachada de acceso · noche · Oficio Taller">
@@ -1905,6 +1906,16 @@
             lbOpen(img.getAttribute('src'), caption.trim().replace(/^\s*·\s*/, ''));
           });
         })(strips[i]);
+      }
+
+      // Architecture slide images → lightbox
+      var arqImgs = document.querySelectorAll('.arq-cell img');
+      for (var j = 0; j < arqImgs.length; j++) {
+        (function(img) {
+          img.addEventListener('click', function() {
+            lbOpen(img.getAttribute('src'), img.getAttribute('alt') || '');
+          });
+        })(arqImgs[j]);
       }
 
       // Aerial image → lightbox
