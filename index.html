@@ -1222,22 +1222,18 @@
   <!-- 01 · VIDEO                                      -->
   <!-- ════════════════════════════════════════════════ -->
   <section class="slide" id="s2">
-    <div class="bg">
-      <div id="yt-poster" style="position:absolute;inset:0;background:#0d0b09;z-index:1;transition:opacity 0.6s;"></div>
-      <iframe id="yt-bg-iframe" class="yt-bg"
-        src="https://www.youtube.com/embed/HmcuXfRLwx0?autoplay=0&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
-        allow="autoplay; encrypted-media"
-        allowfullscreen>
-      </iframe>
-    </div>
+    <div class="bg" id="yt-bg-container" style="background:#0d0b09;"></div>
     <div class="ov-center"></div>
 
     <!-- Play button -->
     <button id="yt-play-btn" onclick="(function(){
-      var ifr = document.getElementById('yt-bg-iframe');
+      var container = document.getElementById('yt-bg-container');
+      var ifr = document.createElement('iframe');
+      ifr.className = 'yt-bg';
       ifr.src = 'https://www.youtube.com/embed/HmcuXfRLwx0?autoplay=1&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1';
-      var poster = document.getElementById('yt-poster');
-      if (poster) { poster.style.opacity='0'; setTimeout(function(){ poster.style.display='none'; }, 650); }
+      ifr.allow = 'autoplay; encrypted-media';
+      ifr.allowFullscreen = true;
+      container.appendChild(ifr);
       document.getElementById('yt-play-btn').style.display='none';
     })()">
       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
