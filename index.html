@@ -79,6 +79,32 @@
       object-fit: cover;
       object-position: center;
     }
+    #yt-play-btn {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 3rem;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(240,235,224,0.35);
+      color: var(--bone);
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.2rem;
+      border-radius: 2px;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    #yt-play-btn:hover {
+      background: rgba(168,120,80,0.35);
+      border-color: var(--terra);
+    }
+
     .bg iframe.yt-bg {
       position: absolute;
       top: 50%; left: 50%;
@@ -1197,21 +1223,24 @@
   <!-- ════════════════════════════════════════════════ -->
   <section class="slide" id="s2">
     <div class="bg">
-      <iframe class="yt-bg"
-        src="https://www.youtube.com/embed/HmcuXfRLwx0?autoplay=1&mute=1&loop=1&playlist=HmcuXfRLwx0&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
+      <iframe id="yt-bg-iframe" class="yt-bg"
+        src="https://www.youtube.com/embed/HmcuXfRLwx0?autoplay=0&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
         allow="autoplay; encrypted-media"
         allowfullscreen>
       </iframe>
     </div>
     <div class="ov-center"></div>
 
-    <div class="c" style="display:flex; align-items:center; justify-content:center; height:100%;">
-      <div id="video-text">
-        <p class="video-logo rv">Cucunumic</p>
-        <div class="video-rule rv d1"></div>
-        <p class="video-label rv d2">15.71 Ha · El Pescadero · BCS · ~35 min de Cabo San Lucas</p>
-      </div>
-    </div>
+    <!-- Play button -->
+    <button id="yt-play-btn" onclick="(function(){
+      var ifr = document.getElementById('yt-bg-iframe');
+      ifr.src = ifr.src.replace('autoplay=0','autoplay=1');
+      ifr.contentWindow.postMessage('{&quot;event&quot;:&quot;command&quot;,&quot;func&quot;:&quot;playVideo&quot;,&quot;args&quot;:[]}','*');
+      document.getElementById('yt-play-btn').style.display='none';
+    })()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+      <span>Reproducir</span>
+    </button>
 
     <!-- Subtitle overlay -->
     <div id="subtitle-overlay">
