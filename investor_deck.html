@@ -351,17 +351,23 @@
     .cover-hook {
       font-family: var(--serif-it);
       font-weight: 300;
-      font-size: clamp(1rem, 1.7vw, 1.5rem);
-      line-height: 1.75;
+      font-size: clamp(1.1rem, 1.8vw, 1.65rem);
+      line-height: 1.82;
       color: var(--moon);
       text-align: center;
-      max-width: 46ch;
+      max-width: 42ch;
       margin: 0 auto;
       text-shadow: 0 1px 20px rgba(0,0,0,0.8);
     }
     .cover-hook em {
       font-style: italic;
       color: var(--terra);
+    }
+
+    /* Pin cover image sharp — no scale blur */
+    #s1 .bg img {
+      transform: scale(1) !important;
+      transition: none !important;
     }
 
     /* Pillars descriptor */
@@ -1237,7 +1243,7 @@
     <div style="width:3.5rem;height:1px;background:var(--terra);margin:2rem auto 2rem;opacity:0.9" class="rv d4"></div>
 
     <!-- THE HOOK -->
-    <p class="cover-hook rv d5">738,000 wellness travelers arrive in Los Cabos each year.<br>Not one can stay at a clinical-grade off-grid retreat on the Pacific side.<br><em>That property does not yet exist. Until now.</em></p>
+    <p class="cover-hook rv d5">Los Cabos generates $3 billion in annual tourism spend.<br>Its Pacific coast has no clinical-grade wellness retreat — not one.<br><em>We hold the 38 acres where that changes.</em></p>
 
     <!-- Pillar line -->
     <div class="cover-pillars rv d6">Cryotherapy &nbsp;·&nbsp; HBOT &nbsp;·&nbsp; Infrared &nbsp;·&nbsp; 5 Casitas &nbsp;·&nbsp; 38 Acres &nbsp;·&nbsp; Off-Grid &nbsp;·&nbsp; Pacific Corridor</div>
