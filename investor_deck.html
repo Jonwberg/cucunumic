@@ -251,34 +251,157 @@
       align-items: center;
       justify-content: center;
       height: 100%;
-      padding-bottom: 5vh;
     }
-    .cover-glyph {
+
+    /* Thin architectural frame */
+    .cover-frame {
+      position: absolute;
+      inset: 1.8rem;
+      border: 1px solid rgba(168,120,80,0.18);
+      pointer-events: none;
+      z-index: 5;
+    }
+    /* Corner accents */
+    .cover-frame::before, .cover-frame::after {
+      content: '';
+      position: absolute;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+    .cover-frame::before {
+      top: -1px; left: -1px;
+      border-top: 1px solid var(--terra);
+      border-left: 1px solid var(--terra);
+    }
+    .cover-frame::after {
+      bottom: -1px; right: -1px;
+      border-bottom: 1px solid var(--terra);
+      border-right: 1px solid var(--terra);
+    }
+
+    /* Ambient glow behind title */
+    .cover-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -52%);
+      width: 70vw;
+      height: 40vh;
+      background: radial-gradient(ellipse, rgba(168,120,80,0.1) 0%, transparent 68%);
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    /* Coordinates row */
+    .cover-coords {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2.8rem;
+    }
+    .cover-coords-line {
+      width: 3.5rem;
+      height: 1px;
+      background: rgba(168,120,80,0.35);
+    }
+    .cover-coords-text {
       font-family: var(--sans);
-      font-size: 0.7rem;
-      opacity: 0.3;
-      color: var(--moon);
-      letter-spacing: 0.8em;
-      margin-bottom: 2.5rem;
+      font-size: 0.6rem;
+      font-weight: 200;
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: rgba(191,176,144,0.45);
+      white-space: nowrap;
     }
-    .cover-rule { width: 3rem; height: 1px; background: var(--terra); margin: 1.6rem auto 1.2rem; }
-    .cover-sub {
+
+    /* Title */
+    .cover-title {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(5rem, 13vw, 11.5rem);
+      line-height: 0.88;
+      letter-spacing: 0.14em;
+      color: var(--bone);
+      text-shadow: 0 4px 60px rgba(0,0,0,0.7), 0 0 120px rgba(168,120,80,0.12);
+    }
+
+    /* Subtitle flanked by rules */
+    .cover-subtitle-row {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-top: 2.2rem;
+    }
+    .cover-thin-rule {
+      height: 1px;
+      width: 4rem;
+      background: var(--terra);
+    }
+    .cover-subtitle-text {
       font-family: var(--sans);
       font-weight: 200;
-      font-size: clamp(0.68rem, 0.9vw, 0.88rem);
-      letter-spacing: 0.52em;
+      font-size: clamp(0.65rem, 0.85vw, 0.85rem);
+      letter-spacing: 0.55em;
       text-transform: uppercase;
       color: var(--sand);
+      white-space: nowrap;
     }
+
+    /* Pillars descriptor */
+    .cover-pillars {
+      font-family: var(--sans);
+      font-weight: 200;
+      font-size: 0.6rem;
+      letter-spacing: 0.48em;
+      text-transform: uppercase;
+      color: rgba(191,176,144,0.32);
+      margin-top: 1.4rem;
+    }
+
+    /* Confidential line */
     .cover-date {
       font-family: var(--sans);
       font-weight: 200;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       letter-spacing: 0.38em;
       text-transform: uppercase;
-      color: rgba(191,176,144,0.38);
+      color: rgba(191,176,144,0.28);
       margin-top: 0.5rem;
     }
+
+    /* Scroll indicator */
+    .cover-scroll {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 10;
+    }
+    .cover-scroll-line {
+      width: 1px;
+      height: 2.8rem;
+      background: linear-gradient(to bottom, rgba(168,120,80,0.7), transparent);
+      animation: scrollPulse 2.2s ease-in-out infinite;
+    }
+    .cover-scroll-label {
+      font-family: var(--sans);
+      font-size: 0.52rem;
+      font-weight: 200;
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: rgba(168,120,80,0.35);
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.35; transform: scaleY(0.75); transform-origin: top; }
+      50%       { opacity: 1;    transform: scaleY(1);    transform-origin: top; }
+    }
+
+    /* Legacy — keep for close slide */
+    .cover-rule { width: 3rem; height: 1px; background: var(--terra); margin: 1.6rem auto 1.2rem; }
 
     /* ══════════════════════════════════════════════════════════
        THE LAND (S2)
@@ -1074,13 +1197,44 @@
     <div class="ov-center"></div>
     <div class="ov-bottom"></div>
   </div>
+
+  <!-- Thin border frame with corner accents -->
+  <div class="cover-frame rv d1"></div>
+
+  <!-- Ambient glow behind title -->
+  <div class="cover-glow"></div>
+
   <div class="c">
-    <span class="cover-glyph rv d1">· · · · · · ·</span>
-    <div class="display rv d2 ph-text">cucunumic</div>
-    <div class="cover-rule rv d3"></div>
-    <div class="cover-sub rv d4">An Integrated Wellness Estate · Baja California Sur</div>
-    <div class="cover-date rv d5">Investor Presentation · April 2026 · Confidential</div>
+    <!-- Coordinates row -->
+    <div class="cover-coords rv d2">
+      <span class="cover-coords-line"></span>
+      <span class="cover-coords-text">23.1802° N &nbsp;·&nbsp; 110.0996° W &nbsp;·&nbsp; El Pescadero, Baja California Sur</span>
+      <span class="cover-coords-line"></span>
+    </div>
+
+    <!-- Main title -->
+    <div class="cover-title rv d3">cucunumic</div>
+
+    <!-- Flanked subtitle -->
+    <div class="cover-subtitle-row rv d4">
+      <div class="cover-thin-rule"></div>
+      <span class="cover-subtitle-text">An Integrated Wellness Estate</span>
+      <div class="cover-thin-rule"></div>
+    </div>
+
+    <!-- Pillar descriptors -->
+    <div class="cover-pillars rv d5">Wellness &nbsp;·&nbsp; Boutique Casitas &nbsp;·&nbsp; Culture &nbsp;·&nbsp; 38 Acres &nbsp;·&nbsp; Off-Grid &nbsp;·&nbsp; Pacific Corridor</div>
+
+    <!-- Confidential -->
+    <div class="cover-date rv d6">Investor Presentation &nbsp;·&nbsp; April 2026 &nbsp;·&nbsp; Confidential</div>
   </div>
+
+  <!-- Scroll indicator -->
+  <div class="cover-scroll rv d7">
+    <div class="cover-scroll-line"></div>
+    <span class="cover-scroll-label">Explore</span>
+  </div>
+
   <div class="slide-num">01 / 15</div>
 </section>
 
