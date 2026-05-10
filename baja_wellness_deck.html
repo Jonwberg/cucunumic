@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cucunumic · Baja Wellness — Investment Memorandum · May 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ══════════════════════════════════════════════════════════
+       DESIGN TOKENS
+    ══════════════════════════════════════════════════════════ */
+    :root {
+      --bone:     #E8DEC8;
+      --bone-dim: #D4C8B0;
+      --sand:     #BFB090;
+      --terra:    #A87850;
+      --rust:     #8A5A38;
+      --night:    #0D0B09;
+      --coal:     #1A1714;
+      --moon:     #CCBE9C;
+      --mist:     #8A8272;
+      --gold:     #C8A83A;
+      --water:    #6B8A82;
+
+      --serif:    'Cormorant SC', serif;
+      --serif-it: 'Cormorant', serif;
+      --body:     'Spectral', serif;
+      --sans:     'Jost', sans-serif;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       BASE
+    ══════════════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-snap-type: y mandatory; overflow-y: scroll; scroll-behavior: smooth; }
+    body { font-family: var(--body); background: var(--night); color: var(--bone); }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       SLIDE STRUCTURE
+    ══════════════════════════════════════════════════════════ */
+    .slide {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      scroll-snap-align: start;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bg { position: absolute; inset: 0; overflow: hidden; }
+    .bg img, .bg video {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      transform: scale(1.06);
+      transition: transform 16s ease-out;
+      image-orientation: from-image;
+    }
+    .slide.active .bg img,
+    .slide.active .bg video { transform: scale(1); }
+
+    .ov-dark   { position: absolute; inset: 0; background: rgba(13,11,9,0.72); }
+    .ov-bottom { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,11,9,0.96) 0%, rgba(13,11,9,0.5) 50%, rgba(13,11,9,0.15) 100%); }
+    .ov-left   { position: absolute; inset: 0; background: linear-gradient(to right, rgba(13,11,9,0.97) 40%, rgba(13,11,9,0.6) 65%, rgba(13,11,9,0.1) 100%); }
+    .ov-right  { position: absolute; inset: 0; background: linear-gradient(to left, rgba(13,11,9,0.97) 40%, rgba(13,11,9,0.6) 65%, rgba(13,11,9,0.1) 100%); }
+    .ov-center { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(13,11,9,0.42) 0%, rgba(13,11,9,0.88) 100%); }
+    .ov-heavy  { position: absolute; inset: 0; background: rgba(13,11,9,0.82); }
+
+    .c {
+      position: relative; z-index: 10;
+      width: 100%; max-width: 1400px; padding: 0 7vw;
+    }
+
+    /* NAVIGATION */
+    #prog { position: fixed; left: 0; top: 0; width: 2px; background: var(--terra); z-index: 8000; transition: height 0.4s ease; }
+    #dots { position: fixed; right: 1.8rem; top: 50%; transform: translateY(-50%); z-index: 8000; display: flex; flex-direction: column; gap: 0.55rem; }
+    .dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(240,235,224,0.2); cursor: pointer; transition: all 0.4s ease; border: 1px solid rgba(240,235,224,0.12); }
+    .dot.on { background: var(--moon); transform: scale(1.6); border-color: var(--moon); }
+    #counter { position: fixed; left: 2.2rem; bottom: 2rem; z-index: 8000; font-family: var(--sans); font-size: 0.72rem; font-weight: 200; letter-spacing: 0.35em; color: rgba(240,235,224,0.25); }
+    .slide-num { position: absolute; bottom: 2.2rem; right: 4.5rem; font-family: var(--sans); font-size: 0.62rem; font-weight: 200; letter-spacing: 0.35em; color: rgba(240,235,224,0.18); z-index: 20; }
+
+    /* REVEAL */
+    .rv { opacity: 0; transform: translateY(20px); transition: opacity 0.95s ease, transform 0.95s ease; }
+    .slide.active .rv { opacity: 1; transform: translateY(0); }
+    .rv.d1 { transition-delay: 0.1s; }
+    .rv.d2 { transition-delay: 0.24s; }
+    .rv.d3 { transition-delay: 0.38s; }
+    .rv.d4 { transition-delay: 0.52s; }
+    .rv.d5 { transition-delay: 0.66s; }
+    .rv.d6 { transition-delay: 0.80s; }
+    .rv.d7 { transition-delay: 0.95s; }
+    .rv.d8 { transition-delay: 1.10s; }
+
+    /* TYPE SCALE */
+    .eyebrow { font-family: var(--sans); font-weight: 200; font-size: 0.78rem; letter-spacing: 0.55em; text-transform: uppercase; color: var(--moon); margin-bottom: 1.2rem; }
+    .eyebrow.terra { color: var(--terra); }
+    .eyebrow.sand  { color: var(--sand); }
+    .eyebrow.mist  { color: var(--mist); }
+    .act-label { font-family: var(--sans); font-weight: 200; font-size: 0.62rem; letter-spacing: 0.65em; text-transform: uppercase; color: rgba(204,190,156,0.35); margin-bottom: 0.4rem; }
+    .display { font-family: var(--serif); font-weight: 300; font-size: clamp(4rem, 10vw, 9.5rem); line-height: 0.88; letter-spacing: 0.07em; color: var(--bone); }
+    .h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 4.2vw, 3.8rem); line-height: 1.08; letter-spacing: 0.04em; color: var(--bone); }
+    .h3 { font-family: var(--serif); font-weight: 300; font-size: clamp(1.4rem, 2.6vw, 2.4rem); letter-spacing: 0.03em; color: var(--bone); line-height: 1.25; }
+    .body { font-family: var(--body); font-weight: 400; font-size: clamp(1rem, 1.4vw, 1.18rem); line-height: 1.85; color: var(--bone-dim); }
+    .large { font-family: var(--body); font-weight: 400; font-size: clamp(1.1rem, 1.8vw, 1.45rem); line-height: 1.78; color: var(--bone); }
+    .ph-text { text-shadow: 0 2px 28px rgba(0,0,0,0.6); }
+    .rule { width: 2.8rem; height: 1px; background: var(--terra); margin: 1.6rem 0; }
+    .rule.center { margin-left: auto; margin-right: auto; }
+
+    /* COVER */
+    #s1 .c { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
+    .cover-frame { position: absolute; inset: 1.8rem; border: 1px solid rgba(168,120,80,0.18); pointer-events: none; z-index: 5; }
+    .cover-frame::before, .cover-frame::after { content: ''; position: absolute; width: 1.2rem; height: 1.2rem; }
+    .cover-frame::before { top: -1px; left: -1px; border-top: 1px solid var(--terra); border-left: 1px solid var(--terra); }
+    .cover-frame::after { bottom: -1px; right: -1px; border-bottom: 1px solid var(--terra); border-right: 1px solid var(--terra); }
+    .cover-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -52%); width: 70vw; height: 40vh; background: radial-gradient(ellipse, rgba(168,120,80,0.1) 0%, transparent 68%); pointer-events: none; z-index: 4; }
+    .cover-coords { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2.8rem; }
+    .cover-coords-line { width: 3.5rem; height: 1px; background: rgba(168,120,80,0.35); }
+    .cover-coords-text { font-family: var(--sans); font-size: 0.6rem; font-weight: 200; letter-spacing: 0.55em; text-transform: uppercase; color: rgba(191,176,144,0.45); white-space: nowrap; }
+    .cover-title { font-family: var(--serif); font-weight: 300; font-size: clamp(4.2rem, 11.5vw, 10rem); line-height: 0.88; letter-spacing: 0.14em; color: var(--bone); text-shadow: 0 4px 60px rgba(0,0,0,0.7), 0 0 120px rgba(168,120,80,0.12); }
+    .cover-divider { font-family: var(--serif); font-size: clamp(1.2rem, 1.8vw, 1.7rem); color: var(--terra); margin: 0 1.4rem; opacity: 0.7; }
+    .cover-tag-row { display: flex; align-items: center; justify-content: center; margin-top: 0.5rem; }
+    .cover-tag-row .ct { font-family: var(--serif-it); font-style: italic; font-weight: 300; font-size: clamp(1.6rem, 3.2vw, 2.6rem); color: var(--moon); letter-spacing: 0.08em; }
+    .cover-subtitle-row { display: flex; align-items: center; gap: 2rem; margin-top: 2.2rem; }
+    .cover-thin-rule { height: 1px; width: 4rem; background: var(--terra); }
+    .cover-subtitle-text { font-family: var(--sans); font-weight: 200; font-size: clamp(0.65rem, 0.85vw, 0.85rem); letter-spacing: 0.55em; text-transform: uppercase; color: var(--sand); white-space: nowrap; }
+    .cover-hook { font-family: var(--serif-it); font-weight: 300; font-size: clamp(1.05rem, 1.7vw, 1.55rem); line-height: 1.82; color: var(--moon); text-align: center; max-width: 52ch; margin: 0 auto; text-shadow: 0 1px 20px rgba(0,0,0,0.8); }
+    .cover-hook em { font-style: italic; color: var(--terra); }
+    #s1 .bg img { transform: scale(1) !important; transition: none !important; }
+    .cover-pillars { font-family: var(--sans); font-weight: 200; font-size: 0.6rem; letter-spacing: 0.48em; text-transform: uppercase; color: rgba(191,176,144,0.32); margin-top: 1.4rem; }
+    .cover-date { font-family: var(--sans); font-weight: 200; font-size: 0.6rem; letter-spacing: 0.38em; text-transform: uppercase; color: rgba(191,176,144,0.28); margin-top: 0.5rem; }
+    .cover-scroll { position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; z-index: 10; }
+    .cover-scroll-line { width: 1px; height: 2.8rem; background: linear-gradient(to bottom, rgba(168,120,80,0.7), transparent); animation: scrollPulse 2.2s ease-in-out infinite; }
+    .cover-scroll-label { font-family: var(--sans); font-size: 0.52rem; font-weight: 200; letter-spacing: 0.55em; text-transform: uppercase; color: rgba(168,120,80,0.35); }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.35; transform: scaleY(0.75); transform-origin: top; }
+      50%       { opacity: 1;    transform: scaleY(1);    transform-origin: top; }
+    }
+    .cover-rule { width: 3rem; height: 1px; background: var(--terra); margin: 1.6rem auto 1.2rem; }
+
+    /* LAND */
+    .land-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 8vw; align-items: center; }
+    .land-num { font-family: var(--serif); font-weight: 300; font-size: clamp(7rem, 14vw, 12rem); line-height: 0.85; letter-spacing: 0.04em; color: var(--bone); }
+    .land-unit { font-family: var(--sans); font-weight: 200; font-size: clamp(0.75rem, 1.1vw, 1rem); letter-spacing: 0.55em; text-transform: uppercase; color: var(--terra); display: block; margin-top: 0.6rem; }
+    .land-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 2.5rem; margin-top: 2.5rem; }
+    .land-fact-label { font-family: var(--sans); font-size: 0.6rem; font-weight: 200; letter-spacing: 0.48em; text-transform: uppercase; color: var(--mist); margin-bottom: 0.28rem; }
+    .land-fact-val { font-family: var(--serif); font-size: clamp(1rem, 1.6vw, 1.4rem); font-weight: 300; color: var(--bone); letter-spacing: 0.03em; }
+
+    /* MARKET KPIs */
+    .market-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 3rem; }
+    .mkpi { padding: 2rem 2.5rem 2rem 0; border-right: 1px solid rgba(240,235,224,0.07); }
+    .mkpi:last-child { border-right: none; }
+    .mkpi-num { font-family: var(--serif); font-size: clamp(2.4rem, 4.5vw, 4rem); font-weight: 300; color: var(--moon); line-height: 1; }
+    .mkpi-unit { font-family: var(--sans); font-size: 0.85rem; font-weight: 200; color: var(--terra); }
+    .mkpi-bar { width: 1.5rem; height: 2px; background: var(--terra); margin: 1rem 0 0.6rem; }
+    .mkpi-label { font-family: var(--sans); font-size: 0.62rem; font-weight: 300; letter-spacing: 0.35em; text-transform: uppercase; color: var(--sand); }
+    .mkpi-sub { font-family: var(--body); font-size: 0.85rem; color: var(--mist); margin-top: 0.3rem; line-height: 1.45; }
+
+    /* ARCHITECTURE OF HEALING — concept diagram */
+    .healing-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 7vw; align-items: center; }
+    .concept-diagram {
+      position: relative; aspect-ratio: 1 / 1;
+      border: 1px solid rgba(168,120,80,0.22);
+      background: radial-gradient(ellipse at center, rgba(168,120,80,0.06) 0%, transparent 65%);
+      border-radius: 50%;
+      padding: 2rem;
+    }
+    .concept-center {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+      text-align: center;
+      width: 36%;
+      padding: 1.4rem 0.6rem;
+      border: 1px solid rgba(168,120,80,0.45);
+      background: rgba(13,11,9,0.85);
+      border-radius: 50%;
+      aspect-ratio: 1;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .cc-label { font-family: var(--sans); font-size: 0.55rem; font-weight: 300; letter-spacing: 0.4em; text-transform: uppercase; color: var(--terra); margin-bottom: 0.3rem; }
+    .cc-name { font-family: var(--serif); font-size: clamp(0.95rem, 1.5vw, 1.3rem); font-weight: 300; color: var(--bone); letter-spacing: 0.05em; }
+    .concept-node {
+      position: absolute;
+      width: 22%; aspect-ratio: 1;
+      border: 1px solid rgba(168,120,80,0.4);
+      background: rgba(26,23,20,0.92);
+      border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 0.6rem;
+    }
+    .concept-node .cn-name { font-family: var(--sans); font-size: 0.58rem; font-weight: 300; letter-spacing: 0.28em; text-transform: uppercase; color: var(--sand); }
+    .concept-node .cn-icon { font-family: var(--serif); font-size: 1.1rem; color: var(--moon); margin-bottom: 0.2rem; opacity: 0.85; }
+    .cn-1 { top: 0; left: 50%; transform: translate(-50%, -10%); }
+    .cn-2 { top: 18%; right: -2%; }
+    .cn-3 { bottom: 18%; right: -2%; }
+    .cn-4 { bottom: 0; left: 50%; transform: translate(-50%, 10%); }
+    .cn-5 { bottom: 18%; left: -2%; }
+    .cn-6 { top: 18%; left: -2%; }
+    .concept-spokes { position: absolute; inset: 0; pointer-events: none; }
+
+    /* RECEPTION DETAIL */
+    .reception-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5vw; align-items: stretch; height: 100%; padding: 8vh 0; }
+    .reception-img { position: relative; overflow: hidden; }
+    .reception-img img { width: 100%; height: 100%; object-fit: cover; }
+    .reception-program { display: flex; flex-direction: column; justify-content: center; }
+    .program-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; margin-top: 2rem; border: 1px solid rgba(240,235,224,0.08); }
+    .program-cell { padding: 1.6rem 1.4rem; border-right: 1px solid rgba(240,235,224,0.08); }
+    .program-cell:last-child { border-right: none; }
+    .program-cell.center { background: rgba(168,120,80,0.06); border-left: 1px solid rgba(168,120,80,0.4); border-right: 1px solid rgba(168,120,80,0.4); }
+    .pc-axis { font-family: var(--sans); font-size: 0.55rem; font-weight: 200; letter-spacing: 0.42em; text-transform: uppercase; color: var(--mist); margin-bottom: 0.5rem; }
+    .pc-name { font-family: var(--serif); font-size: clamp(1.05rem, 1.6vw, 1.4rem); font-weight: 300; color: var(--bone); letter-spacing: 0.03em; line-height: 1.2; margin-bottom: 0.55rem; }
+    .pc-body { font-family: var(--body); font-size: 0.82rem; color: var(--sand); line-height: 1.55; }
+    .pc-ico { color: var(--terra); font-size: 0.95rem; margin-bottom: 0.4rem; letter-spacing: 0.1em; }
+
+    /* CIRCUITS GRID */
+    .circuits-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; margin-top: 2.5rem; }
+    .circuit-card { position: relative; aspect-ratio: 4/5; overflow: hidden; border: 1px solid rgba(240,235,224,0.08); }
+    .circuit-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s ease; }
+    .circuit-card:hover img { transform: scale(1.05); }
+    .circuit-card .cap {
+      position: absolute; inset: auto 0 0 0;
+      padding: 1.6rem 1.2rem 1rem;
+      background: linear-gradient(to top, rgba(13,11,9,0.95) 0%, rgba(13,11,9,0.55) 60%, transparent 100%);
+    }
+    .cc-num { font-family: var(--sans); font-size: 0.55rem; font-weight: 200; letter-spacing: 0.5em; color: rgba(232,222,200,0.4); display: block; margin-bottom: 0.3rem; }
+    .cc-title { font-family: var(--serif); font-size: clamp(1rem, 1.4vw, 1.3rem); font-weight: 300; color: var(--bone); letter-spacing: 0.04em; margin-bottom: 0.25rem; }
+    .cc-modal { font-family: var(--sans); font-size: 0.62rem; font-weight: 300; letter-spacing: 0.32em; text-transform: uppercase; color: var(--terra); }
+
+    /* PHASING THESIS — ladder */
+    .ladder { margin-top: 2.5rem; }
+    .ladder-row { display: grid; grid-template-columns: 0.8fr 1.6fr 1fr 1fr 1fr; align-items: stretch; gap: 0; border-top: 1px solid rgba(240,235,224,0.1); }
+    .ladder-row:last-child { border-bottom: 1px solid rgba(240,235,224,0.1); }
+    .ladder-row.head { border-top: none; }
+    .ladder-row.head > div { padding: 0.9rem 1rem; font-family: var(--sans); font-size: 0.55rem; font-weight: 200; letter-spacing: 0.45em; text-transform: uppercase; color: var(--mist); border-right: 1px solid rgba(240,235,224,0.05); }
+    .ladder-row.head > div:last-child { border-right: none; }
+    .ladder-row > div { padding: 1.4rem 1.2rem; border-right: 1px solid rgba(240,235,224,0.05); }
+    .ladder-row > div:last-child { border-right: none; }
+    .lr-tag { font-family: var(--sans); font-size: 0.7rem; font-weight: 300; letter-spacing: 0.4em; text-transform: uppercase; color: var(--terra); }
+    .lr-name { font-family: var(--serif); font-size: clamp(1.05rem, 1.6vw, 1.4rem); font-weight: 300; color: var(--bone); line-height: 1.25; letter-spacing: 0.03em; }
+    .lr-detail { font-family: var(--body); font-size: 0.8rem; color: var(--mist); margin-top: 0.3rem; line-height: 1.5; }
+    .lr-num { font-family: var(--serif); font-size: clamp(1.2rem, 1.9vw, 1.65rem); font-weight: 300; color: var(--moon); line-height: 1; }
+    .lr-num-sub { font-family: var(--sans); font-size: 0.6rem; font-weight: 200; letter-spacing: 0.32em; text-transform: uppercase; color: var(--mist); margin-top: 0.35rem; }
+    .ladder-foot {
+      margin-top: 1.6rem; font-family: var(--serif-it); font-style: italic; font-size: clamp(0.95rem, 1.3vw, 1.15rem); color: var(--moon);
+      padding-left: 1.3rem; border-left: 2px solid var(--terra);
+    }
+
+    /* PHASE DETAIL */
+    .phase-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 7vw; align-items: center; }
+    .phase-tag { font-family: var(--sans); font-size: 0.62rem; font-weight: 300; letter-spacing: 0.55em; text-transform: uppercase; color: var(--terra); margin-bottom: 0.4rem; }
+    .phase-num-display {
+      display: flex; align-items: baseline; gap: 1.6rem; margin-bottom: 0.7rem;
+    }
+    .phase-num-display .num {
+      font-family: var(--serif); font-size: clamp(5rem, 8vw, 7rem); font-weight: 300;
+      color: var(--bone); line-height: 0.9; letter-spacing: 0.02em;
+    }
+    .phase-num-display .word {
+      font-family: var(--serif); font-size: clamp(1.4rem, 2.3vw, 2rem); font-weight: 300;
+      color: var(--terra); letter-spacing: 0.06em; opacity: 0.9;
+    }
+    .phase-headline { font-family: var(--serif); font-size: clamp(1.6rem, 2.8vw, 2.4rem); font-weight: 300; color: var(--bone); letter-spacing: 0.04em; line-height: 1.18; margin-bottom: 1.2rem; }
+    .phase-lede { font-family: var(--body); font-size: clamp(0.96rem, 1.3vw, 1.1rem); color: var(--bone-dim); line-height: 1.78; margin-bottom: 1.6rem; }
+    .phase-kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 0; }
+    .phase-kpi { padding: 1.05rem 1.2rem; border: 1px solid rgba(240,235,224,0.08); }
+    .phase-kpi .label { font-family: var(--sans); font-size: 0.56rem; font-weight: 200; letter-spacing: 0.4em; text-transform: uppercase; color: var(--mist); margin-bottom: 0.4rem; }
+    .phase-kpi .val { font-family: var(--serif); font-size: clamp(1.2rem, 1.9vw, 1.6rem); font-weight: 300; color: var(--moon); line-height: 1; }
+    .phase-kpi .val small { font-family: var(--sans); font-size: 0.6rem; font-weight: 200; letter-spacing: 0.3em; color: var(--terra); margin-left: 0.4rem; }
+    .phase-kpi .sub { font-family: var(--body); font-size: 0.78rem; color: var(--sand); margin-top: 0.3rem; line-height: 1.45; }
+    .phase-gate { margin-top: 1.6rem; padding: 1.1rem 1.3rem; border-left: 2px solid var(--terra); background: rgba(168,120,80,0.04); }
+    .phase-gate .gate-label { font-family: var(--sans); font-size: 0.58rem; font-weight: 300; letter-spacing: 0.45em; text-transform: uppercase; color: var(--terra); margin-bottom: 0.4rem; }
+    .phase-gate .gate-body { font-family: var(--body); font-size: 0.92rem; color: var(--bone); line-height: 1.62; }
+
+    /* OPERATING / STAFFING LADDER */
+    .org-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 6vw; align-items: center; margin-top: 2rem; }
+    .staff-bars { display: flex; flex-direction: column; gap: 1rem; }
+    .staff-row { display: grid; grid-template-columns: 90px 1fr 80px; align-items: center; gap: 1.2rem; }
+    .sr-label { font-family: var(--sans); font-size: 0.65rem; font-weight: 300; letter-spacing: 0.4em; text-transform: uppercase; color: var(--terra); }
+    .sr-bar-track { position: relative; height: 18px; background: rgba(240,235,224,0.04); border: 1px solid rgba(240,235,224,0.06); }
+    .sr-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(to right, var(--terra), var(--moon)); }
+    .sr-num { font-family: var(--serif); font-size: 1.15rem; font-weight: 300; color: var(--moon); text-align: right; line-height: 1; }
+    .sr-num small { font-family: var(--sans); font-size: 0.55rem; font-weight: 200; letter-spacing: 0.3em; color: var(--mist); display: block; margin-top: 0.18rem; }
+    .org-roles { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem 2.4rem; }
+    .org-role { border-top: 1px solid rgba(240,235,224,0.08); padding-top: 0.85rem; }
+    .org-role .role-name { font-family: var(--serif); font-size: 1.05rem; font-weight: 300; color: var(--bone); letter-spacing: 0.03em; margin-bottom: 0.2rem; }
+    .org-role .role-meta { font-family: var(--sans); font-size: 0.6rem; font-weight: 300; letter-spacing: 0.34em; text-transform: uppercase; color: var(--terra); }
+    .org-role .role-body { font-family: var(--body); font-size: 0.82rem; color: var(--sand); margin-top: 0.38rem; line-height: 1.55; }
+
+    /* CAPITAL LADDER */
+    .cap-stack { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.1rem; }
+    .cap-row { display: grid; grid-template-columns: 110px 1fr 130px; gap: 1.4rem; align-items: center; }
+    .cap-label { font-family: var(--sans); font-size: 0.7rem; font-weight: 300; letter-spacing: 0.45em; text-transform: uppercase; color: var(--terra); }
+    .cap-stages { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; height: 26px; }
+    .cap-seg { background: rgba(240,235,224,0.05); border: 1px solid rgba(240,235,224,0.06); position: relative; }
+    .cap-seg.equity   { background: rgba(168,120,80,0.55); border-color: rgba(168,120,80,0.8); }
+    .cap-seg.land     { background: rgba(200,168,58,0.4); border-color: rgba(200,168,58,0.7); }
+    .cap-seg.lp       { background: rgba(204,190,156,0.42); border-color: rgba(204,190,156,0.7); }
+    .cap-seg.debt     { background: rgba(107,138,130,0.5); border-color: rgba(107,138,130,0.8); }
+    .cap-seg.reserve  { background: rgba(138,90,56,0.55); border-color: rgba(138,90,56,0.85); }
+    .cap-total { font-family: var(--serif); font-size: 1.25rem; font-weight: 300; color: var(--moon); text-align: right; line-height: 1; }
+    .cap-total small { font-family: var(--sans); font-size: 0.55rem; letter-spacing: 0.3em; color: var(--mist); display: block; margin-top: 0.2rem; }
+    .cap-legend { display: flex; flex-wrap: wrap; gap: 1.4rem; margin-top: 2rem; }
+    .cap-legend .lg { display: flex; align-items: center; gap: 0.5rem; font-family: var(--sans); font-size: 0.62rem; font-weight: 300; letter-spacing: 0.32em; text-transform: uppercase; color: var(--sand); }
+    .cap-legend .lg::before { content: ''; display: block; width: 10px; height: 10px; }
+    .cap-legend .lg.equity::before  { background: rgba(168,120,80,0.7); }
+    .cap-legend .lg.land::before    { background: rgba(200,168,58,0.5); }
+    .cap-legend .lg.lp::before      { background: rgba(204,190,156,0.55); }
+    .cap-legend .lg.debt::before    { background: rgba(107,138,130,0.6); }
+    .cap-legend .lg.reserve::before { background: rgba(138,90,56,0.7); }
+
+    /* RETURNS MATRIX */
+    .returns-table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
+    .returns-table th { font-family: var(--sans); font-size: 0.58rem; font-weight: 300; letter-spacing: 0.42em; text-transform: uppercase; color: var(--mist); padding: 0.85rem 0.9rem; border-bottom: 1px solid rgba(240,235,224,0.1); text-align: left; }
+    .returns-table td { font-family: var(--body); font-size: 0.92rem; color: var(--sand); padding: 1rem 0.9rem; border-bottom: 1px solid rgba(240,235,224,0.05); }
+    .returns-table td.scen { font-family: var(--serif); font-size: 1.05rem; color: var(--bone); letter-spacing: 0.03em; }
+    .returns-table td.metric { font-family: var(--serif); color: var(--moon); }
+    .returns-table tr.upside td { color: var(--moon); }
+    .returns-table tr.upside td.scen { color: var(--terra); }
+
+    /* ROADMAP / GANTT */
+    .gantt { margin-top: 2.4rem; display: flex; flex-direction: column; gap: 0.7rem; }
+    .gantt-axis { display: grid; grid-template-columns: 130px repeat(10, 1fr); gap: 4px; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(240,235,224,0.08); margin-bottom: 0.6rem; }
+    .gantt-axis div { font-family: var(--sans); font-size: 0.55rem; font-weight: 200; letter-spacing: 0.28em; text-transform: uppercase; color: var(--mist); text-align: center; }
+    .gantt-axis div:first-child { text-align: left; }
+    .gantt-row { display: grid; grid-template-columns: 130px repeat(10, 1fr); gap: 4px; align-items: center; }
+    .gantt-row .gr-label { font-family: var(--sans); font-size: 0.62rem; font-weight: 300; letter-spacing: 0.4em; text-transform: uppercase; color: var(--terra); }
+    .gantt-cell { height: 22px; background: rgba(240,235,224,0.03); border: 1px solid rgba(240,235,224,0.05); position: relative; }
+    .gantt-cell.fill { background: rgba(168,120,80,0.5); border-color: rgba(168,120,80,0.8); }
+    .gantt-cell.fill.soft { background: rgba(168,120,80,0.22); border-color: rgba(168,120,80,0.4); }
+    .gantt-cell.fill.gate { background: var(--gold); border-color: var(--gold); }
+    .gantt-foot { font-family: var(--body); font-size: 0.82rem; color: var(--sand); margin-top: 1.6rem; line-height: 1.65; padding-left: 1.3rem; border-left: 2px solid var(--terra); }
+
+    /* CLOSE / ASK */
+    .ask-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5vw; align-items: start; margin-top: 2.5rem; }
+    .ask-list { list-style: none; }
+    .ask-list li { padding: 1rem 0; border-bottom: 1px solid rgba(240,235,224,0.06); display: flex; align-items: baseline; gap: 1.4rem; }
+    .ask-list li .nm { font-family: var(--serif); font-size: clamp(1.1rem, 1.6vw, 1.35rem); font-weight: 300; color: var(--bone); letter-spacing: 0.03em; flex: 0 0 16ch; }
+    .ask-list li .vl { font-family: var(--body); font-size: 0.92rem; color: var(--sand); line-height: 1.6; }
+    .close-tagline { font-family: var(--serif-it); font-style: italic; font-size: clamp(1.2rem, 2vw, 1.7rem); line-height: 1.65; color: var(--moon); max-width: 50ch; margin: 0 auto; text-align: center; }
+    .close-contact { font-family: var(--sans); font-size: 0.62rem; font-weight: 300; letter-spacing: 0.45em; text-transform: uppercase; color: rgba(204,190,156,0.55); text-align: center; }
+
+    /* COMP TABLE */
+    .comp-table { width: 100%; border-collapse: collapse; margin-top: 1.4rem; }
+    .comp-table th { font-family: var(--sans); font-size: 0.58rem; font-weight: 300; letter-spacing: 0.42em; text-transform: uppercase; color: var(--mist); padding: 0.6rem 0.6rem 0.6rem 0; border-bottom: 1px solid rgba(240,235,224,0.08); text-align: left; }
+    .comp-table td { font-family: var(--sans); font-size: 0.78rem; font-weight: 300; color: rgba(191,176,144,0.75); padding: 0.72rem 0.6rem 0.72rem 0; border-bottom: 1px solid rgba(240,235,224,0.045); }
+    .check { color: var(--terra); }
+    .cross { color: rgba(200,190,165,0.22); }
+
+    @media (max-width: 900px) {
+      .land-grid, .healing-grid, .reception-grid, .phase-grid, .ask-grid, .org-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .ladder-row, .ladder-row.head { grid-template-columns: 1fr 1fr; }
+      .ladder-row > div { border-right: none; border-bottom: 1px solid rgba(240,235,224,0.05); }
+      .market-kpis { grid-template-columns: repeat(2, 1fr); }
+      .gantt-axis, .gantt-row { grid-template-columns: 100px repeat(10, 1fr); font-size: 0.5rem; }
+      .circuits-row { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="prog"></div>
+<div id="dots"></div>
+<div id="counter">01 / 16</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     01 · COVER
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s1">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/VISTA20_FACHADA_JM_v2.jpg" alt="Cucunumic — Reception Pavilion">
+    <div style="position:absolute;inset:0;background:rgba(13,11,9,0.74)"></div>
+    <div class="ov-bottom"></div>
+  </div>
+
+  <div class="cover-frame rv d1"></div>
+  <div class="cover-glow"></div>
+
+  <div class="c">
+    <div class="cover-coords rv d2">
+      <span class="cover-coords-line"></span>
+      <span class="cover-coords-text">23.1802° N &nbsp;·&nbsp; 110.0996° W &nbsp;·&nbsp; El Pescadero · Pacific Coast · BCS</span>
+      <span class="cover-coords-line"></span>
+    </div>
+
+    <div class="cover-title rv d3">cucunumic</div>
+
+    <div class="cover-tag-row rv d4">
+      <span class="cover-divider">·</span>
+      <span class="ct">baja wellness</span>
+      <span class="cover-divider">·</span>
+    </div>
+
+    <div style="width:3.5rem;height:1px;background:var(--terra);margin:2rem auto 2rem;opacity:0.9" class="rv d5"></div>
+
+    <p class="cover-hook rv d6">
+      A four-phase wellness destination on the Pacific corridor of Baja California Sur.<br>
+      Each phase a complete operation. Each step earned by the one before it.<br>
+      <em>De-risked at the bottom. Premium at the top.</em>
+    </p>
+
+    <div class="cover-pillars rv d7">Wellness Boutique &nbsp;·&nbsp; 30 Keys &nbsp;·&nbsp; Earned Expansion &nbsp;·&nbsp; 11 Hectares &nbsp;·&nbsp; Off-Grid &nbsp;·&nbsp; Pacific</div>
+    <div class="cover-date rv d8">Investment Memorandum &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; Confidential</div>
+  </div>
+
+  <div class="cover-scroll rv d8">
+    <div class="cover-scroll-line"></div>
+    <span class="cover-scroll-label">Explore</span>
+  </div>
+
+  <div class="slide-num">01 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     02 · ORIGEN
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s-origin">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/palmar_new.jpg" alt="El palmar — Cucunumic">
+    <div class="ov-dark" style="background:rgba(13,11,9,0.55)"></div>
+    <div class="ov-bottom"></div>
+  </div>
+  <div class="c" style="display:flex;flex-direction:column;align-items:center;text-align:center;margin:0 auto">
+    <p class="eyebrow rv d1" style="letter-spacing:0.45em;margin-bottom:2.6rem">02 — Thesis</p>
+    <p class="rv d2" style="font-family:var(--serif-it);font-weight:300;font-size:clamp(1.55rem,2.6vw,2.4rem);line-height:1.7;color:var(--bone);max-width:64ch;text-shadow:0 2px 28px rgba(0,0,0,0.75)">
+      A wellness destination, opened complete.
+    </p>
+    <div style="width:2.5rem;height:1px;background:var(--terra);margin:2.2rem auto" class="rv d3"></div>
+    <p class="rv d4" style="font-family:var(--body);font-weight:300;font-size:clamp(1rem,1.45vw,1.22rem);line-height:1.9;color:var(--moon);max-width:62ch;text-shadow:0 1px 18px rgba(0,0,0,0.65)">
+      30 keys on 11 hectares of Pacific-coast Baja. The full integrated wellness program
+      from day one — Reception, six circuit cells, Spa Reception, Treatment House,
+      Recovery Garden, F&amp;B, pool. Phase 2 (40–50 keys) unlocks only when guest demand
+      pulls us beyond 30. The math works at 30; expansion is what guests earn.
+    </p>
+  </div>
+  <div class="slide-num">02 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     03 · THE LAND
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s2">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/aerial_total.png" alt="Aerial — 11 Hectares">
+    <div class="ov-right"></div>
+  </div>
+  <div class="c">
+    <div class="land-grid">
+      <div>
+        <p class="eyebrow rv d1">03 — The Property</p>
+        <div class="land-num rv d2 ph-text">11</div>
+        <span class="land-unit rv d3">Hectares · Off-Grid · Pacific Corridor · BCS</span>
+        <div class="rule rv d4"></div>
+        <p class="large rv d5 ph-text">A surveyed estate at 23.18°N on the Pacific side of Baja California Sur — the Todos Santos / Pescadero corridor at its commercial inflection.</p>
+        <div class="land-facts rv d6">
+          <div class="land-fact">
+            <div class="land-fact-label">Coordinates</div>
+            <div class="land-fact-val">23.1802°N · 110.0996°W</div>
+          </div>
+          <div class="land-fact">
+            <div class="land-fact-label">Airport</div>
+            <div class="land-fact-val">1 hr to SJD International</div>
+          </div>
+          <div class="land-fact">
+            <div class="land-fact-label">Pacific Distance</div>
+            <div class="land-fact-val">7–10 km · west aspect</div>
+          </div>
+          <div class="land-fact">
+            <div class="land-fact-label">Climate</div>
+            <div class="land-fact-val">10–15°C cooler than Cabo</div>
+          </div>
+          <div class="land-fact">
+            <div class="land-fact-label">Buildable Terrace</div>
+            <div class="land-fact-val">170–190 m · 50 m river setback ✓</div>
+          </div>
+          <div class="land-fact">
+            <div class="land-fact-label">Title</div>
+            <div class="land-fact-val">Escriturado · Surveyed</div>
+          </div>
+        </div>
+      </div>
+      <div></div>
+    </div>
+  </div>
+  <div class="slide-num">03 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     04 · ARCHITECTURE OF HEALING — concept
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s4-arch">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/VISTA12_FACHADA-DE-ACCESO_NOCHE.png" alt="Cucunumic — Architecture">
+    <div class="ov-left"></div>
+  </div>
+  <div class="c">
+    <div class="healing-grid">
+      <div>
+        <p class="act-label rv d1">Act II — The Place</p>
+        <p class="eyebrow rv d2">04 — The Architecture of Healing</p>
+        <h2 class="h2 rv d3">A constellation of cells,<br>not a single building.</h2>
+        <div class="rule rv d4"></div>
+        <p class="body rv d5" style="max-width:54ch">
+          Cucunumic is conceived as a wellness center where each therapeutic modality
+          inhabits its own monolithic structure. The buildings do not contain the program —
+          they are the program. A guest crosses the desert garden and arrives at one cell at
+          a time: hyperbaric, sauna, infrared, cryo, float, sound. Each is a separate room with
+          its own door, its own sky, its own silence.
+        </p>
+        <p class="body rv d6" style="max-width:54ch;margin-top:1.2rem">
+          A formal portico at the threshold — the <em>Reception</em> — collects guests, briefs them,
+          and dispatches them into the circuit. The architecture is rammed earth, lime stucco,
+          deep eaves, raised floors. Vernacular in material; ceremonial in geometry.
+        </p>
+      </div>
+      <div class="rv d4">
+        <img src="./Cucunumic/07. Fotos/masterplan_overview.png" alt="Master Plan — Overview" style="width:100%;display:block;border:1px solid rgba(168,120,80,0.22)">
+        <p style="font-family:var(--sans);font-size:0.58rem;font-weight:200;letter-spacing:0.42em;text-transform:uppercase;color:var(--mist);margin-top:0.8rem;text-align:center">Master Plan · 11 hectares · 50 m river setback ✓</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">04 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     05 · RECEPTION — program detail
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s5-rec" style="background: var(--coal)">
+  <div class="c">
+    <div class="reception-grid">
+      <div class="reception-img rv d1">
+        <img src="./Cucunumic/07. Fotos/VISTA20_FACHADA_JM_v2.jpg" alt="Reception — Cucunumic">
+      </div>
+      <div class="reception-program">
+        <p class="eyebrow rv d2">05 — The Reception</p>
+        <h2 class="h3 rv d3" style="font-size:clamp(1.6rem,2.6vw,2.3rem);">The threshold.<br>One symmetric portico, three rooms, one element.</h2>
+        <div class="rule rv d4"></div>
+        <p class="body rv d5" style="font-size:0.96rem">
+          A single rectangular volume opens through a colonnade onto the desert.
+          Programmatically tripartite — and built around water.
+        </p>
+        <div class="program-row rv d6">
+          <div class="program-cell">
+            <div class="pc-axis">West Bay</div>
+            <div class="pc-ico">— · —</div>
+            <div class="pc-name">Check-in &amp; Desk</div>
+            <div class="pc-body">Concierge, intake forms, key &amp; locker dispensing. Glass-screened from the central court.</div>
+          </div>
+          <div class="program-cell center">
+            <div class="pc-axis">Centre</div>
+            <div class="pc-ico">◯</div>
+            <div class="pc-name">Water Feature</div>
+            <div class="pc-body">A still rectangular pool, ankle deep, the visual anchor of the building. Sky reflected. Sound dampening. Ritual.</div>
+          </div>
+          <div class="program-cell">
+            <div class="pc-axis">East Bay</div>
+            <div class="pc-ico">— · —</div>
+            <div class="pc-name">Lounge &amp; Tea / Juice Bar</div>
+            <div class="pc-body">Pre-treatment hydration, post-treatment recovery. Cold-pressed juices, tea, light bites. Seating for 12.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">05 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     06 · THE CIRCUITS
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s6-circ">
+  <div class="bg" style="background:var(--night)"></div>
+  <div class="c">
+    <p class="act-label rv d1" style="text-align:center">Act II — The Place</p>
+    <p class="eyebrow rv d2" style="text-align:center; margin-bottom:1rem">06 — The Circuits of Health</p>
+    <h2 class="h3 rv d3" style="text-align:center;font-size:clamp(1.6rem,2.6vw,2.3rem); max-width:42ch; margin: 0 auto 0.8rem">Each modality, its own building.<br>Connected by paths through the garden.</h2>
+
+    <div class="circuits-row rv d4">
+      <div class="circuit-card">
+        <img src="./Cucunumic/07. Fotos/VISTA07_FACHADA-TEMPLO.png" alt="HBOT pavilion">
+        <div class="cap">
+          <span class="cc-num">01</span>
+          <div class="cc-title">HBOT Pavilion</div>
+          <div class="cc-modal">Hyperbaric Oxygen</div>
+        </div>
+      </div>
+      <div class="circuit-card">
+        <img src="./Cucunumic/07. Fotos/VISTA12_FACHADA-DE-ACCESO_NOCHE.png" alt="Sauna pavilion">
+        <div class="cap">
+          <span class="cc-num">02</span>
+          <div class="cc-title">Sauna · Cold Plunge</div>
+          <div class="cc-modal">Heat / Cold Contrast</div>
+        </div>
+      </div>
+      <div class="circuit-card">
+        <img src="./Cucunumic/07. Fotos/VISTA02_JACUZZI.jpg" alt="Hydrotherapy pavilion">
+        <div class="cap">
+          <span class="cc-num">03</span>
+          <div class="cc-title">Hydrotherapy</div>
+          <div class="cc-modal">Mineral &amp; Float</div>
+        </div>
+      </div>
+      <div class="circuit-card">
+        <img src="./Cucunumic/07. Fotos/VISTA06_TEMPLO-INTERIOR.png" alt="Sound &amp; Meditation">
+        <div class="cap">
+          <span class="cc-num">04</span>
+          <div class="cc-title">Sound &amp; Breath</div>
+          <div class="cc-modal">Meditation Cell</div>
+        </div>
+      </div>
+      <div class="circuit-card">
+        <img src="./Cucunumic/07. Fotos/VISTA04_BANO-REGADERA.png" alt="Outdoor recovery">
+        <div class="cap">
+          <span class="cc-num">05</span>
+          <div class="cc-title">Outdoor Recovery</div>
+          <div class="cc-modal">Cardón Garden Path</div>
+        </div>
+      </div>
+      <div class="circuit-card">
+        <img src="./Cucunumic/07. Fotos/VISTA01_ALBERCA_2.jpg" alt="Reflection pool">
+        <div class="cap">
+          <span class="cc-num">06</span>
+          <div class="cc-title">Reflection Pool</div>
+          <div class="cc-modal">Closing Ritual</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">06 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     07 · MARKET
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s7-mkt" style="background: var(--coal)">
+  <div class="c">
+    <div style="max-width: 920px">
+      <p class="act-label rv d1">Act III — The Market</p>
+      <p class="eyebrow rv d2">07 — Los Cabos &amp; Pacific Corridor</p>
+      <h2 class="h2 rv d3">Demand is loud.<br>Supply on this coast is silent.</h2>
+      <div class="market-kpis rv d4">
+        <div class="mkpi">
+          <div class="mkpi-num">75<span class="mkpi-unit">%</span></div>
+          <div class="mkpi-bar"></div>
+          <div class="mkpi-label">Occupancy · Los Cabos</div>
+          <div class="mkpi-sub">FITURCA observatory, April 2025 · highest among 12 monitored Mexican destinations</div>
+        </div>
+        <div class="mkpi">
+          <div class="mkpi-num">$473</div>
+          <div class="mkpi-bar"></div>
+          <div class="mkpi-label">Average Daily Rate</div>
+          <div class="mkpi-sub">Destination-wide April 2025 · scenic-route segment $802 (Feb 2025)</div>
+        </div>
+        <div class="mkpi">
+          <div class="mkpi-num">$455–510</div>
+          <div class="mkpi-bar"></div>
+          <div class="mkpi-label">Cucunumic ADR target</div>
+          <div class="mkpi-sub">Defensible against current FITURCA scenic-route benchmarks</div>
+        </div>
+        <div class="mkpi">
+          <div class="mkpi-num">0</div>
+          <div class="mkpi-bar"></div>
+          <div class="mkpi-label">Clinical-grade wellness retreats</div>
+          <div class="mkpi-sub">On the Pescadero–Todos Santos corridor · the gap we hold</div>
+        </div>
+      </div>
+
+      <table class="comp-table rv d5" style="margin-top:2.5rem">
+        <thead>
+          <tr><th>Property</th><th>Rooms</th><th>Wellness Anchor</th><th>HBOT</th><th>Off-Grid</th><th>ADR Range</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Hotel San Cristóbal · Todos Santos</td><td>32</td><td>Spa</td><td class="cross">×</td><td class="cross">×</td><td>$450–650</td></tr>
+          <tr><td>Paradero · Todos Santos</td><td>35</td><td>Spa &amp; Yoga</td><td class="cross">×</td><td class="cross">partial</td><td>$700–1,400</td></tr>
+          <tr><td>Rancho Pescadero · Reopened</td><td>103</td><td>Spa, Yoga</td><td class="cross">×</td><td class="cross">×</td><td>$650–1,800</td></tr>
+          <tr style="border-top:1px solid rgba(168,120,80,0.4)"><td style="color:var(--terra);font-weight:500">Cucunumic</td><td style="color:var(--bone)">Phased: Pilot → 30 → 40–50</td><td style="color:var(--bone)">Clinical wellness, full circuit</td><td class="check">●</td><td class="check">●</td><td style="color:var(--bone)">$455–510 base · premium upside</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="slide-num">07 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     08 · PHASING THESIS
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s8-phase" style="background: var(--night)">
+  <div class="c">
+    <p class="act-label rv d1">Act IV — The Ladder</p>
+    <p class="eyebrow rv d2">08 — Phased Development</p>
+    <h2 class="h2 rv d3">Two phases. One gate.<br>Each one a complete operation.</h2>
+
+    <div class="ladder rv d4">
+      <div class="ladder-row head">
+        <div>Phase</div>
+        <div>Scope</div>
+        <div>Capital</div>
+        <div>Stabilized FTE</div>
+        <div>Gate to advance</div>
+      </div>
+      <div class="ladder-row">
+        <div><span class="lr-tag">P1 · 2028</span></div>
+        <div><span class="lr-name">30-key Wellness Boutique</span><div class="lr-detail">Open complete · 30 keys + integrated wellness program from day one (HBOT, sauna+cold, hydrotherapy, sound+breath, recovery, reflection pool, treatment house) + F&amp;B + pool + BoH.</div></div>
+        <div><span class="lr-num">~$22.7M</span><div class="lr-num-sub">All-in (range $20–25M)</div></div>
+        <div><span class="lr-num">32.0</span><div class="lr-num-sub">FTE stabilized</div></div>
+        <div><span class="lr-num" style="font-size:0.95rem">Gate (4 conditions)</span><div class="lr-num-sub">ADR · OCC · turnaway · DSCR</div></div>
+      </div>
+      <div class="ladder-row">
+        <div><span class="lr-tag">P2 · 2033+</span></div>
+        <div><span class="lr-name">Earned Expansion · 40–50 keys</span><div class="lr-detail">+10 suites (E ridge, premium canyon view) for 40 base case · OR +10 suites + 10 villas (W ridge, Pacific view) for 50-key upside. Built only if guest demand pulls us forward.</div></div>
+        <div><span class="lr-num">$18–22M</span><div class="lr-num-sub">Separate raise · uplifted valuation</div></div>
+        <div><span class="lr-num">47.0</span><div class="lr-num-sub">FTE stabilized</div></div>
+        <div><span class="lr-num" style="font-size:0.95rem">P1+P2 stabilization</span><div class="lr-num-sub">Y9–Y10 from P1 raise</div></div>
+      </div>
+    </div>
+
+    <div class="rv d6" style="margin-top:2.4rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;border-top:1px solid rgba(240,235,224,0.08);padding-top:1.6rem">
+      <div><div style="font-family:var(--sans);font-size:0.55rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--mist);margin-bottom:0.4rem">Trailing-12 ADR</div><div style="font-family:var(--serif);font-size:1.4rem;color:var(--moon);line-height:1">≥ $510</div><div style="font-family:var(--body);font-size:0.78rem;color:var(--sand);margin-top:0.3rem">Premium positioning</div></div>
+      <div><div style="font-family:var(--sans);font-size:0.55rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--mist);margin-bottom:0.4rem">Occupancy</div><div style="font-family:var(--serif);font-size:1.4rem;color:var(--moon);line-height:1">≥ 65%</div><div style="font-family:var(--body);font-size:0.78rem;color:var(--sand);margin-top:0.3rem">4 consecutive Q</div></div>
+      <div><div style="font-family:var(--sans);font-size:0.55rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--mist);margin-bottom:0.4rem">Turnaway demand</div><div style="font-family:var(--serif);font-size:1.4rem;color:var(--moon);line-height:1">≥ 15%</div><div style="font-family:var(--body);font-size:0.78rem;color:var(--sand);margin-top:0.3rem">2 peak seasons</div></div>
+      <div><div style="font-family:var(--sans);font-size:0.55rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--mist);margin-bottom:0.4rem">DSCR (modeled)</div><div style="font-family:var(--serif);font-size:1.4rem;color:var(--moon);line-height:1">≥ 1.5×</div><div style="font-family:var(--body);font-size:0.78rem;color:var(--sand);margin-top:0.3rem">On Phase 2 debt</div></div>
+    </div>
+
+    <p class="ladder-foot rv d7" style="margin-top:1.6rem">
+      Two phases. One gate. Phase 2 happens only when guests demand it. If the gate
+      doesn't clear, Phase 1 holds at 30 keys indefinitely — and stays a complete
+      operating business.
+    </p>
+  </div>
+  <div class="slide-num">08 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     09 · PHASE PROGRESSION — visual master plan
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s9-prog" style="background: var(--coal)">
+  <div class="c">
+    <p class="act-label rv d1">Act IV — The Ladder</p>
+    <p class="eyebrow rv d2">09 — Phase Progression</p>
+    <h2 class="h2 rv d3" style="max-width:48ch">The same parcel.<br>Built one phase at a time.</h2>
+    <div class="rv d4" style="margin-top:2.2rem;display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem">
+      <div style="position:relative;border:1px solid rgba(168,120,80,0.22);overflow:hidden">
+        <img src="./Cucunumic/07. Fotos/masterplan_p1.png" alt="Phase 1 — Wellness Boutique" style="width:100%;display:block">
+        <div style="position:absolute;top:0;left:0;right:0;padding:0.55rem 0.9rem;background:linear-gradient(to bottom,rgba(13,11,9,0.92),transparent);font-family:var(--sans);font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);font-weight:300">Phase 1 · Wellness Boutique · 30 keys</div>
+      </div>
+      <div style="position:relative;border:1px solid rgba(168,120,80,0.22);overflow:hidden">
+        <img src="./Cucunumic/07. Fotos/masterplan_p2.png" alt="Phase 2 — Earned Expansion" style="width:100%;display:block">
+        <div style="position:absolute;top:0;left:0;right:0;padding:0.55rem 0.9rem;background:linear-gradient(to bottom,rgba(13,11,9,0.92),transparent);font-family:var(--sans);font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--rust);font-weight:300">Phase 2 · Earned Expansion · 40–50 keys</div>
+      </div>
+    </div>
+    <p style="font-family:var(--body);font-size:0.86rem;color:var(--bone-dim);max-width:96ch;margin-top:1.3rem;line-height:1.65" class="rv d5">
+      <strong style="color:var(--gold);font-weight:500">Phase 1</strong> opens complete: 30 keys, full integrated wellness program, F&amp;B, pool, BoH.
+      <strong style="color:var(--rust);font-weight:500">Phase 2</strong> layers in 10 suites (E ridge canyon view) and optionally 10 villas (W ridge Pacific view) — only when guest demand pulls beyond 30.
+      Maps over Google Satellite · 50 m main-river setback verified ✓
+    </p>
+  </div>
+  <div class="slide-num">09 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     10 · PHASE 1 — Wellness Pilot
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s10-p1">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/VISTA06_TEMPLO-INTERIOR.png" alt="Phase 1 — interior">
+    <div class="ov-left"></div>
+  </div>
+  <div class="c">
+    <div class="phase-grid">
+      <div>
+        <p class="phase-tag rv d1">10 — Phase 1 · Wellness Boutique</p>
+        <div class="phase-num-display rv d2">
+          <span class="num">01</span>
+          <span class="word">/ boutique</span>
+        </div>
+        <p class="phase-headline rv d3">Open complete.<br>Earn the brand from day one.</p>
+        <p class="phase-lede rv d4">
+          A 30-key boutique with the full integrated wellness program — Reception, six circuit cells
+          (HBOT, sauna+cold, hydrotherapy, sound+breath, recovery, reflection pool), Spa Reception,
+          Treatment House, Recovery Garden, F&amp;B pavilion, pool, BoH service court. 18-month build.
+          Open H1 2028. The boutique is itself the validation.
+        </p>
+        <div class="phase-gate rv d5">
+          <div class="gate-label">Gate to Phase 2</div>
+          <div class="gate-body">All four conditions sustained: trailing-12 ADR ≥ $510, occupancy ≥ 65% × 4 consecutive quarters, documented turnaway ≥ 15% × 2 peak seasons, modeled DSCR ≥ 1.5× on Phase 2 expansion debt.</div>
+        </div>
+      </div>
+      <div class="phase-kpis rv d4">
+        <div class="phase-kpi"><div class="label">Capital · all-in</div><div class="val">$22.7<small>M</small></div><div class="sub">Range $20–25M, base case</div></div>
+        <div class="phase-kpi"><div class="label">Keys</div><div class="val">30</div><div class="sub">Casitas + suites · single-storey</div></div>
+        <div class="phase-kpi"><div class="label">IRR · base</div><div class="val">18–22<small>%</small></div><div class="sub">5-year modeled</div></div>
+        <div class="phase-kpi"><div class="label">Equity multiple</div><div class="val">3.0–3.5<small>×</small></div><div class="sub">Terminal exit</div></div>
+        <div class="phase-kpi"><div class="label">Y5 EBITDA</div><div class="val">$3.05<small>M</small></div><div class="sub">32% margin · $9.5M revenue</div></div>
+        <div class="phase-kpi"><div class="label">Stabilized FTE</div><div class="val">32.0</div><div class="sub">Wellness-heavy ladder</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">10 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     10 · PHASE 2 — Integrated Boutique
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s10-p2">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/VISTA17_INTERIOR.jpg" alt="Phase 2 — boutique">
+    <div class="ov-right"></div>
+  </div>
+  <div class="c">
+    <div class="phase-grid">
+      <div class="phase-kpis rv d4">
+        <div class="phase-kpi"><div class="label">Capital · separate raise</div><div class="val">$18–22<small>M</small></div><div class="sub">At uplifted Phase 1 valuation</div></div>
+        <div class="phase-kpi"><div class="label">Keys added</div><div class="val">+10 / +20</div><div class="sub">40 base · 50 upside</div></div>
+        <div class="phase-kpi"><div class="label">Stabilized FTE</div><div class="val">47.0</div><div class="sub">Combined P1+P2 ladder</div></div>
+        <div class="phase-kpi"><div class="label">Y10 combined EBITDA</div><div class="val">$5.3<small>M</small></div><div class="sub">36% margin · $14.8M revenue</div></div>
+        <div class="phase-kpi"><div class="label">Combined IRR</div><div class="val">17–22<small>%</small></div><div class="sub">P1 LPs blended pro-rata</div></div>
+        <div class="phase-kpi"><div class="label">Combined multiple</div><div class="val">3.5–4.5<small>×</small></div><div class="sub">Y10 terminal</div></div>
+      </div>
+      <div>
+        <p class="phase-tag rv d1">11 — Phase 2 · Earned Expansion</p>
+        <div class="phase-num-display rv d2">
+          <span class="num">02</span>
+          <span class="word">/ expansion</span>
+        </div>
+        <p class="phase-headline rv d3">Phase 2 happens when guests demand it —<br>not when we decide to build it.</p>
+        <p class="phase-lede rv d4">
+          Built only after Phase 1 has proven itself through the gate. +10 suites (E ridge canyon view)
+          for the 40-key base case, or +10 suites + 10 villas (W ridge Pacific view) for the 50-key
+          upside. Raised at uplifted valuation reflecting Phase 1 stabilized cash flow. Build 18–24
+          months. Open ~2033. Combined Phase 1+2 stabilized at Y9–Y10.
+        </p>
+        <div class="phase-gate rv d5">
+          <div class="gate-label">If the gate doesn't clear</div>
+          <div class="gate-body">Phase 1 holds at 30 keys indefinitely. Phase 1 LPs keep their position; nothing forces an expansion the market hasn't earned. Phase 1 is itself a complete operating business.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">11 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     12 · OPERATING MODEL
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s12-op" style="background: var(--coal)">
+  <div class="c">
+    <p class="act-label rv d1">Act V — The Operation</p>
+    <p class="eyebrow rv d2">12 — Operating Model &amp; Staffing</p>
+    <h2 class="h2 rv d3" style="max-width:36ch">Wellness-grade staffing<br>day one — the math allows it.</h2>
+
+    <div class="org-grid">
+      <div class="staff-bars rv d4">
+        <div class="staff-row">
+          <div class="sr-label">Phase 1</div>
+          <div class="sr-bar-track"><div class="sr-bar-fill" style="width:68%"></div></div>
+          <div class="sr-num">32.0<small>FTE · 30 keys + wellness</small></div>
+        </div>
+        <div class="staff-row">
+          <div class="sr-label">Phase 2</div>
+          <div class="sr-bar-track"><div class="sr-bar-fill" style="width:100%"></div></div>
+          <div class="sr-num">47.0<small>FTE · 40–50 keys</small></div>
+        </div>
+      </div>
+
+      <div class="org-roles rv d5">
+        <div class="org-role">
+          <div class="role-name">General Manager</div>
+          <div class="role-meta">Phase 1 · onward</div>
+          <div class="role-body">Bilingual hospitality / wellness lead. P&amp;L ownership, SOPs, service culture.</div>
+        </div>
+        <div class="org-role">
+          <div class="role-name">Wellness Director</div>
+          <div class="role-meta">Phase 1 · pre-opening</div>
+          <div class="role-body">MD or experienced wellness lead. Owns program design, protocols, attach-rate. Day-one role.</div>
+        </div>
+        <div class="org-role">
+          <div class="role-name">Clinical Team (8 FTE P1)</div>
+          <div class="role-meta">Phase 1 · launch</div>
+          <div class="role-body">2 nurses · 2 IV / HBOT techs · 3 wellness coaches. UHMS / NBDHMT credentialing where applicable.</div>
+        </div>
+        <div class="org-role">
+          <div class="role-name">Spa Team (7 FTE P1)</div>
+          <div class="role-meta">Phase 1 · launch</div>
+          <div class="role-body">Spa manager + 6 therapists / aestheticians. Reset Program is the anchor product.</div>
+        </div>
+        <div class="org-role">
+          <div class="role-name">F&amp;B + Front + BoH</div>
+          <div class="role-meta">Phase 1 · launch</div>
+          <div class="role-body">7 F&amp;B · 5 reception · 5 housekeeping · 2 maintenance. Off-grid uptime is a P&amp;L line.</div>
+        </div>
+        <div class="org-role">
+          <div class="role-name">Management Structure</div>
+          <div class="role-meta">TBD at raise structuring</div>
+          <div class="role-body">Independent operator (3–5% rev fee) or branded operator (Habitas / Auberge / Capella, 6–10%). Default model: 4% blended fee.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">12 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     13 · CAPITAL LADDER
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s13-cap" style="background: var(--night)">
+  <div class="c">
+    <p class="act-label rv d1">Act VI — The Capital</p>
+    <p class="eyebrow rv d2">13 — Capital Ladder &amp; Funding Stack</p>
+    <h2 class="h2 rv d3" style="max-width:48ch">Two raises. One gate.<br>Phase 2 funds at uplifted valuation.</h2>
+
+    <div class="cap-stack rv d4">
+      <div class="cap-row">
+        <div class="cap-label">Raise 1 · 2027</div>
+        <div class="cap-stages">
+          <div class="cap-seg equity"></div>
+          <div class="cap-seg equity"></div>
+          <div class="cap-seg equity"></div>
+          <div class="cap-seg land"></div>
+          <div class="cap-seg land"></div>
+          <div class="cap-seg lp"></div>
+          <div class="cap-seg lp"></div>
+          <div class="cap-seg reserve"></div>
+        </div>
+        <div class="cap-total">$22.7<small>M · Phase 1 all-in</small></div>
+      </div>
+      <div class="cap-row">
+        <div class="cap-label">Raise 2 · 2031+</div>
+        <div class="cap-stages">
+          <div class="cap-seg equity"></div>
+          <div class="cap-seg equity"></div>
+          <div class="cap-seg lp"></div>
+          <div class="cap-seg lp"></div>
+          <div class="cap-seg lp"></div>
+          <div class="cap-seg debt"></div>
+          <div class="cap-seg debt"></div>
+          <div class="cap-seg reserve"></div>
+        </div>
+        <div class="cap-total">$18–22<small>M · separate raise</small></div>
+      </div>
+    </div>
+    <div class="cap-legend rv d5">
+      <span class="lg equity">Sponsor Equity</span>
+      <span class="lg land">Land Contribution</span>
+      <span class="lg lp">LP / Investor Equity</span>
+      <span class="lg debt">Senior · Construction Debt</span>
+      <span class="lg reserve">Working Capital · Reserves</span>
+    </div>
+    <p style="font-family:var(--body);font-size:0.88rem;color:var(--mist);margin-top:1.6rem;line-height:1.7;max-width:80ch" class="rv d6">
+      Raise 1 funds the 30-key wellness boutique end-to-end — equity-led with negotiated land
+      contribution. Phase 1 LPs hold non-dilutable Phase 1 equity with pro-rata participation
+      rights in Phase 2. Raise 2 funds expansion at uplifted valuation reflecting Phase 1
+      stabilized cash flow, with optional construction debt at ≤65% LTC. Cumulative project
+      capital ~$42M for the 50-key upside case.
+    </p>
+  </div>
+  <div class="slide-num">13 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     14 · RETURNS MATRIX
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s14-ret" style="background: var(--coal)">
+  <div class="c">
+    <p class="act-label rv d1">Act VI — The Capital</p>
+    <p class="eyebrow rv d2">14 — Returns Matrix</p>
+    <h2 class="h2 rv d3" style="max-width:48ch">Phase 1 stands alone.<br>Phase 2 is upside on top.</h2>
+
+    <table class="returns-table rv d4">
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>P1 Y5 IRR</th>
+          <th>P1 Y5 EBITDA</th>
+          <th>P1 Y5 Valuation</th>
+          <th>P1+P2 Y10 IRR</th>
+          <th>P1+P2 Y10 Multiple</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="scen">Conservative</td>
+          <td class="metric">12–15%</td>
+          <td>$1.6M</td>
+          <td>$12.8M</td>
+          <td>14–17%</td>
+          <td>2.5–2.8×</td>
+        </tr>
+        <tr>
+          <td class="scen">Base case</td>
+          <td class="metric">18–22%</td>
+          <td>$3.05M</td>
+          <td>$33.6M</td>
+          <td>17–22%</td>
+          <td>3.5–4.5×</td>
+        </tr>
+        <tr class="upside">
+          <td class="scen">Upside</td>
+          <td class="metric">24–28%</td>
+          <td>$4.0M</td>
+          <td>$52M</td>
+          <td>22–26%</td>
+          <td>4.5–5.5×</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-family:var(--body);font-size:0.85rem;color:var(--mist);margin-top:1.6rem;line-height:1.7;max-width:90ch" class="rv d5">
+      Y5 valuation = 8× / 11× / 13× stabilized EBITDA (boutique luxury wellness 10–14× range).
+      Asset basis floors the conservative case at ~$21.8M. Y10 combined uses Phase 2 layered on
+      stabilized Phase 1 with pro-rata LP participation in the second raise. Sources:
+      $510 ADR · 65% occupancy · 60% wellness package penetration · $1,340 per occupied room-night at stabilization.
+    </p>
+  </div>
+  <div class="slide-num">14 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     15 · ROADMAP &amp; GATES
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s15-rm" style="background: var(--night)">
+  <div class="c">
+    <p class="act-label rv d1">Act VII — The Roadmap</p>
+    <p class="eyebrow rv d2">15 — Sequence &amp; Decision Gates</p>
+    <h2 class="h2 rv d3" style="max-width:48ch">One gate. Phase 2 happens<br>only when guests demand it.</h2>
+
+    <div class="gantt rv d4">
+      <div class="gantt-axis">
+        <div></div>
+        <div>2027</div><div>2028</div><div>2029</div><div>2030</div><div>2031</div><div>2032</div><div>2033</div><div>2034</div><div>2035</div><div>2036</div>
+      </div>
+      <div class="gantt-row">
+        <div class="gr-label">Pre-dev</div>
+        <div class="gantt-cell fill soft"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+      </div>
+      <div class="gantt-row">
+        <div class="gr-label">P1 build</div>
+        <div class="gantt-cell fill"></div>
+        <div class="gantt-cell fill"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+      </div>
+      <div class="gantt-row">
+        <div class="gr-label">P1 ramp · gate</div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell fill soft"></div>
+        <div class="gantt-cell fill soft"></div>
+        <div class="gantt-cell fill gate"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+      </div>
+      <div class="gantt-row">
+        <div class="gr-label">P2 raise · build</div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell fill soft"></div>
+        <div class="gantt-cell fill"></div>
+        <div class="gantt-cell fill"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+      </div>
+      <div class="gantt-row">
+        <div class="gr-label">P1+P2 stable</div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell fill soft"></div>
+        <div class="gantt-cell fill"></div>
+        <div class="gantt-cell fill"></div>
+        <div class="gantt-cell fill"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:2rem;margin-top:1.4rem;flex-wrap:wrap" class="rv d5">
+      <span style="font-family:var(--sans);font-size:0.6rem;font-weight:300;letter-spacing:0.32em;text-transform:uppercase;color:var(--sand);display:flex;align-items:center;gap:0.5rem"><span style="display:block;width:14px;height:10px;background:rgba(168,120,80,0.5);border:1px solid rgba(168,120,80,0.8)"></span>Build · Construction</span>
+      <span style="font-family:var(--sans);font-size:0.6rem;font-weight:300;letter-spacing:0.32em;text-transform:uppercase;color:var(--sand);display:flex;align-items:center;gap:0.5rem"><span style="display:block;width:14px;height:10px;background:rgba(168,120,80,0.22);border:1px solid rgba(168,120,80,0.4)"></span>Design · Pre-development</span>
+      <span style="font-family:var(--sans);font-size:0.6rem;font-weight:300;letter-spacing:0.32em;text-transform:uppercase;color:var(--sand);display:flex;align-items:center;gap:0.5rem"><span style="display:block;width:14px;height:10px;background:var(--gold)"></span>Decision Gate · Soft Opening</span>
+    </div>
+    <p class="gantt-foot rv d6">
+      One gate. Phase 2 happens only when the four conditions sustain — trailing-12 ADR ≥ $510,
+      occupancy ≥ 65% × 4Q, turnaway ≥ 15% × 2 peak seasons, DSCR ≥ 1.5×. If they don't, Phase 1
+      holds at 30 keys indefinitely — and stays a complete operating business.
+    </p>
+  </div>
+  <div class="slide-num">15 / 16</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     16 · THE ASK + CLOSE
+════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s16">
+  <div class="bg">
+    <img src="./Cucunumic/07. Fotos/VISTA15_FACHADA.jpg" alt="Cucunumic — Close">
+    <div class="ov-center"></div>
+    <div class="ov-bottom"></div>
+  </div>
+  <div class="c">
+    <p class="eyebrow rv d1" style="text-align:center">16 — The Ask</p>
+    <div class="display rv d2 ph-text" style="text-align:center; font-size:clamp(3rem,7vw,6rem); margin-bottom:1.5rem">cucunumic</div>
+    <div class="cover-rule rv d3"></div>
+
+    <div class="ask-grid">
+      <div>
+        <p class="h3 rv d4 ph-text" style="font-size:clamp(1.3rem,1.8vw,1.65rem);margin-bottom:1.2rem">Phase 1 Capital</p>
+        <ul class="ask-list rv d5">
+          <li><span class="nm">Round size</span><span class="vl">$22.7M sponsor + LP equity (range $20–25M)</span></li>
+          <li><span class="nm">Use of proceeds</span><span class="vl">30-key wellness boutique · all-in build · pre-opening + reserve</span></li>
+          <li><span class="nm">Structure</span><span class="vl">Equity-led with optional construction debt · negotiated land contribution</span></li>
+          <li><span class="nm">Land</span><span class="vl">11 hectares · escriturado · sponsor side</span></li>
+          <li><span class="nm">Target dates</span><span class="vl">Build start 2027 · Open 2028 H1 · Gate measurement 2030–2031</span></li>
+        </ul>
+      </div>
+      <div>
+        <p class="h3 rv d4 ph-text" style="font-size:clamp(1.3rem,1.8vw,1.65rem);margin-bottom:1.2rem">What investors get</p>
+        <ul class="ask-list rv d6">
+          <li><span class="nm">Phase 1 IRR</span><span class="vl">18–22% modeled base · 24–28% upside</span></li>
+          <li><span class="nm">Equity multiple</span><span class="vl">3.0–3.5× base · 3.8–4.5× upside (5-year)</span></li>
+          <li><span class="nm">Phase 2 right of first offer</span><span class="vl">Pro-rata participation at uplifted valuation</span></li>
+          <li><span class="nm">Optionality</span><span class="vl">Phase 1 LPs can pass on Phase 2 without losing Phase 1 position</span></li>
+          <li><span class="nm">Reporting</span><span class="vl">Quarterly KPIs against the gate dashboard</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rule center rv d7" style="margin-top:3rem;margin-bottom:1.6rem"></div>
+    <p class="close-tagline rv d8">A wellness destination, opened complete.<br>Phase 2 happens when guests demand it.</p>
+    <p class="close-contact rv d8" style="margin-top:2rem">El Pescadero · Pacific Coast · Baja California Sur · Mexico</p>
+    <p class="close-contact rv d8" style="margin-top:0.4rem;color:rgba(204,190,156,0.35)">Confidential · Investment Memorandum · May 2026</p>
+  </div>
+  <div class="slide-num">16 / 16</div>
+</section>
+
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dotsEl  = document.getElementById('dots');
+  const progEl  = document.getElementById('prog');
+  const ctrEl   = document.getElementById('counter');
+  const total   = slides.length;
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' on' : '');
+    d.title = `Slide ${i + 1}`;
+    d.addEventListener('click', () => slides[i].scrollIntoView({ behavior: 'smooth' }));
+    dotsEl.appendChild(d);
+  });
+  const dots = Array.from(dotsEl.querySelectorAll('.dot'));
+
+  let currentIdx = 0;
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const idx = slides.indexOf(entry.target);
+      if (idx === -1) return;
+      currentIdx = idx;
+
+      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+      dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+
+      const pct = total > 1 ? (idx / (total - 1)) * 100 : 100;
+      progEl.style.height = pct + '%';
+      ctrEl.textContent = String(idx + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    });
+  }, { threshold: 0.5 });
+
+  slides.forEach(s => io.observe(s));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault();
+      const next = Math.min(currentIdx + 1, total - 1);
+      slides[next].scrollIntoView({ behavior: 'smooth' });
+    }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const prev = Math.max(currentIdx - 1, 0);
+      slides[prev].scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>
+
+</body>
+</html>
