@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cucunumic · Baja Wellness — Financial Appendix · May 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ══════════════════════════════════════════════════════════
+       DESIGN TOKENS — mirrors investor deck
+    ══════════════════════════════════════════════════════════ */
+    :root {
+      --bone:     #E8DEC8;
+      --bone-dim: #D4C8B0;
+      --sand:     #BFB090;
+      --terra:    #A87850;
+      --rust:     #8A5A38;
+      --night:    #0D0B09;
+      --coal:     #1A1714;
+      --moon:     #CCBE9C;
+      --mist:     #8A8272;
+      --gold:     #C8A83A;
+      --water:    #6B8A82;
+      --hair:     rgba(240,235,224,0.08);
+      --hair-2:   rgba(240,235,224,0.14);
+
+      --serif:    'Cormorant SC', serif;
+      --serif-it: 'Cormorant', serif;
+      --body:     'Spectral', serif;
+      --sans:     'Jost', sans-serif;
+      --mono:     'JetBrains Mono', monospace;
+
+      --reading-width: 78ch;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+    body {
+      font-family: var(--body);
+      background: var(--night);
+      color: var(--bone-dim);
+      font-size: 17px;
+      line-height: 1.78;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* Noise overlay — matches deck */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       HEADER · FIXED TOP RAIL
+    ══════════════════════════════════════════════════════════ */
+    .top-rail {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      background: rgba(13,11,9,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--hair);
+      padding: 0.85rem 2.4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      font-weight: 300;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+    .top-rail a { color: var(--moon); text-decoration: none; transition: color 0.2s; }
+    .top-rail a:hover { color: var(--gold); }
+    .top-rail .br { color: var(--terra); margin: 0 0.9rem; opacity: 0.6; }
+
+    /* ══════════════════════════════════════════════════════════
+       COVER · OPENING PAGE
+    ══════════════════════════════════════════════════════════ */
+    .cover {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 8rem 4rem 4rem;
+      text-align: center;
+      position: relative;
+      border-bottom: 1px solid var(--hair);
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      inset: 4rem;
+      border: 1px solid rgba(168,120,80,0.18);
+      pointer-events: none;
+    }
+    .cover-eyebrow {
+      font-family: var(--sans);
+      font-weight: 200;
+      font-size: 0.6rem;
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: rgba(191,176,144,0.55);
+      margin-bottom: 2.6rem;
+    }
+    .cover-title {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(3.4rem, 8vw, 6.5rem);
+      letter-spacing: 0.14em;
+      line-height: 0.95;
+      color: var(--bone);
+      margin-bottom: 0.4rem;
+    }
+    .cover-sub {
+      font-family: var(--serif-it);
+      font-style: italic;
+      font-size: clamp(1.4rem, 2.4vw, 2.1rem);
+      color: var(--moon);
+      letter-spacing: 0.04em;
+      margin-bottom: 3rem;
+    }
+    .cover-rule {
+      width: 4rem; height: 1px;
+      background: var(--terra);
+      margin: 0 auto 2.4rem;
+    }
+    .cover-tag {
+      font-family: var(--sans);
+      font-weight: 200;
+      font-size: 0.72rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--sand);
+      max-width: 60ch;
+      line-height: 2.4;
+    }
+    .cover-meta {
+      margin-top: auto;
+      padding-top: 4rem;
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      font-weight: 200;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: rgba(204,190,156,0.35);
+      line-height: 2.2;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       TOC · NAVIGATION INDEX
+    ══════════════════════════════════════════════════════════ */
+    .toc-section {
+      padding: 6rem 4rem 5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--hair);
+      position: relative; z-index: 2;
+    }
+    .toc-eyebrow {
+      font-family: var(--sans);
+      font-weight: 200;
+      font-size: 0.62rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 1.4rem;
+    }
+    .toc-title {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      color: var(--bone);
+      letter-spacing: 0.05em;
+      margin-bottom: 3rem;
+      line-height: 1.2;
+    }
+    .toc {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--hair-2);
+    }
+    .toc-row {
+      display: grid;
+      grid-template-columns: 3rem 1fr 4rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--hair);
+      text-decoration: none;
+      transition: background 0.2s, padding-left 0.2s;
+      align-items: baseline;
+    }
+    .toc-row:hover { background: rgba(168,120,80,0.05); padding-left: 0.6rem; }
+    .toc-row .toc-n {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--terra);
+      letter-spacing: 0.08em;
+    }
+    .toc-row .toc-l {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      color: var(--bone);
+      letter-spacing: 0.02em;
+    }
+    .toc-row .toc-p {
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--mist);
+      text-align: right;
+    }
+    .toc:first-of-type .toc-row:first-child,
+    .toc-row.head { border-top: 1px solid var(--hair-2); }
+
+    @media (max-width: 800px) {
+      .toc { grid-template-columns: 1fr; }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       SECTION · STANDARD BLOCK
+    ══════════════════════════════════════════════════════════ */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 4rem 5rem;
+      position: relative; z-index: 2;
+      border-bottom: 1px solid var(--hair);
+    }
+    .section.last { border-bottom: none; }
+
+    .section-header {
+      display: grid;
+      grid-template-columns: 5rem 1fr;
+      gap: 2rem;
+      margin-bottom: 3.5rem;
+      align-items: baseline;
+    }
+    .section-number {
+      font-family: var(--mono);
+      font-size: 1rem;
+      color: var(--terra);
+      letter-spacing: 0.12em;
+      padding-top: 0.4rem;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      color: var(--bone);
+      letter-spacing: 0.04em;
+      line-height: 1.18;
+    }
+    .section-deck {
+      font-family: var(--serif-it);
+      font-style: italic;
+      color: var(--moon);
+      font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+      margin-top: 0.5rem;
+      font-weight: 300;
+    }
+
+    /* Body prose */
+    .prose { max-width: var(--reading-width); }
+    .prose p {
+      font-family: var(--body);
+      color: var(--bone-dim);
+      font-size: 1.02rem;
+      line-height: 1.85;
+      margin-bottom: 1.2rem;
+    }
+    .prose p strong { color: var(--bone); font-weight: 500; }
+    .prose p em { color: var(--moon); font-style: italic; }
+    .prose h3 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 1.35rem;
+      color: var(--bone);
+      letter-spacing: 0.03em;
+      margin: 2.4rem 0 1rem;
+    }
+    .prose h4 {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin: 2rem 0 0.8rem;
+    }
+    .prose ul, .prose ol { padding-left: 1.4rem; margin-bottom: 1.4rem; }
+    .prose li {
+      font-family: var(--body);
+      color: var(--bone-dim);
+      line-height: 1.78;
+      margin-bottom: 0.4rem;
+    }
+    .prose li::marker { color: var(--terra); }
+
+    /* ══════════════════════════════════════════════════════════
+       TABLES
+    ══════════════════════════════════════════════════════════ */
+    .tbl-wrap {
+      margin: 2rem 0 1.5rem;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--body);
+      font-size: 0.92rem;
+    }
+    thead th {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 0.58rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--mist);
+      text-align: left;
+      padding: 0.85rem 1rem 0.85rem 0;
+      border-bottom: 1px solid var(--hair-2);
+      vertical-align: bottom;
+    }
+    tbody td {
+      padding: 0.85rem 1rem 0.85rem 0;
+      border-bottom: 1px solid var(--hair);
+      color: var(--bone-dim);
+      line-height: 1.55;
+      vertical-align: top;
+    }
+    tbody td:first-child {
+      font-family: var(--serif);
+      color: var(--bone);
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+    }
+    tbody td strong { color: var(--bone); font-weight: 500; }
+    tbody tr:last-child td { border-bottom: 1px solid var(--hair-2); }
+    tbody tr.total-row td {
+      border-top: 1px solid var(--terra);
+      padding-top: 1.1rem;
+      font-weight: 500;
+      color: var(--moon);
+    }
+    tbody tr.total-row td:first-child { color: var(--bone); }
+    .num {
+      font-family: var(--mono);
+      font-size: 0.92rem;
+      color: var(--moon);
+      font-feature-settings: 'tnum';
+      letter-spacing: 0.02em;
+    }
+    .num.neg { color: var(--rust); }
+    .num.head { color: var(--gold); font-weight: 500; }
+    .source-cell {
+      font-family: var(--body);
+      font-size: 0.85rem;
+      color: var(--sand);
+      font-style: italic;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       KPI / STAT CARDS
+    ══════════════════════════════════════════════════════════ */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin: 2.4rem 0 2rem;
+      border-top: 1px solid var(--hair-2);
+      border-bottom: 1px solid var(--hair-2);
+      padding: 1.6rem 0;
+    }
+    .kpi {
+      text-align: left;
+      padding: 0 1.2rem;
+      border-right: 1px solid var(--hair);
+    }
+    .kpi:last-child { border-right: none; }
+    .kpi-label {
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      font-weight: 200;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: 0.6rem;
+    }
+    .kpi-val {
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 300;
+      color: var(--moon);
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+    .kpi-val small {
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      font-weight: 200;
+      letter-spacing: 0.32em;
+      color: var(--terra);
+      margin-left: 0.4rem;
+    }
+    .kpi-sub {
+      font-family: var(--body);
+      font-size: 0.78rem;
+      color: var(--sand);
+      margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+    @media (max-width: 800px) {
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .kpi:nth-child(2) { border-right: none; }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       PULL QUOTE · KEY ASSUMPTION CALLOUT
+    ══════════════════════════════════════════════════════════ */
+    .pull {
+      margin: 2.4rem 0;
+      padding: 1.6rem 2rem;
+      border-left: 2px solid var(--terra);
+      background: rgba(168,120,80,0.04);
+    }
+    .pull-label {
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      font-weight: 300;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 0.6rem;
+    }
+    .pull-body {
+      font-family: var(--serif-it);
+      font-style: italic;
+      color: var(--bone);
+      font-size: 1.15rem;
+      line-height: 1.65;
+    }
+    .pull-body em { color: var(--gold); font-style: normal; }
+
+    /* ══════════════════════════════════════════════════════════
+       CHARTS · SVG VISUALIZATIONS
+    ══════════════════════════════════════════════════════════ */
+    .chart-frame {
+      margin: 2.4rem 0;
+      padding: 2rem 1rem 1.6rem;
+      border: 1px solid var(--hair-2);
+      background: rgba(26,23,20,0.6);
+    }
+    .chart-title {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 1.4rem;
+      padding-left: 0.8rem;
+    }
+    .chart-svg { width: 100%; height: auto; display: block; }
+    .chart-legend {
+      display: flex; gap: 2rem; flex-wrap: wrap;
+      margin-top: 1.2rem; padding-left: 0.8rem;
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--sand);
+    }
+    .chart-legend .leg-dot {
+      display: inline-block;
+      width: 10px; height: 10px;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+
+    /* SVG element classes */
+    .svg-axis { fill: var(--mist); font-family: 'Jost', sans-serif; font-size: 9px; font-weight: 300; letter-spacing: 0.06em; }
+    .svg-grid { stroke: var(--hair); stroke-width: 0.5; }
+    .svg-label { fill: var(--bone); font-family: 'Cormorant SC', serif; font-size: 10px; font-weight: 400; }
+    .svg-num { fill: var(--moon); font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 400; }
+    .bar-rev { fill: var(--terra); opacity: 0.85; }
+    .bar-ebitda { fill: var(--gold); opacity: 0.85; }
+    .bar-ebitda.neg { fill: var(--rust); }
+
+    /* ══════════════════════════════════════════════════════════
+       FOOTER · END MATTER
+    ══════════════════════════════════════════════════════════ */
+    .end-matter {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 4rem 8rem;
+      text-align: center;
+      position: relative; z-index: 2;
+    }
+    .end-rule {
+      width: 6rem; height: 1px;
+      background: var(--terra);
+      margin: 0 auto 2.4rem;
+      opacity: 0.5;
+    }
+    .end-mark {
+      font-family: var(--serif-it);
+      font-style: italic;
+      color: var(--moon);
+      font-size: 1.2rem;
+      line-height: 1.8;
+      max-width: 50ch;
+      margin: 0 auto;
+    }
+    .end-meta {
+      margin-top: 2.4rem;
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: rgba(204,190,156,0.4);
+      line-height: 2;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       BACK-TO-TOP / NAV ELEMENTS
+    ══════════════════════════════════════════════════════════ */
+    .back-deck {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      padding: 0.8rem 1.4rem;
+      background: rgba(26,23,20,0.92);
+      border: 1px solid var(--hair-2);
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 300;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--moon);
+      text-decoration: none;
+      transition: all 0.2s;
+      z-index: 40;
+      backdrop-filter: blur(12px);
+    }
+    .back-deck:hover { color: var(--gold); border-color: var(--terra); }
+
+    /* ══════════════════════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .section, .toc-section, .end-matter { padding-left: 1.6rem; padding-right: 1.6rem; }
+      .section-header { grid-template-columns: 1fr; gap: 0.4rem; }
+      .top-rail { padding: 0.7rem 1.2rem; font-size: 0.52rem; letter-spacing: 0.3em; }
+      .top-rail .hide-mobile { display: none; }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       PRINT — for PDF distribution to LPs
+    ══════════════════════════════════════════════════════════ */
+    @media print {
+      body { background: white; color: #1a1714; font-size: 11pt; }
+      body::before { display: none; }
+      .top-rail, .back-deck { display: none; }
+      .cover { color: white; page-break-after: always; min-height: 100vh; background: var(--night); }
+      .section { padding: 2rem 0; page-break-inside: avoid; }
+      .toc-section { page-break-after: always; }
+      .section-title, .prose p, .prose li, tbody td { color: #1a1714; }
+      thead th { color: #555; border-bottom-color: #ccc; }
+      tbody td { border-bottom-color: #eee; }
+      .num { color: #5a3a1e; }
+      .pull { background: #faf6ef; border-left-color: var(--terra); }
+      .pull-body { color: #1a1714; }
+      .kpi-val { color: #5a3a1e; }
+      .chart-frame { background: #faf6ef; border-color: #ddd; }
+      .svg-grid { stroke: #ddd; }
+      .svg-axis, .svg-num, .svg-label { fill: #555; }
+      .bar-rev { fill: #A87850; }
+      .bar-ebitda { fill: #C8A83A; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════
+     TOP RAIL
+════════════════════════════════════════════════════════════════ -->
+<div class="top-rail">
+  <div>
+    <span class="hide-mobile">Cucunumic · Baja Wellness</span>
+    <span class="br hide-mobile">·</span>
+    <span>Financial Appendix</span>
+    <span class="br">·</span>
+    <span>May 2026</span>
+  </div>
+  <div>
+    <a href="./index.html">← Deck</a>
+    <span class="br">·</span>
+    <span>Confidential</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     COVER
+════════════════════════════════════════════════════════════════ -->
+<section class="cover">
+  <p class="cover-eyebrow">Investment Memorandum · Annex</p>
+  <h1 class="cover-title">Financial Appendix</h1>
+  <p class="cover-sub">The work behind the numbers.</p>
+  <div class="cover-rule"></div>
+  <p class="cover-tag">
+    Material assumptions · capex · opex · revenue model<br>
+    5-year P&L · returns · valuation · risks
+  </p>
+  <div class="cover-meta">
+    Cucunumic · Baja Wellness<br>
+    El Pescadero · Pacific Coast · Baja California Sur · Mexico<br>
+    Confidential · Distributed under NDA · May 2026
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     TOC
+════════════════════════════════════════════════════════════════ -->
+<section class="toc-section">
+  <p class="toc-eyebrow">00 — Contents</p>
+  <h2 class="toc-title">Twelve sections of substance behind the headline numbers.</h2>
+
+  <div class="toc">
+    <a class="toc-row" href="#s1"><span class="toc-n">01</span><span class="toc-l">Thesis</span><span class="toc-p">1 ¶</span></a>
+    <a class="toc-row" href="#s2"><span class="toc-n">02</span><span class="toc-l">Phase 1 Capital Stack</span><span class="toc-p">$22.7M</span></a>
+    <a class="toc-row" href="#s3"><span class="toc-n">03</span><span class="toc-l">Phase 2 Capital</span><span class="toc-p">$18–22M</span></a>
+    <a class="toc-row" href="#s4"><span class="toc-n">04</span><span class="toc-l">Phase 1 Revenue Model</span><span class="toc-p">$9.5M Y5</span></a>
+    <a class="toc-row" href="#s5"><span class="toc-n">05</span><span class="toc-l">Phase 1 OpEx</span><span class="toc-p">68% rev</span></a>
+    <a class="toc-row" href="#s6"><span class="toc-n">06</span><span class="toc-l">The 5-Year P&L</span><span class="toc-p">Y1–Y5</span></a>
+    <a class="toc-row" href="#s7"><span class="toc-n">07</span><span class="toc-l">Returns & Valuation</span><span class="toc-p">18–22% IRR</span></a>
+    <a class="toc-row" href="#s8"><span class="toc-n">08</span><span class="toc-l">Phase 2 Raise Timing</span><span class="toc-p">~60 days</span></a>
+    <a class="toc-row" href="#s9"><span class="toc-n">09</span><span class="toc-l">Key Risks & Mitigants</span><span class="toc-p">6 risks</span></a>
+    <a class="toc-row" href="#s10"><span class="toc-n">10</span><span class="toc-l">Material Assumptions Schedule</span><span class="toc-p">20 inputs</span></a>
+    <a class="toc-row" href="#s11"><span class="toc-n">11</span><span class="toc-l">What an LP Should Ask Next</span><span class="toc-p">5 items</span></a>
+    <a class="toc-row" href="#s12"><span class="toc-n">12</span><span class="toc-l">Document Provenance</span><span class="toc-p">v1.0</span></a>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     §1 · THESIS
+════════════════════════════════════════════════════════════════ -->
+<section class="section" id="s1">
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <div>
+      <h2 class="section-title">Thesis</h2>
+      <p class="section-deck">One paragraph.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>
+      Cucunumic is a Pacific-coast wellness destination opened complete on <strong>11 hectares</strong> of escriturado private land in Baja California Sur. A <strong>30-key boutique</strong> with the full integrated wellness program — six clinical-grade circuit cells, Spa Reception, Treatment House, Recovery Garden, F&amp;B pavilion, pool, full back-of-house — opens in 2028. <strong>Phase 2</strong> (expansion to 40 keys base or 50 keys upside) unlocks only when guest demand pulls beyond 30: trailing-12 ADR ≥ $510, occupancy ≥ 65% × 4 consecutive quarters, documented turnaway demand ≥ 15% × 2 consecutive peak seasons, modeled DSCR ≥ 1.5× on expansion debt. Phase 2 is funded by a separate raise at uplifted valuation. <em>The integrated boutique is itself the validation of the brand and the price.</em>
+    </p>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">Phase 1 Capital</div>
+      <div class="kpi-val">$22.7<small>M</small></div>
+      <div class="kpi-sub">All-in · range $20–25M</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Keys at Open</div>
+      <div class="kpi-val">30</div>
+      <div class="kpi-sub">Full integrated wellness</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Y5 EBITDA</div>
+      <div class="kpi-val">$3.05<small>M</small></div>
+      <div class="kpi-sub">32% margin · base case</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">5-Year IRR</div>
+      <div class="kpi-val">18–22<small>%</small></div>
+      <div class="kpi-sub">Phase 1 standalone, base</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     §2 · PHASE 1 CAPITAL STACK
+════════════════════════════════════════════════════════════════ -->
+<section class="section" id="s2">
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <div>
+      <h2 class="section-title">Phase 1 Capital Stack</h2>
+      <p class="section-deck">Where the $22.7M goes, bucket by bucket.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>
+      Phase 1 capital is built from the ground up at a construction rate of <strong>$40,000–$60,000 MXN per square meter</strong> of built area — roughly <strong>$2,100–$3,160 USD/m²</strong> at recent exchange rates. This is the rate provided by the project owner from local BCS contractor sounding, aligned with the lower end of premium boutique hospitality build cost in the region.
+    </p>
+
+    <div class="pull">
+      <div class="pull-label">Comp anchor</div>
+      <div class="pull-body">
+        <strong>Paradero Todos Santos</strong> — a 35-key luxury boutique opened in 2021 in the same regional corridor — reportedly cost approximately <em>$25M in 2021 dollars</em>, or ~$714K per key all-in. With BCS construction inflation since 2021 in the 1.5–2× range, Cucunumic at <em>$757K per key</em> sits directly comparable.
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--serif);font-weight:400;font-size:1.35rem;color:var(--bone);letter-spacing:0.03em;margin:2.4rem 0 1rem">Built area at the locked construction rate</h3>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Bucket</th>
+          <th>Scope</th>
+          <th>Built m²</th>
+          <th>Rate (MXN/m²)</th>
+          <th style="text-align:right">USD total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>30 keys</td><td>Custom luxury casitas · rammed earth · lime plaster</td><td class="num">2,400</td><td class="num">$60k</td><td style="text-align:right"><span class="num head">$7.6M</span></td></tr>
+        <tr><td>Wellness shells</td><td>6 circuit cells + Spa Reception + Treatment House</td><td class="num">750</td><td class="num">$50k</td><td style="text-align:right"><span class="num head">$2.0M</span></td></tr>
+        <tr><td>Reception · F&amp;B · BoH</td><td>Semi-public + back-of-house built area</td><td class="num">600</td><td class="num">$45k</td><td style="text-align:right"><span class="num head">$1.4M</span></td></tr>
+        <tr><td>Pool complex</td><td>Pool + surround + terrace finishes</td><td class="num">—</td><td class="num">flat</td><td style="text-align:right"><span class="num head">$0.5M</span></td></tr>
+        <tr class="total-row"><td>Built-area subtotal</td><td></td><td class="num">3,750</td><td></td><td style="text-align:right"><span class="num head">$11.5M</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <p>
+      The casita rate sits at the top of the construction-cost band because the architectural concept calls for genuine custom materials (rammed earth load-bearing walls, lime plaster, locally milled timber, deep climate-responsive eaves). The wellness shells take a middle rate — substantial mechanical and electrical fit-out, less custom material expression. Reception and F&amp;B take a slightly lower rate because they're semi-public and design-driven but use more conventional construction.
+    </p>
+  </div>
+
+  <h3 style="font-family:var(--serif);font-weight:400;font-size:1.35rem;color:var(--bone);letter-spacing:0.03em;margin:2.4rem 0 1rem">Other capital buckets</h3>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Bucket</th>
+          <th>What it covers</th>
+          <th style="text-align:right">USD total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Wellness equipment</td><td>HBOT chamber · cryo · sauna · hydro · sound · 6 treatment rooms · clinical suite · spa FFE</td><td style="text-align:right"><span class="num head">$2.5M</span></td></tr>
+        <tr><td>Off-grid infrastructure</td><td>80 kW PV · 300 kWh battery · backup gen · 8,000 GPD MBR · constructed wetland · cisterns · well</td><td style="text-align:right"><span class="num head">$2.0M</span></td></tr>
+        <tr><td>Site work</td><td>Roads · grading · trenching · hardscape · landscape (Mexican labor pricing)</td><td style="text-align:right"><span class="num head">$1.5M</span></td></tr>
+        <tr><td>FFE — hotel ops</td><td>Beds · linens · kitchen equipment · IT · signage</td><td style="text-align:right"><span class="num head">$1.5M</span></td></tr>
+        <tr><td>Soft costs</td><td>Architecture, engineering, FIDETUR permits, owner's rep, builder's risk insurance (~8% of hard)</td><td style="text-align:right"><span class="num head">$1.2M</span></td></tr>
+        <tr><td>Pre-opening + WC</td><td>Marketing launch · hiring &amp; training · initial inventory · 6-month operating reserve</td><td style="text-align:right"><span class="num head">$1.0M</span></td></tr>
+        <tr><td>Contingency</td><td>10% on hard construction costs · standard hospitality industry buffer</td><td style="text-align:right"><span class="num head">$1.5M</span></td></tr>
+        <tr class="total-row"><td>Total Phase 1</td><td></td><td style="text-align:right"><span class="num head">$22.7M</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <h4>What would move this</h4>
+    <ul>
+      <li><strong>Validated contractor estimate</strong> against locked scope — the single highest-leverage diligence step. Could move the number ±15% in either direction.</li>
+      <li><strong>MXN/USD exchange-rate movement</strong> of ±10% flows through the ~50% of build that's MXN-denominated.</li>
+      <li><strong>Material spec choices</strong> (rammed earth vs. concrete + plaster; imported vs. domestic stone; bespoke vs. catalog FFE) can move the keys bucket alone by ±$2M.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     §3 · PHASE 2 CAPITAL
+════════════════════════════════════════════════════════════════ -->
+<section class="section" id="s3">
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <div>
+      <h2 class="section-title">Phase 2 Capital — Earned Expansion</h2>
+      <p class="section-deck">Two scenarios. Both gated.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>
+      Phase 2 builds out the property to <strong>40 keys base</strong> (10 added) or <strong>50 keys upside</strong> (20 added — 10 suites + 10 villas). The premium positioning of these added keys earns a higher per-key build budget because the units are larger, more privately positioned, and require their own service approach.
+    </p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Scope</th>
+          <th>Built m²</th>
+          <th>Rate</th>
+          <th style="text-align:right">USD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>10 suites · E ridge canyon view</td><td class="num">1,000</td><td class="num">$60k MXN/m²</td><td style="text-align:right"><span class="num">$3.2M</span></td></tr>
+        <tr><td>10 villas · W ridge Pacific view <em style="color:var(--mist);font-style:italic">(50-key upside)</em></td><td class="num">1,200</td><td class="num">$65k MXN/m²</td><td style="text-align:right"><span class="num">$4.1M</span></td></tr>
+        <tr><td>Site work · grading · premium hardscape</td><td class="num">—</td><td></td><td style="text-align:right"><span class="num">$1.5M</span></td></tr>
+        <tr><td>Expanded F&amp;B / lounge / BoH</td><td class="num">250</td><td class="num">$50k MXN/m²</td><td style="text-align:right"><span class="num">$0.7M</span></td></tr>
+        <tr><td>Off-grid plant upgrade (PV 80→150 kW · water 8k→15k GPD)</td><td class="num">—</td><td></td><td style="text-align:right"><span class="num">$1.5M</span></td></tr>
+        <tr><td>FFE for added keys</td><td class="num">—</td><td></td><td style="text-align:right"><span class="num">$0.3–0.6M</span></td></tr>
+        <tr><td>Soft costs (8% of hard)</td><td class="num">—</td><td></td><td style="text-align:right"><span class="num">$1.0M</span></td></tr>
+        <tr><td>Pre-opening + working capital</td><td class="num">—</td><td></td><td style="text-align:right"><span class="num">$0.8M</span></td></tr>
+        <tr><td>Contingency (10%)</td><td class="num">—</td><td></td><td style="text-align:right"><span class="num">$1.3M</span></td></tr>
+        <tr class="total-row"><td>Phase 2 · 40-key base</td><td></td><td></td><td style="text-align:right"><span class="num head">~$10.6M</span></td></tr>
+        <tr class="total-row"><td>Phase 2 · 50-key upside</td><td></td><td></td><td style="text-align:right"><span class="num head">~$15.5M</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <p>
+      The deck cites a Phase 2 raise size of <strong>$18–22M</strong>. This range includes the construction capex above plus working capital reserve and a buffer for any construction debt origination costs. It also allows the Phase 2 raise to fund some maintenance capex on the Phase 1 building stock that would have accumulated by 2031–2033.
+    </p>
+
+    <div class="pull">
+      <div class="pull-label">Uplift mechanic</div>
+      <div class="pull-body">
+        Phase 2 raises at <em>uplifted valuation</em> reflecting Phase 1 stabilized cash flow. If Phase 1 hits $3.0M+ EBITDA at gate clearance, the implied asset value at 11× is $33M — uplifting the basis for new Phase 2 equity to roughly 1.45× the $22.7M Phase 1 raise. <strong>This is why Phase 1 LPs benefit from holding through Phase 2 even if they don't participate in the second raise.</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     §4 · PHASE 1 REVENUE MODEL
+════════════════════════════════════════════════════════════════ -->
+<section class="section" id="s4">
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <div>
+      <h2 class="section-title">Phase 1 Revenue Model</h2>
+      <p class="section-deck">Where the $9.5M comes from, per occupied room-night.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>
+      Phase 1 stabilized revenue at Year 5 is <strong>$9.5M</strong>, broken into room, wellness, F&amp;B, retail, and day-spa lines. The build is from the bottom up: occupancy × ADR yields room revenue; wellness attach yields the wellness line; F&amp;B is benchmarked per occupied room-night.
+    </p>
+
+    <h4>4.1 · Occupancy — modeled at 65% at stabilization</h4>
+    <p>
+      Below the Los Cabos market average (75% per FITURCA April 2025) and below mature destination boutique averages. <strong>Two reasons for the conservative position:</strong> first, no operating history — the brand ramps from 30% (Y1 half-year) toward stabilized levels; second, wellness destination guests stay 3.5–5 nights (vs. 2.5 for transient luxury), improving operating economics but constraining turnover.
+    </p>
+    <p>
+      Seasonal mix yielding the 65% blended rate: peak (Nov–Apr, 6 mo) at 80% · shoulder (May, October) at 60% · off-peak (Jun–Sep, 4 mo) at 45%.
+    </p>
+
+    <h4>4.2 · ADR — modeled at $510 at stabilization</h4>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Comp</th>
+          <th>Stabilized ADR</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Los Cabos market average</td><td><span class="num">$473</span></td><td class="source-cell">FITURCA, April 2025</td></tr>
+        <tr><td>Los Cabos scenic-route segment</td><td><span class="num">$802</span></td><td class="source-cell">FITURCA, February 2025</td></tr>
+        <tr><td>Paradero Todos Santos (boutique wellness)</td><td><span class="num">$700–800</span></td><td class="source-cell">Published rates, 2024–2025</td></tr>
+        <tr><td>Esperanza Auberge</td><td><span class="num">$850–1,200</span></td><td class="source-cell">Published rates, 2024–2025</td></tr>
+        <tr><td>Habitas Tulum (comparable brand)</td><td><span class="num">~$650</span></td><td class="source-cell">Published rates, 2024</td></tr>
+        <tr class="total-row"><td>Cucunumic target</td><td><span class="num head">$510</span></td><td class="source-cell">Between market avg and Paradero</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <p>
+      Cucunumic sits at <strong>+$37 above the Los Cabos market average</strong> and <strong>−$190 below Paradero</strong>. The +$37 premium over market is supportable; the discount to Paradero leaves headroom to grow into Paradero pricing as the brand matures.
+    </p>
+
+    <h4>4.3 · Wellness Service Pricing</h4>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Service</th><th>Per session</th><th>Benchmark</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>HBOT (60-min hyperbaric)</td><td><span class="num">$300</span></td><td class="source-cell">US clinics $200–400</td></tr>
+        <tr><td>Cryotherapy (3 min)</td><td><span class="num">$100</span></td><td class="source-cell">US wellness centers $80–120</td></tr>
+        <tr><td>Sauna + cold plunge</td><td><span class="num">$80</span></td><td class="source-cell">Bundled or $50–100 standalone</td></tr>
+        <tr><td>Massage 60 / 90 min</td><td><span class="num">$220 / $320</span></td><td class="source-cell">Aman $280–380; Habitas $180–280</td></tr>
+        <tr><td>Facial · skin treatment</td><td><span class="num">$280</span></td><td class="source-cell">Premium spa benchmark</td></tr>
+        <tr><td>IV therapy (NAD+, glutathione)</td><td><span class="num">$350</span></td><td class="source-cell">US clinics $200–500</td></tr>
+        <tr><td>Sound bath · breathwork</td><td><span class="num">$80</span></td><td class="source-cell">Per person, per class</td></tr>
+        <tr><td>1:1 health-coach consultation</td><td><span class="num">$400 / hr</span></td><td class="source-cell">Premium positioning</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <h4>4.4 · Wellness Packages — The Reset Program is the anchor</h4>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Package</th><th>Length</th><th>Per person</th><th>Y5 buyer mix</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Wellness Sampler</td><td>3 nights</td><td><span class="num">$1,200</span></td><td>20%</td></tr>
+        <tr><td><strong>Reset Program</strong></td><td>5 nights</td><td><span class="num head">$2,500</span></td><td><strong>60%</strong></td></tr>
+        <tr><td>Intensive Recovery</td><td>7 nights</td><td><span class="num">$4,500</span></td><td>20%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <p>
+      The <strong>Reset Program</strong> is the anchor — 5 nights at $500 per person per night on top of room rate. Two guests on a Reset Program contribute <em>$1,000/night in wellness revenue</em> on top of the $510 room rate, more than doubling per-room-night economics versus a room-only stay.
+    </p>
+
+    <h4>4.5 · Per-Occupied-Room-Night Roll-Up</h4>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Line</th><th style="text-align:right">Per ORN (USD)</th></tr></thead>
+      <tbody>
+        <tr><td>Room (1 × ADR)</td><td style="text-align:right"><span class="num">$510</span></td></tr>
+        <tr><td>Wellness — package buyers (2 × 60% × $450)</td><td style="text-align:right"><span class="num">$540</span></td></tr>
+        <tr><td>Wellness — à la carte (2 × 30% × $100)</td><td style="text-align:right"><span class="num">$60</span></td></tr>
+        <tr><td>Wellness — non-users (2 × 10% × $0)</td><td style="text-align:right"><span class="num">$0</span></td></tr>
+        <tr><td><em>Wellness subtotal</em></td><td style="text-align:right"><span class="num head">$600</span></td></tr>
+        <tr><td>F&amp;B (boutique luxury benchmark)</td><td style="text-align:right"><span class="num">$200</span></td></tr>
+        <tr><td>Retail · products</td><td style="text-align:right"><span class="num">$30</span></td></tr>
+        <tr class="total-row"><td>Total per ORN</td><td style="text-align:right"><span class="num head">$1,340</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <p style="margin-top:1.5rem">
+      <strong>30 keys × 365 nights × 65% occupancy = 7,118 occupied room-nights/year</strong>. Multiplied by $1,340/ORN gives $9.54M room-driven revenue, plus $0.30M day-spa = <strong>$9.5M Y5 stabilized revenue</strong>.
+    </p>
+
+    <div class="pull">
+      <div class="pull-label">Most leveraged assumption</div>
+      <div class="pull-body">
+        <strong>Wellness package penetration</strong> ramps from 40% (Y1) to 60% (Y5). Each 5-percentage-point change in stabilized penetration moves Y5 EBITDA by <em>~$110K</em>.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     §5 · PHASE 1 OPEX
+════════════════════════════════════════════════════════════════ -->
+<section class="section" id="s5">
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <div>
+      <h2 class="section-title">Phase 1 OpEx</h2>
+      <p class="section-deck">68% of revenue · 32% EBITDA margin.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>
+      Phase 1 stabilized operating expenses are modeled at <strong>$6.45M</strong> against $9.5M revenue, yielding a <strong>32% EBITDA margin</strong>. This margin sits within the band achieved by mature boutique-luxury wellness destinations: Aman runs 30–35% EBITDA; Habitas runs 25–30%; Six Senses runs 28–33%.
+    </p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Line</th><th style="text-align:right">$M</th><th>% rev</th><th>Mechanism / benchmark</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Payroll &amp; benefits</td><td style="text-align:right"><span class="num">$3.00</span></td><td><span class="num">32%</span></td><td class="source-cell">32 FTE × $94K blended fully-loaded</td></tr>
+        <tr><td>F&amp;B COGS</td><td style="text-align:right"><span class="num">$0.50</span></td><td><span class="num">5%</span></td><td class="source-cell">35% of F&amp;B revenue</td></tr>
+        <tr><td>Wellness supplies</td><td style="text-align:right"><span class="num">$0.50</span></td><td><span class="num">5%</span></td><td class="source-cell">IV solutions · oils · products · replacement parts</td></tr>
+        <tr><td>Utilities &amp; maintenance</td><td style="text-align:right"><span class="num">$0.55</span></td><td><span class="num">6%</span></td><td class="source-cell">Off-grid lowers utility, raises maintenance</td></tr>
+        <tr><td>Marketing</td><td style="text-align:right"><span class="num">$0.40</span></td><td><span class="num">4%</span></td><td class="source-cell">Stabilized · ramps from 8% Y1 down to 4% Y5</td></tr>
+        <tr><td>G&amp;A · mgmt fee · insurance</td><td style="text-align:right"><span class="num">$0.85</span></td><td><span class="num">9%</span></td><td class="source-cell">Includes 4% blended management fee</td></tr>
+        <tr><td>Property tax + other</td><td style="text-align:right"><span class="num">$0.65</span></td><td><span class="num">7%</span></td><td class="source-cell">BCS property tax · licensing · misc.</td></tr>
+        <tr class="total-row"><td>Total OpEx</td><td style="text-align:right"><span class="num head">$6.45</span></td><td><span class="num head">68%</span></td><td></td></tr>
+        <tr class="total-row"><td>EBITDA</td><td style="text-align:right"><span class="num head">$3.05</span></td><td><span class="num head">32%</span></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <h4>5.1 · Payroll Detail · 32 FTE × $94K Loaded</h4>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Department</th><th>FTE</th><th>Key roles</th></tr></thead>
+      <tbody>
+        <tr><td>Executive / GM</td><td class="num">1.0</td><td>General Manager (bilingual hospitality / wellness lead)</td></tr>
+        <tr><td>Front Office</td><td class="num">5.0</td><td>Reception manager · 3 agents · concierge</td></tr>
+        <tr><td><strong>Wellness — Clinical</strong></td><td class="num head">8.0</td><td>Wellness director (MD or wellness lead) · 2 nurses · 2 IV/HBOT techs · 3 coaches</td></tr>
+        <tr><td><strong>Wellness — Spa</strong></td><td class="num head">7.0</td><td>Spa manager · 6 therapists / aestheticians</td></tr>
+        <tr><td>F&amp;B</td><td class="num">7.0</td><td>Chef · sous · 2 cooks · 3 servers</td></tr>
+        <tr><td>Housekeeping</td><td class="num">5.0</td><td>Supervisor · 4 housekeepers</td></tr>
+        <tr><td>Engineering · Maintenance</td><td class="num">2.0</td><td>Lead · maintenance</td></tr>
+        <tr><td>Sales · Marketing</td><td class="num">1.5</td><td>Manager · 0.5 social / PR</td></tr>
+        <tr><td>Admin · Accounting</td><td class="num">1.0</td><td>Bookkeeper</td></tr>
+        <tr><td>Owner's rep · asset mgmt</td><td class="num">0.5</td><td>Quarterly oversight, audit prep</td></tr>
+        <tr class="total-row"><td>Total</td><td class="num head">32.0</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <h4>5.2 · Management Structure — TBD at Raise Structuring</h4>
+    <p>
+      <strong>Independent management company</strong> (e.g., Indagare-aligned boutique operator) — 3–5% of revenue + 15% incentive. Preserves sponsor brand control. ~$400K/year against $9.5M revenue.
+    </p>
+    <p>
+      <strong>Branded operator</strong> (Habitas, Auberge, Capella, Six Senses) — 6–10% of revenue + brand fee + 20% incentive. Brings distribution and brand. ~$700K–$1M/year.
+    </p>
+    <p>
+      The 4% modeling assumption sits between these — a midpoint that covers either choice.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     §6 · 5-YEAR P&L
+════════════════════════════════════════════════════════════════ -->
+<section class="section" id="s6">
+  <div class="section-header">
+    <div class="section-number">06</div>
+    <div>
+      <h2 class="section-title">The 5-Year P&amp;L</h2>
+      <p class="section-deck">Phase 1 from opening to stabilization.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>
+      Revenue ramps from 25% of stabilized in Y1 (half-year of operations) to 100% by Y5. EBITDA margin expands as the property scales — early years carry lower margins because fixed costs absorb a disproportionate share of partial revenue.
+    </p>
+  </div>
+
+  <!-- 5-YEAR BAR CHART -->
+  <div class="chart-frame">
+    <div class="chart-title">Revenue · EBITDA Trajectory (Y1–Y5, $M)</div>
+    <svg class="chart-svg" viewBox="0 0 800 320" preserveAspectRatio="xMidYMid meet">
+      <!-- Grid lines & axis -->
+      <line class="svg-grid" x1="60" y1="260" x2="780" y2="260"/>
+      <line class="svg-grid" x1="60" y1="200" x2="780" y2="200" stroke-dasharray="2 4"/>
+      <line class="svg-grid" x1="60" y1="140" x2="780" y2="140" stroke-dasharray="2 4"/>
+      <line class="svg-grid" x1="60" y1="80" x2="780" y2="80" stroke-dasharray="2 4"/>
+
+      <!-- Y axis labels (max ~$10M) -->
+      <text class="svg-axis" x="50" y="263" text-anchor="end">0</text>
+      <text class="svg-axis" x="50" y="203" text-anchor="end">$2.5M</text>
+      <text class="svg-axis" x="50" y="143" text-anchor="end">$5M</text>
+      <text class="svg-axis" x="50" y="83" text-anchor="end">$7.5M</text>
+      <text class="svg-axis" x="50" y="23" text-anchor="end">$10M</text>
+
+      <!-- Zero line for EBITDA -->
+      <line x1="60" y1="200" x2="780" y2="200" stroke="#A87850" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.5"/>
+
+      <!-- Year groups: 5 years × 2 bars each, width 50, gap 8, padding -->
+      <!-- Each year occupies 140px. Bars revenue (52px) + ebitda (52px) -->
+      <!-- Scale: $2.5M = 60px height, so $1M = 24px. Zero is at y=200 -->
+
+      <!-- Y1 (2028) -->
+      <g transform="translate(100,0)">
+        <rect class="bar-rev" x="0" y="176.5" width="52" height="23.5"/>
+        <rect class="bar-ebitda neg" x="56" y="200" width="52" height="44.2"/>
+        <text class="svg-num" x="26" y="170" text-anchor="middle">$0.98</text>
+        <text class="svg-num" x="82" y="256" text-anchor="middle">−$1.84</text>
+        <text class="svg-label" x="54" y="290" text-anchor="middle">Y1 · 2028</text>
+        <text class="svg-axis" x="54" y="304" text-anchor="middle">Opens H1</text>
+      </g>
+      <!-- Y2 (2029) -->
+      <g transform="translate(230,0)">
+        <rect class="bar-rev" x="0" y="106.9" width="52" height="93.1"/>
+        <rect class="bar-ebitda neg" x="56" y="200" width="52" height="8.9"/>
+        <text class="svg-num" x="26" y="100" text-anchor="middle">$3.88</text>
+        <text class="svg-num" x="82" y="222" text-anchor="middle">−$0.37</text>
+        <text class="svg-label" x="54" y="290" text-anchor="middle">Y2 · 2029</text>
+        <text class="svg-axis" x="54" y="304" text-anchor="middle">Ramp 50%</text>
+      </g>
+      <!-- Y3 (2030) -->
+      <g transform="translate(360,0)">
+        <rect class="bar-rev" x="0" y="47.1" width="52" height="152.9"/>
+        <rect class="bar-ebitda" x="56" y="173.1" width="52" height="26.9"/>
+        <text class="svg-num" x="26" y="41" text-anchor="middle">$6.37</text>
+        <text class="svg-num" x="82" y="167" text-anchor="middle">$1.12</text>
+        <text class="svg-label" x="54" y="290" text-anchor="middle">Y3 · 2030</text>
+        <text class="svg-axis" x="54" y="304" text-anchor="middle">EBITDA +</text>
+      </g>
+      <!-- Y4 (2031) -->
+      <g transform="translate(490,0)">
+        <rect class="bar-rev" x="0" y="6.96" width="52" height="193"/>
+        <rect class="bar-ebitda" x="56" y="148.4" width="52" height="51.6"/>
+        <text class="svg-num" x="26" y="1" text-anchor="middle">$8.04</text>
+        <text class="svg-num" x="82" y="142" text-anchor="middle">$2.15</text>
+        <text class="svg-label" x="54" y="290" text-anchor="middle">Y4 · 2031</text>
+        <text class="svg-axis" x="54" y="304" text-anchor="middle">Gate Apr</text>
+      </g>
+      <!-- Y5 (2032) -->
+      <g transform="translate(620,0)">
+        <rect class="bar-rev" x="0" y="-28.5" width="52" height="228.5"/>
+        <rect class="bar-ebitda" x="56" y="126.3" width="52" height="73.7"/>
+        <text class="svg-num" x="26" y="-34" text-anchor="middle">$9.52</text>
+        <text class="svg-num" x="82" y="120" text-anchor="middle">$3.05</text>
+        <text class="svg-label" x="54" y="290" text-anchor="middle">Y5 · 2032</text>
+        <text class="svg-axis" x="54" y="304" text-anchor="middle">Stabilized</text>
+      </g>
+    </svg>
+    <div class="chart-legend">
+      <span><span class="leg-dot" style="background:#A87850"></span>Revenue</span>
+      <span><span class="leg-dot" style="background:#C8A83A"></span>EBITDA (positive)</span>
+      <span><span class="leg-dot" style="background:#8A5A38"></span>EBITDA (loss · funded from reserve)</span>
+    </div>
+  </div>
+
+  <div class="tbl-wrap" style="margin-top:2rem">
+    <table>
+      <thead>
+        <tr>
+          <th>$M</th>
+          <th style="text-align:right">Y1 · 2028</th>
+          <th style="text-align:right">Y2 · 2029</th>
+          <th style="text-align:right">Y3 · 2030</th>
+          <th style="text-align:right">Y4 · 2031</th>
+          <th style="text-align:right">Y5 · 2032</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Room revenue</td><td style="text-align:right"><span class="num">0.45</span></td><td style="text-align:right"><span class="num">1.82</span></td><td style="text-align:right"><span class="num">2.72</span></td><td style="text-align:right"><span class="num">3.26</span></td><td style="text-align:right"><span class="num">3.63</span></td></tr>
+        <tr><td>Wellness</td><td style="text-align:right"><span class="num">0.30</span></td><td style="text-align:right"><span class="num">1.20</span></td><td style="text-align:right"><span class="num">2.40</span></td><td style="text-align:right"><span class="num">3.30</span></td><td style="text-align:right"><span class="num">4.27</span></td></tr>
+        <tr><td>F&amp;B</td><td style="text-align:right"><span class="num">0.18</span></td><td style="text-align:right"><span class="num">0.71</span></td><td style="text-align:right"><span class="num">1.07</span></td><td style="text-align:right"><span class="num">1.28</span></td><td style="text-align:right"><span class="num">1.42</span></td></tr>
+        <tr><td>Retail · other</td><td style="text-align:right"><span class="num">0.05</span></td><td style="text-align:right"><span class="num">0.15</span></td><td style="text-align:right"><span class="num">0.18</span></td><td style="text-align:right"><span class="num">0.20</span></td><td style="text-align:right"><span class="num">0.20</span></td></tr>
+        <tr class="total-row"><td>Total Revenue</td><td style="text-align:right"><span class="num head">0.98</span></td><td style="text-align:right"><span class="num head">3.88</span></td><td style="text-align:right"><span class="num head">6.37</span></td><td style="text-align:right"><span class="num head">8.04</span></td><td style="text-align:right"><span class="num head">9.52</span></td></tr>
+        <tr><td>Total OpEx</td><td style="text-align:right"><span class="num neg">(2.82)</span></td><td style="text-align:right"><span class="num neg">(4.25)</span></td><td style="text-align:right"><span class="num neg">(5.25)</span></td><td style="text-align:right"><span class="num neg">(5.89)</span></td><td style="text-align:right"><span class="num neg">(6.45)</span></td></tr>
+        <tr class="total-row"><td>EBITDA</td><td style="text-align:right"><span class="num neg">(1.84)</span></td><td style="text-align:right"><span class="num neg">(0.37)</span></td><td style="text-align:right"><span class="num head">1.12</span></td><td style="text-align:right"><span class="num head">2.15</span></td><td style="text-align:right"><span class="num head">3.07</span></td></tr>
+        <tr><td>EBITDA margin</td><td style="text-align:right">—</td><td style="text-align:right">—</td><td style="text-align:right"><span class="num">18%</span></td><td style="text-align:right"><span class="num">27%</span></td><td style="text-align:right"><span class="num">32%</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <h4>6.1 · Path-to-Profitability Milestones</h4>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Milestone</th><th>When</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td>Operating EBITDA breakeven</td><td><span class="num head">Y3 · 2030</span></td><td>Revenue covers all operating costs. Project funds itself.</td></tr>
+        <tr><td>Free cash flow positive</td><td><span class="num">Y3 · 2030</span></td><td>After maintenance capex reserve, project generates positive cash.</td></tr>
+        <tr><td>Cumulative EBITDA breakeven</td><td><span class="num head">Y4 · 2031</span></td><td>Y1+Y2 opening losses recovered from later operating profit.</td></tr>
+        <tr><td>Phase 2 gate measurement starts</td><td><span class="num">Y3 · 2030</span></td><td>First 4Q ADR/occupancy window opens; turnaway tracking starts at opening.</td></tr>
+        <tr><td><strong>Phase 2 gate plausibly clears</strong></td><td><span class="num head">Y4 Q2 · Apr 2031</span></td><td>Gate criteria sustained; Phase 2 raise begins.</td></tr>
+        <tr><td>Investor cash-on-cash payback</td><td><span class="num">Y6–Y7</span></td><td>Cumulative LP distributions + Phase 2 uplift recover initial $22.7M.</td></tr>
+        <tr><td>Investor IRR realization</td><td><span class="num">Y5–Y8 terminal</span></td><td>Exit at 10–13× stabilized EBITDA, or refinance + hold.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     §7 · RETURNS & VALUATION
+════════════════════════════════════════════════════════════════ -->
+<section class="section" id="s7">
+  <div class="section-header">
+    <div class="section-number">07</div>
+    <div>
+      <h2 class="section-title">Returns &amp; Valuation</h2>
+      <p class="section-deck">Three scenarios. Two methods. One floor.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h4>7.1 · Phase 1 Standalone Returns</h4>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th style="text-align:right">Conservative</th>
+          <th style="text-align:right">Base case</th>
+          <th style="text-align:right">Optimistic</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Y5 occupancy</td><td style="text-align:right"><span class="num">55%</span></td><td style="text-align:right"><span class="num">65%</span></td><td style="text-align:right"><span class="num">72%</span></td></tr>
+        <tr><td>Y5 ADR</td><td style="text-align:right"><span class="num">$475</span></td><td style="text-align:right"><span class="num">$510</span></td><td style="text-align:right"><span class="num">$580</span></td></tr>
+        <tr><td>Y5 package penetration</td><td style="text-align:right"><span class="num">50%</span></td><td style="text-align:right"><span class="num">60%</span></td><td style="text-align:right"><span class="num">75%</span></td></tr>
+        <tr><td>Y5 Revenue</td><td style="text-align:right"><span class="num">$7.4M</span></td><td style="text-align:right"><span class="num head">$9.52M</span></td><td style="text-align:right"><span class="num">$11.8M</span></td></tr>
+        <tr><td>Y5 EBITDA</td><td style="text-align:right"><span class="num">$1.6M</span></td><td style="text-align:right"><span class="num head">$3.05M</span></td><td style="text-align:right"><span class="num">$4.0M</span></td></tr>
+        <tr class="total-row"><td>5-year IRR</td><td style="text-align:right"><span class="num head">12–15%</span></td><td style="text-align:right"><span class="num head">18–22%</span></td><td style="text-align:right"><span class="num head">24–28%</span></td></tr>
+        <tr class="total-row"><td>Equity multiple (5-yr terminal)</td><td style="text-align:right"><span class="num head">1.8–2.2×</span></td><td style="text-align:right"><span class="num head">3.0–3.5×</span></td><td style="text-align:right"><span class="num head">3.8–4.5×</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <h4>7.2 · Y5 Hotel Valuation — Two Methods Cross-Check</h4>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Scenario</th><th>Y5 EBITDA</th><th>Multiple</th><th style="text-align:right">Going-concern</th><th>$/key (30 keys)</th><th style="text-align:right">Per-key triangulation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Conservative</td><td><span class="num">$1.6M</span></td><td><span class="num">8×</span></td><td style="text-align:right"><span class="num">$12.8M</span></td><td><span class="num">$430K</span></td><td style="text-align:right"><span class="num">$12.9M</span></td></tr>
+        <tr><td>Base case</td><td><span class="num">$3.05M</span></td><td><span class="num head">11×</span></td><td style="text-align:right"><span class="num head">$33.6M</span></td><td><span class="num head">$1.12M</span></td><td style="text-align:right"><span class="num head">$33.6M</span></td></tr>
+        <tr><td>Optimistic</td><td><span class="num">$4.0M</span></td><td><span class="num">13×</span></td><td style="text-align:right"><span class="num">$52M</span></td><td><span class="num">$1.73M</span></td><td style="text-align:right"><span class="num">$51.9M</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <p style="margin-top:1rem">
+      The two methods triangulate within <strong>~$1M</strong> across all three scenarios. This convergence is a quality check on the underlying assumptions.
+    </p>
+
+    <div class="pull">
+      <div class="pull-label">Asset floor · downside protection</div>
+      <div class="pull-body">
+        Capital deployed $22.7M − depreciation ~10% over 5 years = $20.4M. Plus land appreciation (~8% × 5y on ~$3M land basis) = +$1.4M. <em>Asset floor: ~$21.8M</em>. Even in the conservative case, LPs are protected by the underlying asset basis.
+      </div>
+    </div>
+
+    <h4>7.3 · Combined Phase 1 + Phase 2 (Y10)</h4>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">Cumulative Capital</div>
+      <div class="kpi-val">~$42<small>M</small></div>
+      <div class="kpi-sub">P1 + P2 raises</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Y10 EBITDA</div>
+      <div class="kpi-val">$5.3<small>M</small></div>
+      <div class="kpi-sub">50-key upside · 36% margin</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Combined IRR</div>
+      <div class="kpi-val">17–22<small>%</small></div>
+      <div class="kpi-sub">10-year, P1 LPs pro-rata</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Equity Multiple</div>
+      <div class="kpi-val">3.5–4.5<small>×</small></div>
+      <div class="kpi-sub">10-year terminal</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     §8 · PHASE 2 RAISE TIMING
+════════════════════════════════════════════════════════════════ -->
+<section class="section" id="s8">
+  <div class="section-header">
+    <div class="section-number">08</div>
+    <div>
+      <h2 class="section-title">Phase 2 Capital Raise · Time-to-Close</h2>
+      <p class="section-deck">Gate cleared to capital deployable.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>
+      In the success case, the time from Phase 1 raise (2027) to Phase 2 capital available is approximately <strong>4 years</strong>, broken into three phases.
+    </p>
+
+    <h4>8.1 · Gate Clearance · the binding event</h4>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Criterion</th><th>Earliest clearance</th><th>Binding?</th></tr></thead>
+      <tbody>
+        <tr><td>Trailing-12 ADR ≥ $510</td><td><span class="num">Y3 Q3 · mid-2030</span></td><td>No</td></tr>
+        <tr><td>Occupancy ≥ 65% × 4 consecutive Q</td><td><span class="num">Y3 Q4 · end 2030</span></td><td>No</td></tr>
+        <tr><td><strong>Turnaway ≥ 15% × 2 peak seasons</strong></td><td><span class="num head">Y4 Q2 · Apr 2031</span></td><td><strong>Yes</strong></td></tr>
+        <tr><td>DSCR ≥ 1.5× modeled</td><td><span class="num">Y3 Q4</span></td><td>No</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <p style="margin-top:1rem">
+      Earliest realistic gate clearance: <strong>April 2031</strong> — three years after Phase 1 opens.
+    </p>
+
+    <h4>8.2 · Capital Raise Process</h4>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Phase</th><th>Months from gate clearance</th></tr></thead>
+      <tbody>
+        <tr><td>Pre-marketing (during Y3 H2)</td><td><span class="num">−6 to 0</span></td></tr>
+        <tr><td>Formal launch (gate-clearance day)</td><td><span class="num">0</span></td></tr>
+        <tr><td>Initial diligence</td><td><span class="num">0 to 2</span></td></tr>
+        <tr><td>Term sheet</td><td><span class="num">2 to 3</span></td></tr>
+        <tr><td>Documentation</td><td><span class="num">3 to 5</span></td></tr>
+        <tr class="total-row"><td>First close</td><td><span class="num head">5 to 6 mo standard</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <div class="pull">
+      <div class="pull-label">Accelerators · compress to ~60 days</div>
+      <div class="pull-body">
+        Four mechanisms compress timing: <em>Phase 1 LPs pro-rata rights at closing</em> (−1–2 mo), <em>pre-engaged debt provider in Y3</em> (−2–3 mo), <em>Phase 2 footprint pre-permitted with Phase 1</em> (−4–6 mo), <em>audited Y2 + Y3 financials</em> (−1–2 mo). With all four, first close lands within 60 days.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     §9 · KEY RISKS & MITIGANTS
+════════════════════════════════════════════════════════════════ -->
+<section class="section" id="s9">
+  <div class="section-header">
+    <div class="section-number">09</div>
+    <div>
+      <h2 class="section-title">Key Risks &amp; Mitigants</h2>
+      <p class="section-deck">Six risks, each with its mitigation strategy.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h4>9.1 · Construction Cost Overrun</h4>
+    <p>
+      The single largest capital risk. The $40–60k MXN/m² rate is project-owner local-knowledge level; a real bid could come in higher. Sensitivity: a 15% capex overrun pushes Phase 1 to $26.1M, dropping base-case IRR to roughly 15–18%.
+    </p>
+    <p>
+      <strong>Mitigants:</strong> obtain bid-quality estimates from at least two Cabo / La Paz contractors before raise close. 10% contingency built into $22.7M. Phased construction sequencing allows mid-build spec adjustment.
+    </p>
+
+    <h4>9.2 · Demand Uncertainty During Ramp</h4>
+    <p>
+      A new wellness destination in BCS with no operating history must build a customer base from zero. The 65% stabilized occupancy is conservative against 75% Cabo market average but still requires the property to find its audience.
+    </p>
+    <p>
+      <strong>Mitigants:</strong> heavy pre-opening marketing ($500K Y0 + $760K Y1). Wellness retreat groups (corporate, women's, athlete recovery) provide bulk bookings. Reset Program is structurally less price-sensitive. Downside is the conservative case (12–15% IRR), still positive, not a write-down.
+    </p>
+
+    <h4>9.3 · Off-Grid Operational Reliability</h4>
+    <p>
+      The brand promise includes off-grid sustainability. If PV/battery/water fails to deliver expected uptime, guest experience degrades and operating costs spike.
+    </p>
+    <p>
+      <strong>Mitigants:</strong> 300 kWh battery provides ~3 days of operation without solar. 60 kW diesel backup. MBR wastewater is proven in remote hospitality (Esperanza, Aman precedents). Maintenance lead with solar/water certification hired pre-opening.
+    </p>
+
+    <h4>9.4 · Wellness Program Credibility</h4>
+    <p>
+      Clinical-grade wellness offering requires medical credentialing to operate legally and credibly in Mexico. The wellness director is a key dependency.
+    </p>
+    <p>
+      <strong>Mitigants:</strong> wellness director recruited 12+ months before opening with explicit clinical credentials. Visiting-fellow programs in Years 1–2 build credibility. HBOT operator credentialing (UHMS / NBDHMT) is internationally standardized.
+    </p>
+
+    <h4>9.5 · Mexican Regulatory · Political Risk</h4>
+    <p>
+      BCS hospitality projects are exposed to federal and state regulation: FIDETUR permits, environmental impact studies, foreign-ownership restrictions. Cucunumic is escriturado, which removes the most acute legal risk.
+    </p>
+    <p>
+      <strong>Mitigants:</strong> pre-development phase includes specialist Mexican land-use counsel. Structure compatible with fideicomiso for non-Mexican LPs. Sponsor is Mexican-resident.
+    </p>
+
+    <h4>9.6 · Phase 2 Gate Not Clearing</h4>
+    <p>
+      Phase 2 optionality is a feature, but it also means Phase 1 LPs may not see combined returns. If gate doesn't clear, Phase 1 standalone economics deliver — 18–22% IRR base, with asset basis as downside floor.
+    </p>
+    <p>
+      <strong>Mitigants:</strong> Phase 1 is designed to be a complete operating business standalone. The gate is designed to be achievable in success scenarios but not gameable. If the gate doesn't clear, that's a signal Phase 2 expansion would have been over-built — the discipline prevents bad capital allocation.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     §10 · MATERIAL ASSUMPTIONS SCHEDULE
+════════════════════════════════════════════════════════════════ -->
+<section class="section" id="s10">
+  <div class="section-header">
+    <div class="section-number">10</div>
+    <div>
+      <h2 class="section-title">Material Assumptions Schedule</h2>
+      <p class="section-deck">Every modeled assumption, with source and sensitivity.</p>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Assumption</th>
+          <th>Value</th>
+          <th>Source</th>
+          <th>Risk if wrong</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Phase 1 capex</td><td><span class="num">$22.7M</span></td><td class="source-cell">Bottom-up at $40–60k MXN/m² + benchmarks</td><td>±15% moves IRR ±3pp</td></tr>
+        <tr><td><strong>Construction rate</strong></td><td><span class="num head">$40–60k MXN/m²</span></td><td class="source-cell"><strong>Project owner · NEEDS contractor validation</strong></td><td>Largest single uncertainty</td></tr>
+        <tr><td>MXN/USD rate</td><td><span class="num">~19 MXN/USD</span></td><td class="source-cell">Recent average · volatile (17–21)</td><td>Affects ~50% MXN-denominated build</td></tr>
+        <tr><td>Phase 1 build duration</td><td><span class="num">18 months</span></td><td class="source-cell">Industry norm for premium boutique scale</td><td>Each month ≈ $200K opportunity + carry</td></tr>
+        <tr><td>Y5 occupancy</td><td><span class="num">65%</span></td><td class="source-cell">Conservative vs. Cabo market 75%</td><td>Each 5pp moves EBITDA ~$320K</td></tr>
+        <tr><td>Y5 ADR</td><td><span class="num">$510</span></td><td class="source-cell">Cabo $473 / Paradero $700–800 positioning</td><td>Each $25 moves EBITDA ~$180K</td></tr>
+        <tr><td>Average length of stay</td><td><span class="num">3.5 nights</span></td><td class="source-cell">Wellness destination industry average</td><td>Affects throughput, not directly margin</td></tr>
+        <tr><td><strong>Wellness package penetration Y5</strong></td><td><span class="num head">60%</span></td><td class="source-cell">Aman / Lanserhof benchmarks at stabilization</td><td>Each 5pp moves EBITDA ~$110K</td></tr>
+        <tr><td>Reset Program price</td><td><span class="num">$2,500 / pp · 5n</span></td><td class="source-cell">Mid-market wellness destination benchmark</td><td>Each $200 moves wellness rev ~$130K</td></tr>
+        <tr><td>F&amp;B per ORN</td><td><span class="num">$200</span></td><td class="source-cell">Boutique luxury benchmark</td><td>Each $25 moves EBITDA ~$60K</td></tr>
+        <tr><td>Stabilized FTE</td><td><span class="num">32</span></td><td class="source-cell">Custom build for clinical-grade wellness</td><td>Each 2 FTE swing ~$190K payroll</td></tr>
+        <tr><td>Blended payroll loaded</td><td><span class="num">$94K</span></td><td class="source-cell">Mexican wellness / hospitality average</td><td>Each $5K ~$160K payroll impact</td></tr>
+        <tr><td><strong>Stabilized EBITDA margin</strong></td><td><span class="num head">32%</span></td><td class="source-cell">Boutique luxury wellness benchmark</td><td>Each 2pp affects EBITDA ~$190K</td></tr>
+        <tr><td>Maintenance capex reserve</td><td><span class="num">3% of revenue</span></td><td class="source-cell">Hospitality industry norm</td><td>Lower reserve = higher FCF but degraded asset</td></tr>
+        <tr><td><strong>Terminal EBITDA multiple</strong></td><td><span class="num head">11× base</span></td><td class="source-cell">Boutique luxury wellness 10–14× range</td><td>Each 1× moves Y5 distribution ~$2.3M (≈3pp IRR)</td></tr>
+        <tr><td>Land appreciation</td><td><span class="num">8% annual</span></td><td class="source-cell">Los Cabos benchmark</td><td>Affects asset floor only</td></tr>
+        <tr><td>Phase 2 capex</td><td><span class="num">$18–22M</span></td><td class="source-cell">Bottom-up suites + villas + plant upgrades</td><td>Affects Phase 2 raise size and uplift basis</td></tr>
+        <tr><td>Phase 2 valuation uplift</td><td><span class="num">1.6–2.0×</span></td><td class="source-cell">Implied from P1 EBITDA × 11× ÷ P1 raise</td><td>Drives combined IRR for P1 LPs</td></tr>
+        <tr><td>Phase 2 gate window</td><td><span class="num">4Q + 2 peak seasons</span></td><td class="source-cell">Disciplined demand-pull design</td><td>Each year of delay reduces combined IRR ~1pp</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     §11 · WHAT AN LP SHOULD ASK NEXT
+════════════════════════════════════════════════════════════════ -->
+<section class="section" id="s11">
+  <div class="section-header">
+    <div class="section-number">11</div>
+    <div>
+      <h2 class="section-title">What an LP Should Ask Next</h2>
+      <p class="section-deck">Five leveraged diligence items, ranked by impact.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <ol style="padding-left:1.4rem">
+      <li style="margin-bottom:1.2rem">
+        <strong>Validated construction cost.</strong> Get at least two bid-quality estimates from BCS contractors against the locked Phase 1 scope. This single piece of information could move IRR by ±3pp.
+      </li>
+      <li style="margin-bottom:1.2rem">
+        <strong>Wellness director shortlist.</strong> Pre-identification of the clinical lead is the highest-stakes hire and the longest-lead-time recruit. Named candidates with clinical credentials and Mexican-market familiarity de-risk the ramp.
+      </li>
+      <li style="margin-bottom:1.2rem">
+        <strong>Pre-bookings or LOIs from wellness retreat partners.</strong> Group bookings during the first 6 months of Year 1 would materially de-risk the ramp curve and validate the $510 ADR positioning.
+      </li>
+      <li style="margin-bottom:1.2rem">
+        <strong>Phase 2 footprint permitting strategy.</strong> Whether to pre-permit Phase 2 with Phase 1 (adds $50–100K to Phase 0, accelerates Phase 2 close by 4–6 months) is a structural decision.
+      </li>
+      <li>
+        <strong>Management structure</strong> — independent operator vs. branded operator. Affects the G&amp;A line ($400K vs. $1M range), brand control, and distribution. Should be resolved before Phase 1 raise close.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     §12 · DOCUMENT PROVENANCE
+════════════════════════════════════════════════════════════════ -->
+<section class="section last" id="s12">
+  <div class="section-header">
+    <div class="section-number">12</div>
+    <div>
+      <h2 class="section-title">Document Provenance</h2>
+      <p class="section-deck">Authorship · sources · confidentiality.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <ul>
+      <li><strong>Author:</strong> Project sponsor (Jonathan W. Berg) with model build assistance.</li>
+      <li><strong>Design spec:</strong> <code style="font-family:var(--mono);font-size:0.85rem;color:var(--sand)">docs/superpowers/specs/2026-05-10-cucunumic-2-phase-model-design.md</code></li>
+      <li><strong>Master plan:</strong> <code style="font-family:var(--mono);font-size:0.85rem;color:var(--sand)">cucunumic_master_plan.md</code> (working directory)</li>
+      <li><strong>Investor deck:</strong> <a href="./index.html" style="color:var(--moon)">index.html</a> · live at <a href="https://jonwberg.github.io/cucunumic/" style="color:var(--moon)">jonwberg.github.io/cucunumic</a></li>
+      <li><strong>Version:</strong> 1.0 — May 2026</li>
+      <li><strong>Confidentiality:</strong> This document is shared under NDA only and contains modeled financial projections. All forward-looking statements are inherently uncertain.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     END MATTER
+════════════════════════════════════════════════════════════════ -->
+<div class="end-matter">
+  <div class="end-rule"></div>
+  <p class="end-mark">
+    A wellness destination, opened complete.<br>
+    Phase 2 happens when guests demand it.
+  </p>
+  <div class="end-meta">
+    Cucunumic · Baja Wellness<br>
+    El Pescadero · Pacific Coast · Baja California Sur · Mexico<br>
+    Investment Memorandum Annex · May 2026 · Confidential
+  </div>
+</div>
+
+<a href="./index.html" class="back-deck">← Back to Deck</a>
+
+</body>
+</html>
