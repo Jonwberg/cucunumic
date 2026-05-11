@@ -49,7 +49,7 @@ Cucunumic is a wellness destination *because* that positioning earns the ADR, th
 
 | Item | Value |
 |---|---|
-| **Capital raised** | ~$22.7M (range $20–25M, base case at $40–60k MXN/m² construction rate) |
+| **Capital raised** | ~$26M (range $24–28M, base case at $50–75k MXN/m² construction rate) |
 | **Sources** | LP equity + sponsor equity + capitalized land contribution at preferred/negotiated value |
 | **Use of funds** | 30 keys · complete wellness program (Reception · 6 circuit cells · Spa Reception · Treatment House · Recovery Garden) · F&B pavilion · pool · BoH service court · 12-month opening reserve |
 | **Build duration** | ~18 months |
@@ -60,21 +60,21 @@ Cucunumic is a wellness destination *because* that positioning earns the ADR, th
 
 | Bucket | Scope | Rate | Total ($M) |
 |---|---|---|---|
-| 30 keys (custom luxury casitas) | 30 × 80 m² = 2,400 m² | $60k MXN/m² | $7.6 |
-| Wellness shells | 750 m² | $50k MXN/m² | $2.0 |
-| Reception · F&B · BoH | 600 m² | $45k MXN/m² | $1.4 |
+| 30 keys (custom luxury casitas) | 30 × 80 m² = 2,400 m² | $75k MXN/m² | $9.5 |
+| Wellness shells | 750 m² | $62.5k MXN/m² | $2.5 |
+| Reception · F&B · BoH | 600 m² | $55k MXN/m² | $1.7 |
 | Pool complex | flat | flat | $0.5 |
 | Wellness equipment | HBOT · cryo · sauna · hydro · 6 treatment rooms · clinical suite | flat | $2.5 |
 | Off-grid infrastructure | 80 kW PV · 300 kWh battery · backup gen · MBR · cisterns · well | mixed | $2.0 |
 | Site work | Mexican labor pricing | flat | $1.5 |
 | FFE — hotel ops | imported · modest inflation | flat | $1.5 |
-| Soft costs | A&E, permits, owner's rep, project mgmt (8% hard costs) | — | $1.2 |
+| Soft costs | A&E, permits, owner's rep, project mgmt (8% hard costs) | — | $1.4 |
 | Pre-opening + working capital | Marketing, hiring, training, 6-mo operating reserve | — | $1.0 |
-| Contingency | 10% on hard costs | — | $1.5 |
-| **TOTAL** | | | **~$22.7** |
+| Contingency | 10% on hard costs | — | $1.8 |
+| **TOTAL** | | | **~$26** |
 
 **Capex assumption sources:**
-- Construction rate $40–60k MXN/m² for 2026 BCS premium boutique — provided by project owner; saved to memory at `reference/bcs-construction-rates.md`. Hedge domain (Mexican construction); needs contractor validation before bid-quality.
+- Construction rate $50–75k MXN/m² for 2026 BCS premium boutique (revised 2026-05-11) — provided by project owner; saved to memory at `reference/bcs-construction-rates.md`. Hedge domain (Mexican construction); needs contractor validation before bid-quality.
 - MXN/USD assumed ~19 (range volatility 17–21).
 
 ### 2.2 Phase 2 — Earned Expansion (open ~2033 H1)
@@ -178,7 +178,7 @@ The Reset Program is the anchor — generates ~70% of wellness revenue at stabil
 | **EBITDA** | **(1.84)** | **(0.37)** | **1.12** | **2.15** | **3.07** |
 | EBITDA margin | — | — | 18% | 27% | 32% |
 
-**Note:** Y1 / Y2 EBITDA losses are funded from the $1.0M working capital reserve baked into the $22.7M raise. Cumulative breakeven by Y3.
+**Note:** Y1 / Y2 EBITDA losses are funded from the $1.0M working capital reserve baked into the $26M raise. Cumulative breakeven by Y3.
 
 ### 3.5 Path-to-Profitability Milestones
 
@@ -187,7 +187,7 @@ The Reset Program is the anchor — generates ~70% of wellness revenue at stabil
 | Operating EBITDA breakeven | Y3 (2030) | Revenue covers OpEx |
 | Cumulative EBITDA breakeven | Y4 (2031) | Y1+Y2 opening losses recovered |
 | Phase 2 gate cleared | Y4 Q2 (Apr 2031) | Turnaway × 2 peak seasons binding |
-| Investor cash-on-cash payback | Y6–Y7 | Cumulative LP distributions + Phase 2 uplift recover initial $22.7M |
+| Investor cash-on-cash payback | Y6–Y7 | Cumulative LP distributions + Phase 2 uplift recover initial $26M |
 | Investor IRR realization | Terminal Y8–Y10 | 11× EBITDA exit OR refinance + hold |
 
 ---
@@ -203,8 +203,8 @@ The Reset Program is the anchor — generates ~70% of wellness revenue at stabil
 | Y5 package penetration | 50% | 60% | 75% |
 | **Y5 EBITDA** | $1.6M | $3.05M | $4.0M |
 | **Y5 EBITDA margin** | 27% | 32% | 35% |
-| **5-year IRR** | 12–15% | **18–22%** | 24–28% |
-| **Equity multiple** | 1.8–2.2× | **3.0–3.5×** | 3.8–4.5× |
+| **5-year IRR** | 10–13% | **15–19%** | 21–25% |
+| **Equity multiple** | 1.6–1.9× | **2.6–3.0×** | 3.4–4.0× |
 
 ### 4.2 Y5 Hotel Valuation Scenarios
 
@@ -229,7 +229,7 @@ Both methods triangulate within ~$1M.
 #### Asset floor (downside protection)
 
 If Y5 going-concern value < deployed capital, asset basis floors the valuation:
-- Capital deployed $22.7M − depreciation 10% over 5y = $20.4M
+- Capital deployed $26M − depreciation 10% over 5y = $23.4M
 - Plus land appreciation (~8% × 5y on land basis) = +$1.4M
 - **Asset floor: ~$21.8M**
 
@@ -239,11 +239,11 @@ In conservative case, LPs are protected by the underlying asset basis even if ho
 
 | Metric | Phase 1 standalone (Y5) | Combined Y10 |
 |---|---|---|
-| Cumulative capital | $22.7M | ~$42M |
+| Cumulative capital | $26M | ~$43M |
 | Stabilized EBITDA | $3.05M | $5.3M |
 | Stabilized EBITDA yield (on capital) | 13% | 13% |
-| Combined investor IRR (P1 LPs participating in P2 pro-rata, terminal exit Y10) | 18–22% | **17–22%** |
-| Combined equity multiple | 3.0–3.5× | **3.5–4.5×** |
+| Combined investor IRR (P1 LPs participating in P2 pro-rata, terminal exit Y10) | 15–19% | **15–20%** |
+| Combined equity multiple | 2.6–3.0× | **3.2–4.0×** |
 
 ### 4.4 Y10 valuation scenarios (combined Phase 1+2 stabilized)
 
@@ -372,14 +372,14 @@ With all accelerators: **first close within 60 days** of gate clearance.
 | s7-mkt (Market) | Cabo comps | Add Paradero benchmark · refresh ADR positioning |
 | s8-phase (Phasing) | 4-phase ladder | **Replace with 2-phase ladder + gate visualization** |
 | s9-prog (Progression) | masterplan_p1/p2/p3 | **Replace with masterplan_p1/p2** (regenerated after master plan update) |
-| s10-p1 (Phase 1 detail) | Wellness pilot | **Rewrite as Phase 1 · Wellness Boutique** ($22.7M, 30 keys, full wellness) |
+| s10-p1 (Phase 1 detail) | Wellness pilot | **Rewrite as Phase 1 · Wellness Boutique** ($26M, 30 keys, full wellness) |
 | s10-p2 (Phase 2 detail) | Boutique 30 keys | **Rewrite as Phase 2 · Earned Expansion** (40 base / 50 upside) |
 | s11-p3 (Phase 3 detail) | Full resort | **DELETE** (collapsed into Phase 2 detail) |
 | s12-op (Operating) | 3-phase staffing | Update to 32 FTE Phase 1 · 47 FTE Phase 2 stabilized |
 | s13-cap (Capital ladder) | 4-phase capex stack | Two-raise structure with gate-driven Phase 2 dilution mechanics |
 | s14-ret (Returns) | 4-phase IRR matrix | Phase 1 standalone · Combined P1+2 · Y5/Y10 valuation scenarios |
 | s15-rm (Roadmap) | 4-phase Gantt | 2-phase Gantt with gate measurement period highlighted |
-| s16 (Ask) | Phase 1 ask | Update ask to reflect $22.7M Phase 1 raise |
+| s16 (Ask) | Phase 1 ask | Update ask to reflect $26M Phase 1 raise |
 
 **Net result:** 17 → 16 slides (s11-p3 deleted).
 
@@ -416,7 +416,7 @@ All deck slides referencing the property: replace "38.88 acres" / "15.73 ha" / "
 
 | Item | Resolution path |
 |---|---|
-| Exact debt/equity split in Phase 1 cap stack | Decided during raise structuring; default modeling assumes 100% equity at $22.7M |
+| Exact debt/equity split in Phase 1 cap stack | Decided during raise structuring; default modeling assumes 100% equity at $26M |
 | Contractor cost validation at $40–60k MXN/m² | Get bid-quality estimate from Cabo / La Paz contractor against locked scope |
 | LP waterfall mechanics (preferred return %, sponsor promote, distribution priority) | Drafted during raise structuring; standard 8% pref + 20% promote over hurdle as starting point |
 | Specific land valuation in cap stack | Negotiated between sponsor and LPs at raise close |
@@ -440,7 +440,7 @@ All deck slides referencing the property: replace "38.88 acres" / "15.73 ha" / "
 | Narrative framing: A · Wellness Destination (brand-led) | 2026-05-09 | Project owner's preference; brand thesis grounded in economic case |
 | Land framing: 11 ha only (no 15.7 mention) | 2026-05-09 | Clean and conservative; owner residences and river setback stay private |
 | Construction rate: $40–60k MXN/m² | 2026-05-10 | Project owner's local-knowledge estimate; replaces my desk-research overshoot |
-| Phase 1 capex: ~$22.7M base case (range $20–25M) | 2026-05-10 | Bottom-up at $40–60k MXN/m² with full scope |
+| Phase 1 capex: ~$26M base case (range $24–28M) | 2026-05-11 | Bottom-up at $50–75k MXN/m² with full scope (rate revised 2026-05-11 from initial $40–60k MXN/m²) |
 | Y5 revenue at $9.52M / EBITDA $3.05M | 2026-05-10 | Richer wellness model: 60% package penetration · $1,340/ORN |
 | Staffing: 32 FTE Phase 1 / 47 FTE Phase 2 stabilized | 2026-05-10 | Bumped from 26.5 to reflect clinical-grade wellness staffing |
 | Management structure: Option 2 or Option 3, TBD | 2026-05-10 | Decision deferred to raise structuring |

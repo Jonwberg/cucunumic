@@ -24,21 +24,21 @@ Cucunumic is a Pacific-coast wellness destination opened complete on 11 hectares
 
 ---
 
-## 2 · Phase 1 Capital Stack — Where the $22.7M Goes
+## 2 · Phase 1 Capital Stack — Where the $26M Goes
 
-Phase 1 capital is built from the ground up at a construction rate of $40,000–$60,000 MXN per square meter of built area, which translates to roughly $2,100–$3,160 USD/m² at recent MXN/USD rates. This is the rate provided by the project owner based on local BCS contractor sounding and aligns with the lower end of premium boutique hospitality build cost in the region.
+Phase 1 capital is built from the ground up at a construction rate of $50,000–$75,000 MXN per square meter of built area, which translates to roughly $2,630–$3,950 USD/m² at recent MXN/USD rates. This is the rate provided by the project owner based on local BCS contractor sounding and aligns with the lower end of premium boutique hospitality build cost in the region.
 
-For reference, **Paradero Todos Santos** — a 35-key luxury boutique opened in 2021 in the same regional corridor (Todos Santos / Pescadero) — reportedly cost approximately $25M in 2021 dollars, which works out to roughly $714K per key all-in. Construction-cost inflation in BCS since 2021 has been on the order of 1.5×–2× for labor and materials. The Cucunumic build, anchored at the user-provided BCS rate, lands at approximately $757K per key all-in — directly comparable to Paradero's 2021 number with modest inflation accounted for.
+For reference, **Paradero Todos Santos** — a 35-key luxury boutique opened in 2021 in the same regional corridor (Todos Santos / Pescadero) — reportedly cost approximately $25M in 2021 dollars, which works out to roughly $714K per key all-in. Construction-cost inflation in BCS since 2021 has been on the order of 1.5×–2× for labor and materials. The Cucunumic build, anchored at the user-provided BCS rate, lands at approximately $866K per key all-in — directly comparable to Paradero's 2021 number with modest inflation accounted for.
 
 The capital breaks into eleven buckets, each described below.
 
-### 2.1 Built area at the locked construction rate ($11.5M of $22.7M)
+### 2.1 Built area at the locked construction rate ($14.2M of $26M)
 
 | Bucket | Scope | Built m² | Rate (MXN/m²) | USD total |
 |---|---|---|---|---|
-| **30 keys (luxury casitas)** | Custom materials — rammed earth, lime plaster, deep eaves, raised floor | 2,400 (80 m²/key × 30) | $60k MXN | **$7.6M** |
-| **Wellness shells** | 6 circuit cells + Spa Reception + Treatment House | 750 | $50k MXN | **$2.0M** |
-| **Reception · F&B pavilion · BoH service court** | Semi-public + back-of-house built area | 600 | $45k MXN | **$1.4M** |
+| **30 keys (luxury casitas)** | Custom materials — rammed earth, lime plaster, deep eaves, raised floor | 2,400 (80 m²/key × 30) | $75k MXN | **$9.5M** |
+| **Wellness shells** | 6 circuit cells + Spa Reception + Treatment House | 750 | $62.5k MXN | **$2.5M** |
+| **Reception · F&B pavilion · BoH service court** | Semi-public + back-of-house built area | 600 | $55k MXN | **$1.7M** |
 | **Pool complex** | Pool + surround + outdoor terrace finishes | — | flat | **$0.5M** |
 
 The casita rate sits at the top of the construction-cost band because the architectural concept calls for genuine custom materials (rammed earth load-bearing walls, lime plaster, locally milled timber, deep climate-responsive eaves) rather than conventional concrete-and-tile boutique construction. The wellness shells take a middle rate — substantial mechanical and electrical fit-out (HBOT power, drainage for wet zones, treatment-room acoustics) but less custom material expression. Reception and F&B take a slightly lower rate because they're semi-public and design-driven but use more conventional construction.
@@ -104,7 +104,7 @@ Furniture, fixtures, and equipment for the operating hotel, excluding wellness e
 | Branded retail inventory (pre-opening) | $100K |
 | **Total FFE** | **~$1.5M** |
 
-### 2.6 Soft costs ($1.2M)
+### 2.6 Soft costs ($1.4M)
 
 Architecture, engineering, permits, owner's representation, and project management.
 
@@ -114,7 +114,7 @@ Architecture, engineering, permits, owner's representation, and project manageme
 | FIDETUR permits, environmental impact, municipal | Fixed | $200K |
 | Owner's representative / project management | $5K/mo × 24 months | $120K |
 | Insurance during construction (builder's risk) | Fixed | $50K |
-| **Total soft costs** | | **~$1.2M** |
+| **Total soft costs** | | **~$1.4M** |
 
 ### 2.7 Pre-opening and working capital ($1.0M)
 
@@ -126,28 +126,28 @@ Architecture, engineering, permits, owner's representation, and project manageme
 | 6-month operating reserve | $200K |
 | **Total pre-opening + WC** | **~$1.0M** |
 
-### 2.8 Contingency ($1.5M)
+### 2.8 Contingency ($1.8M)
 
-10% contingency on hard construction costs ($15M of hard costs × 10% = $1.5M). This is the buffer for unknowns in a remote off-grid build. Mexican construction cost overruns are typically driven by import logistics for high-spec materials and equipment, which is the highest-risk subcomponent of the budget. The 10% contingency sits in line with hospitality construction industry norms for premium build types.
+10% contingency on hard construction costs ($15M of hard costs × 10% = $1.8M). This is the buffer for unknowns in a remote off-grid build. Mexican construction cost overruns are typically driven by import logistics for high-spec materials and equipment, which is the highest-risk subcomponent of the budget. The 10% contingency sits in line with hospitality construction industry norms for premium build types.
 
 ### 2.9 Total Phase 1 capital
 
 | Bucket | $M |
 |---|---|
-| Built area (§2.1) | $11.5 |
+| Built area (§2.1) | $14.2 |
 | Wellness equipment (§2.2) | $2.5 |
 | Off-grid infrastructure (§2.3) | $2.0 |
 | Site work (§2.4) | $1.5 |
 | FFE (§2.5) | $1.5 |
-| Soft costs (§2.6) | $1.2 |
+| Soft costs (§2.6) | $1.4 |
 | Pre-opening + WC (§2.7) | $1.0 |
-| Contingency (§2.8) | $1.5 |
-| **Total Phase 1** | **$22.7M** |
+| Contingency (§2.8) | $1.8 |
+| **Total Phase 1** | **$26M** |
 
-**Range:** $20–25M depending on whether casitas come in at $50k or $60k MXN/m² and how aggressive the contingency draw is.
+**Range:** $24–28M depending on whether casitas come in at $62.5k or $75k MXN/m² and how aggressive the contingency draw is.
 
 **What would move this:**
-- Construction-cost validation by a Cabo / La Paz contractor against the locked scope is the single highest-leverage diligence step. The $40–60k MXN/m² rate is project-owner local-knowledge level; a bid-quality estimate could move the number ±15% in either direction.
+- Construction-cost validation by a Cabo / La Paz contractor against the locked scope is the single highest-leverage diligence step. The $50–75k MXN/m² rate is project-owner local-knowledge level; a bid-quality estimate could move the number ±15% in either direction.
 - MXN/USD exchange-rate movement of ±10% (1.7–2.1 MXN to the dollar around the recent ~19 MXN average) flows through to the USD-denominated total at roughly the proportion of the build that's MXN-denominated (~50% of total).
 - Material spec choices (rammed earth vs. concrete + plaster; imported vs. domestic stone; bespoke vs. catalog FFE) can move the keys bucket alone by ±$2M.
 
@@ -173,7 +173,7 @@ Phase 2 builds out the property to 40 keys base (10 added) or 50 keys upside (20
 
 The deck cites a Phase 2 raise size of **$18–22M**. This range includes the construction capex above plus working capital reserve and a buffer for any construction debt incident costs (origination, reserves). It also allows the Phase 2 raise to fund some maintenance capex on the Phase 1 building stock that would have accumulated by 2031–2033.
 
-Phase 2 is raised at **uplifted valuation** reflecting Phase 1 stabilized cash flow. If Phase 1 is hitting $3.0M+ in stabilized EBITDA at the time the Phase 2 raise launches, the implied Phase 1 asset value at 11× EBITDA is $33M, which uplifts the basis for new Phase 2 equity from the $22.7M Phase 1 raise to roughly 1.45×. This valuation step is the central reason Phase 1 LPs benefit from holding through Phase 2 even if they choose not to participate in the second raise — their Phase 1 equity is implicitly revalued at the higher basis.
+Phase 2 is raised at **uplifted valuation** reflecting Phase 1 stabilized cash flow. If Phase 1 is hitting $3.0M+ in stabilized EBITDA at the time the Phase 2 raise launches, the implied Phase 1 asset value at 11× EBITDA is $33M, which uplifts the basis for new Phase 2 equity from the $26M Phase 1 raise to roughly 1.27×. This valuation step is the central reason Phase 1 LPs benefit from holding through Phase 2 even if they choose not to participate in the second raise — their Phase 1 equity is implicitly revalued at the higher basis.
 
 ---
 
@@ -416,7 +416,7 @@ The Y1–Y5 trajectory shows Phase 1 from opening through stabilization. Revenue
 | Project debt-serviceable | Y3 (2030) | EBITDA ≥ $1.0M supports ~$7M of construction debt at 1.5× DSCR (relevant if any Phase 1 debt). |
 | Phase 2 gate measurement starts | Y3 (2030) | First 4-quarter ADR/occupancy window opens; turnaway tracking starts at opening. |
 | **Phase 2 gate plausibly clears** | **Y4 Q2 (Apr 2031)** | Gate criteria sustained; Phase 2 raise begins. |
-| Investor cash-on-cash payback | Y6–Y7 | Cumulative LP distributions + Phase 2 uplift recover initial $22.7M equity. |
+| Investor cash-on-cash payback | Y6–Y7 | Cumulative LP distributions + Phase 2 uplift recover initial $26M equity. |
 | Investor IRR realization | Y5–Y8 (terminal) | Exit at 10–13× stabilized EBITDA, or refinance + hold. |
 
 ---
@@ -433,10 +433,10 @@ The Y1–Y5 trajectory shows Phase 1 from opening through stabilization. Revenue
 | Y5 Revenue | $7.4M | $9.52M | $11.8M |
 | **Y5 EBITDA** | **$1.6M** | **$3.05M** | **$4.0M** |
 | **Y5 EBITDA margin** | 22% | 32% | 34% |
-| **5-year IRR** | **12–15%** | **18–22%** | **24–28%** |
-| **Equity multiple (5-yr terminal)** | **1.8–2.2×** | **3.0–3.5×** | **3.8–4.5×** |
+| **5-year IRR** | **10–13%** | **15–19%** | **21–25%** |
+| **Equity multiple (5-yr terminal)** | **1.6–1.9×** | **2.6–3.0×** | **3.4–4.0×** |
 
-The **base case 18–22% IRR** is the modeled investment return for an LP putting equity in at Phase 1 closing and exiting at Y5 via either property sale or refinance-and-hold. The IRR is calculated assuming:
+The **base case 15–19% IRR** is the modeled investment return for an LP putting equity in at Phase 1 closing and exiting at Y5 via either property sale or refinance-and-hold. The IRR is calculated assuming:
 
 - Capital deployed Y0 (2027)
 - Distributions Y2–Y5 as cash becomes available (modest in Y2, ~$0.4M; rising to ~$2.0M by Y5)
@@ -467,10 +467,10 @@ The two methods triangulate within ~$1M across all three scenarios. This converg
 **Asset floor (downside protection):**
 
 If Y5 going-concern value falls below deployed capital (the conservative scenario), the asset basis floors valuation:
-- Capital deployed: $22.7M
-- Less depreciation (~10% over 5 years): $20.4M
+- Capital deployed: $26M
+- Less depreciation (~10% over 5 years): $23.4M
 - Plus land appreciation (~8% annual × 5 years on $3M land basis): +$1.4M
-- **Asset floor: ~$21.8M**
+- **Asset floor: ~$24.8M**
 
 Even in the conservative case, LPs are protected by the underlying asset basis. The Phase 1 LPs may not earn their target IRR, but the equity-floor risk is materially reduced by the embedded asset value in the property and land.
 
@@ -480,11 +480,11 @@ If Phase 2 clears the gate and is built, the combined Phase 1 + Phase 2 economic
 
 | Metric | Phase 1 standalone (Y5) | Combined Y10 |
 |---|---|---|
-| Cumulative capital deployed | $22.7M | ~$42M |
+| Cumulative capital deployed | $26M | ~$43M |
 | Stabilized EBITDA | $3.05M | ~$5.3M |
 | Stabilized EBITDA yield on capital | 13% | 13% |
-| Combined investor IRR (Phase 1 LPs participating pro-rata in Phase 2) | 18–22% | **17–22%** |
-| Combined equity multiple (10-year) | 3.0–3.5× | **3.5–4.5×** |
+| Combined investor IRR (Phase 1 LPs participating pro-rata in Phase 2) | 15–19% | **15–20%** |
+| Combined equity multiple (10-year) | 2.6–3.0× | **3.2–4.0×** |
 
 The Y10 valuation:
 
@@ -494,7 +494,7 @@ The Y10 valuation:
 | Base case | $5.3M | 11× | **$58.3M** | $1.17M |
 | Optimistic | $6.5M | 13× | $84.5M | $1.69M |
 
-The Y10 base-case valuation of $58.3M against ~$42M total deployed capital gives a 1.4× asset multiple before counting the cumulative operating distributions between Y2 and Y10 (~$15–20M at base case).
+The Y10 base-case valuation of $58.3M against ~$43M total deployed capital gives a 1.4× asset multiple before counting the cumulative operating distributions between Y2 and Y10 (~$15–20M at base case).
 
 ---
 
@@ -560,11 +560,11 @@ Every material risk to the model is documented below with its mitigation strateg
 
 ### 9.1 Construction cost overrun
 
-The single largest capital risk. The $40–60k MXN/m² rate is project-owner local-knowledge level; a real bid could come in higher. Sensitivity: a 15% capex overrun would push Phase 1 from $22.7M to $26.1M, dropping base-case IRR from 18–22% to roughly 15–18%.
+The single largest capital risk. The $50–75k MXN/m² rate is project-owner local-knowledge level; a real bid could come in higher. Sensitivity: a 15% capex overrun would push Phase 1 from $26M to $29.9M, dropping base-case IRR from 15–19% to roughly 12–15%.
 
 **Mitigants:**
 - Obtain bid-quality construction estimate from at least two Cabo / La Paz contractors before raise closes. Use the higher bid for the modeled budget.
-- 10% contingency built into the $22.7M reflects an industry norm but not aggressive overrun protection. Investors should expect contingency to be substantially drawn.
+- 10% contingency built into the $26M reflects an industry norm but not aggressive overrun protection. Investors should expect contingency to be substantially drawn.
 - Phased construction sequencing (foundations and shell before high-spec finish work) allows for spec adjustment mid-build if costs trend high.
 
 ### 9.2 Demand uncertainty during ramp
@@ -575,7 +575,7 @@ A new wellness destination in BCS with no operating history must build a custome
 - Heavy pre-opening marketing ($500K in Y0 + $760K in Y1) seeds the brand.
 - Wellness retreat groups (corporate, women's, athlete recovery) provide bulk bookings that smooth occupancy during ramp.
 - The Reset Program (5 nights × $2,500 per person) is structurally less price-sensitive than transient luxury — guests who buy a wellness program have already pre-committed.
-- If demand under-performs through Y3, the model's downside is the conservative case (12–15% IRR), still positive returns, not a write-down.
+- If demand under-performs through Y3, the model's downside is the conservative case (10–13% IRR), still positive returns, not a write-down.
 
 ### 9.3 Off-grid operational reliability
 
@@ -601,13 +601,13 @@ The clinical-grade wellness offering (HBOT, IV therapy, integrative consultation
 BCS hospitality projects are exposed to Mexican federal and state regulation: FIDETUR permits, environmental impact studies, tourism zoning, foreign-ownership restrictions on certain coastal property types. Cucunumic is escriturado (title cleared), which removes the most acute legal risk, but ongoing regulatory exposure persists.
 
 **Mitigants:**
-- Pre-development phase ($0.25M budget within the $22.7M) includes specialist Mexican land-use counsel.
+- Pre-development phase ($0.25M budget within the $26M) includes specialist Mexican land-use counsel.
 - Project structure can be configured to comply with foreign-ownership rules via fideicomiso (bank trust) if any of the Phase 1 LPs are non-Mexican.
 - Sponsor (project owner) is Mexican-resident, which simplifies several compliance dimensions.
 
 ### 9.6 Phase 2 gate not clearing
 
-The optionality of Phase 2 is a feature of the model, but it also means Phase 1 LPs may not see the combined returns. If gate doesn't clear, Phase 1 stabilized economics are what they are — 18–22% IRR at base case, with the asset basis as downside floor.
+The optionality of Phase 2 is a feature of the model, but it also means Phase 1 LPs may not see the combined returns. If gate doesn't clear, Phase 1 stabilized economics are what they are — 15–19% IRR at base case, with the asset basis as downside floor.
 
 **Mitigants:**
 - Phase 1 is designed to be a complete operating business on its own. The model does not depend on Phase 2 for Phase 1 LPs to earn their returns.
@@ -621,8 +621,8 @@ Every assumption baked into the financial model, with its source classification.
 
 | Assumption | Value | Source | Risk if wrong |
 |---|---|---|---|
-| Phase 1 capex | $22.7M | Bottom-up build at $40–60k MXN/m² (project-owner local rate) + benchmarks | ±15% moves IRR ±3pp |
-| Construction rate | $40–60k MXN/m² | Project owner local knowledge — **NEEDS contractor validation** | Largest single uncertainty |
+| Phase 1 capex | $26M | Bottom-up build at $50–75k MXN/m² (project-owner local rate) + benchmarks | ±15% moves IRR ±3pp |
+| Construction rate | $50–75k MXN/m² | Project owner local knowledge — **NEEDS contractor validation** | Largest single uncertainty |
 | MXN/USD rate | ~19 MXN/USD | Recent average; volatile (range 17–21) | Affects MXN-denominated portion (~50% of build) |
 | Phase 1 build duration | 18 months | Industry norm for premium boutique scale | Each month delay costs ~$200K in opportunity + carry |
 | Y5 stabilized occupancy | 65% | Conservative vs. Cabo market 75%; matches wellness destination LOS | Each 5pp moves Y5 EBITDA by ~$320K |
