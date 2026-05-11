@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cucunumic · Three Scale Tiers · Investment Scenarios</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bone:#E8DEC8; --bone-dim:#D4C8B0; --sand:#BFB090; --terra:#A87850;
+      --rust:#8A5A38; --night:#0D0B09; --coal:#1A1714; --moon:#CCBE9C;
+      --mist:#8A8272; --gold:#C8A83A; --water:#6B8A82;
+      --hair:rgba(240,235,224,0.08); --hair-2:rgba(240,235,224,0.14);
+      --tier-1:#8A5A38; --tier-2:#A87850; --tier-3:#C8A83A;
+      --serif:'Cormorant SC',serif; --serif-it:'Cormorant',serif;
+      --body:'Spectral',serif; --sans:'Jost',sans-serif;
+      --mono:'JetBrains Mono',monospace;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;scroll-padding-top:5rem}
+    body{font-family:var(--body);background:var(--night);color:var(--bone-dim);font-size:17px;line-height:1.78;font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px}
+
+    /* Top rail */
+    .top-rail{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(13,11,9,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);padding:0.85rem 2.4rem;display:flex;align-items:center;justify-content:space-between;font-family:var(--sans);font-size:0.62rem;font-weight:300;letter-spacing:0.4em;text-transform:uppercase;color:var(--mist)}
+    .top-rail a{color:var(--moon);text-decoration:none;transition:color 0.2s}
+    .top-rail a:hover{color:var(--gold)}
+    .top-rail .br{color:var(--terra);margin:0 0.9rem;opacity:0.6}
+
+    /* Cover */
+    .cover{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8rem 4rem 4rem;text-align:center;position:relative;border-bottom:1px solid var(--hair)}
+    .cover::before{content:'';position:absolute;inset:4rem;border:1px solid rgba(168,120,80,0.18);pointer-events:none}
+    .cover-eyebrow{font-family:var(--sans);font-weight:200;font-size:0.6rem;letter-spacing:0.55em;text-transform:uppercase;color:rgba(191,176,144,0.55);margin-bottom:2.6rem}
+    .cover-title{font-family:var(--serif);font-weight:300;font-size:clamp(3rem,7vw,5.5rem);letter-spacing:0.12em;line-height:1;color:var(--bone);margin-bottom:0.4rem}
+    .cover-sub{font-family:var(--serif-it);font-style:italic;font-size:clamp(1.4rem,2.4vw,2.1rem);color:var(--moon);letter-spacing:0.04em;margin-bottom:3rem}
+    .cover-rule{width:4rem;height:1px;background:var(--terra);margin:0 auto 2.4rem}
+    .cover-tag{font-family:var(--sans);font-weight:200;font-size:0.72rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--sand);max-width:60ch;line-height:2.4}
+    .cover-meta{margin-top:auto;padding-top:4rem;font-family:var(--sans);font-size:0.55rem;font-weight:200;letter-spacing:0.42em;text-transform:uppercase;color:rgba(204,190,156,0.35);line-height:2.2}
+
+    /* Tier badges */
+    .tier-badges{display:flex;gap:2rem;margin-top:2rem;flex-wrap:wrap;justify-content:center}
+    .tier-badge{padding:1rem 1.6rem;border:1px solid rgba(168,120,80,0.22);border-radius:2px;display:flex;flex-direction:column;align-items:center;min-width:14rem}
+    .tier-badge .tier-num{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.4em;color:var(--terra);margin-bottom:0.3rem}
+    .tier-badge .tier-name{font-family:var(--serif);font-size:1.4rem;color:var(--bone);letter-spacing:0.03em;margin-bottom:0.4rem}
+    .tier-badge .tier-keys{font-family:var(--mono);font-size:0.9rem;color:var(--moon);margin-bottom:0.2rem}
+    .tier-badge .tier-cap{font-family:var(--sans);font-size:0.65rem;letter-spacing:0.32em;text-transform:uppercase;color:var(--sand)}
+    .tier-badge.t1{border-left:2px solid var(--tier-1)}
+    .tier-badge.t2{border-left:2px solid var(--tier-2)}
+    .tier-badge.t3{border-left:2px solid var(--tier-3)}
+
+    /* Section base */
+    .section{max-width:1200px;margin:0 auto;padding:6rem 4rem 5rem;position:relative;z-index:2;border-bottom:1px solid var(--hair)}
+    .section.last{border-bottom:none}
+    .section-header{display:grid;grid-template-columns:5rem 1fr;gap:2rem;margin-bottom:3.5rem;align-items:baseline}
+    .section-number{font-family:var(--mono);font-size:1rem;color:var(--terra);letter-spacing:0.12em;padding-top:0.4rem}
+    .section-title{font-family:var(--serif);font-weight:300;font-size:clamp(1.8rem,3.5vw,2.8rem);color:var(--bone);letter-spacing:0.04em;line-height:1.18}
+    .section-deck{font-family:var(--serif-it);font-style:italic;color:var(--moon);font-size:clamp(1.05rem,1.4vw,1.2rem);margin-top:0.5rem;font-weight:300}
+    .prose{max-width:78ch}
+    .prose p{font-family:var(--body);color:var(--bone-dim);font-size:1.02rem;line-height:1.85;margin-bottom:1.2rem}
+    .prose p strong{color:var(--bone);font-weight:500}
+    .prose p em{color:var(--moon);font-style:italic}
+    .prose h4{font-family:var(--sans);font-weight:300;font-size:0.65rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--terra);margin:2rem 0 0.8rem}
+    .prose ul{padding-left:1.4rem;margin-bottom:1.4rem}
+    .prose li{font-family:var(--body);color:var(--bone-dim);line-height:1.78;margin-bottom:0.4rem}
+    .prose li::marker{color:var(--terra)}
+
+    /* Comparison hero table */
+    .compare-wrap{margin:2rem 0 2rem;border:1px solid var(--hair-2);background:rgba(26,23,20,0.6)}
+    .compare-row{display:grid;grid-template-columns:13rem 1fr 1fr 1fr;border-bottom:1px solid var(--hair)}
+    .compare-row:last-child{border-bottom:none}
+    .compare-row.head{background:rgba(168,120,80,0.06);border-bottom:1px solid var(--hair-2)}
+    .compare-row > div{padding:1rem 1.2rem;border-right:1px solid var(--hair)}
+    .compare-row > div:last-child{border-right:none}
+    .compare-row.head > div{font-family:var(--sans);font-size:0.6rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--sand);padding:1.2rem}
+    .compare-row .label{font-family:var(--sans);font-size:0.6rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--mist)}
+    .compare-row .val{font-family:var(--serif);font-size:1.25rem;color:var(--moon);font-weight:300;letter-spacing:0.02em;line-height:1.3}
+    .compare-row .val.head{color:var(--gold);font-size:1.5rem}
+    .compare-row .val.sub{font-family:var(--body);font-size:0.8rem;color:var(--sand);margin-top:0.3rem;font-style:italic}
+    .compare-row .tier-head{font-family:var(--serif);font-size:1.6rem;color:var(--bone);letter-spacing:0.04em;line-height:1.1;font-weight:400}
+    .compare-row .tier-head small{display:block;font-family:var(--sans);font-size:0.55rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--terra);margin-top:0.4rem;font-weight:300}
+    @media(max-width:900px){.compare-row{grid-template-columns:1fr}.compare-row > div{border-right:none;border-bottom:1px solid var(--hair)}}
+
+    /* Tables */
+    .tbl-wrap{margin:2rem 0 1.5rem;overflow-x:auto}
+    table{width:100%;border-collapse:collapse;font-family:var(--body);font-size:0.92rem}
+    thead th{font-family:var(--sans);font-weight:300;font-size:0.58rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--mist);text-align:left;padding:0.85rem 1rem 0.85rem 0;border-bottom:1px solid var(--hair-2);vertical-align:bottom}
+    tbody td{padding:0.85rem 1rem 0.85rem 0;border-bottom:1px solid var(--hair);color:var(--bone-dim);line-height:1.55;vertical-align:top}
+    tbody td:first-child{font-family:var(--serif);color:var(--bone);font-size:1rem;letter-spacing:0.02em}
+    tbody tr:last-child td{border-bottom:1px solid var(--hair-2)}
+    tbody tr.total-row td{border-top:1px solid var(--terra);padding-top:1.1rem;font-weight:500;color:var(--moon)}
+    tbody tr.total-row td:first-child{color:var(--bone)}
+    .num{font-family:var(--mono);font-size:0.92rem;color:var(--moon);font-feature-settings:'tnum';letter-spacing:0.02em}
+    .num.head{color:var(--gold);font-weight:500}
+    .num.t1{color:var(--rust)}
+    .num.t2{color:var(--terra)}
+    .num.t3{color:var(--gold)}
+
+    /* KPI rows */
+    .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:2rem 0;border-top:1px solid var(--hair-2);border-bottom:1px solid var(--hair-2);padding:1.6rem 0}
+    .kpi{padding:0 1.2rem;border-right:1px solid var(--hair)}
+    .kpi:last-child{border-right:none}
+    .kpi-label{font-family:var(--sans);font-size:0.55rem;font-weight:200;letter-spacing:0.42em;text-transform:uppercase;color:var(--mist);margin-bottom:0.6rem}
+    .kpi-val{font-family:var(--serif);font-size:clamp(1.4rem,2.5vw,1.9rem);font-weight:300;color:var(--moon);line-height:1;letter-spacing:0.02em}
+    .kpi-val small{font-family:var(--sans);font-size:0.55rem;font-weight:200;letter-spacing:0.32em;color:var(--terra);margin-left:0.4rem}
+    .kpi-sub{font-family:var(--body);font-size:0.78rem;color:var(--sand);margin-top:0.5rem;line-height:1.5}
+
+    /* Pull quote */
+    .pull{margin:2rem 0;padding:1.4rem 1.8rem;border-left:2px solid var(--terra);background:rgba(168,120,80,0.04)}
+    .pull-label{font-family:var(--sans);font-size:0.55rem;font-weight:300;letter-spacing:0.42em;text-transform:uppercase;color:var(--terra);margin-bottom:0.5rem}
+    .pull-body{font-family:var(--serif-it);font-style:italic;color:var(--bone);font-size:1.1rem;line-height:1.6}
+    .pull-body em{color:var(--gold);font-style:normal}
+
+    /* Tier hero */
+    .tier-hero{display:grid;grid-template-columns:1fr 1.4fr;gap:3rem;margin-bottom:2.4rem;align-items:start}
+    .tier-hero-label{font-family:var(--sans);font-size:0.6rem;letter-spacing:0.5em;text-transform:uppercase;color:var(--terra);margin-bottom:1rem}
+    .tier-hero-name{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,3.5vw,3rem);color:var(--bone);letter-spacing:0.04em;line-height:1.1;margin-bottom:0.8rem}
+    .tier-hero-tag{font-family:var(--serif-it);font-style:italic;color:var(--moon);font-size:1.2rem;line-height:1.5;margin-bottom:1.4rem}
+    .tier-hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1.6rem}
+    .tier-hero-stat{padding:0.8rem 1rem;border-left:1px solid var(--hair-2)}
+    .tier-hero-stat .lab{font-family:var(--sans);font-size:0.55rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--mist);margin-bottom:0.3rem}
+    .tier-hero-stat .v{font-family:var(--serif);font-size:1.3rem;color:var(--moon);font-weight:300}
+    @media(max-width:900px){.tier-hero{grid-template-columns:1fr}}
+
+    .tier-divider{height:1px;background:linear-gradient(to right,transparent,var(--terra),transparent);margin:4rem auto;width:60%;opacity:0.5}
+
+    /* Capex comparison chart */
+    .chart-frame{margin:2rem 0;padding:2rem 1rem 1.6rem;border:1px solid var(--hair-2);background:rgba(26,23,20,0.6)}
+    .chart-title{font-family:var(--sans);font-size:0.6rem;font-weight:300;letter-spacing:0.4em;text-transform:uppercase;color:var(--terra);margin-bottom:1.4rem;padding-left:0.8rem}
+    .chart-svg{width:100%;height:auto;display:block}
+    .chart-legend{display:flex;gap:2rem;flex-wrap:wrap;margin-top:1.2rem;padding-left:0.8rem;font-family:var(--sans);font-size:0.6rem;font-weight:300;letter-spacing:0.32em;text-transform:uppercase;color:var(--sand)}
+    .chart-legend .leg-dot{display:inline-block;width:10px;height:10px;margin-right:0.5rem;vertical-align:middle}
+    .svg-axis{fill:var(--mist);font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:0.06em}
+    .svg-grid{stroke:var(--hair);stroke-width:0.5}
+    .svg-label{fill:var(--bone);font-family:'Cormorant SC',serif;font-size:10px;font-weight:400}
+    .svg-num{fill:var(--moon);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:400}
+
+    /* End matter */
+    .end-matter{max-width:1200px;margin:0 auto;padding:5rem 4rem 8rem;text-align:center;position:relative;z-index:2}
+    .end-rule{width:6rem;height:1px;background:var(--terra);margin:0 auto 2.4rem;opacity:0.5}
+    .end-mark{font-family:var(--serif-it);font-style:italic;color:var(--moon);font-size:1.2rem;line-height:1.8;max-width:50ch;margin:0 auto}
+    .end-meta{margin-top:2.4rem;font-family:var(--sans);font-size:0.55rem;letter-spacing:0.42em;text-transform:uppercase;color:rgba(204,190,156,0.4);line-height:2}
+
+    .back-deck{position:fixed;bottom:2rem;right:2rem;padding:0.8rem 1.4rem;background:rgba(26,23,20,0.92);border:1px solid var(--hair-2);font-family:var(--sans);font-size:0.58rem;font-weight:300;letter-spacing:0.42em;text-transform:uppercase;color:var(--moon);text-decoration:none;transition:all 0.2s;z-index:40;backdrop-filter:blur(12px)}
+    .back-deck:hover{color:var(--gold);border-color:var(--terra)}
+
+    @media(max-width:900px){
+      .section,.end-matter{padding-left:1.6rem;padding-right:1.6rem}
+      .section-header{grid-template-columns:1fr;gap:0.4rem}
+      .top-rail{padding:0.7rem 1.2rem;font-size:0.52rem;letter-spacing:0.3em}
+      .top-rail .hide-mobile{display:none}
+      .kpi-row{grid-template-columns:repeat(2,1fr)}
+    }
+
+    @media print {
+      body{background:white;color:#1a1714;font-size:11pt}
+      body::before{display:none}
+      .top-rail,.back-deck{display:none}
+      .cover{color:white;page-break-after:always;background:var(--night)}
+      .section{padding:2rem 0;page-break-inside:avoid}
+      .section-title,.prose p,.prose li,tbody td{color:#1a1714}
+      thead th{color:#555;border-bottom-color:#ccc}
+      tbody td{border-bottom-color:#eee}
+      .num,.kpi-val,.tier-hero-stat .v{color:#5a3a1e}
+      .pull{background:#faf6ef}
+      .pull-body{color:#1a1714}
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-rail">
+  <div>
+    <span class="hide-mobile">Cucunumic · Baja Wellness</span>
+    <span class="br hide-mobile">·</span>
+    <span>Scale Variants</span>
+    <span class="br">·</span>
+    <span>May 2026</span>
+  </div>
+  <div>
+    <a href="./index.html">← Deck</a>
+    <span class="br">·</span>
+    <a href="./appendix.html">Appendix</a>
+    <span class="br">·</span>
+    <span>Confidential</span>
+  </div>
+</div>
+
+<!-- COVER -->
+<section class="cover">
+  <p class="cover-eyebrow">Investment Memorandum · Scale Variants</p>
+  <h1 class="cover-title">Three Tiers.<br>Three Theses.</h1>
+  <p class="cover-sub">One brand. Three capital sizes.</p>
+  <div class="cover-rule"></div>
+  <p class="cover-tag">
+    Wellness Retreat · 10 keys · ~$11M<br>
+    Wellness Boutique · 20 keys · ~$19M<br>
+    Wellness Destination · 30 keys · ~$26M
+  </p>
+  <div class="tier-badges">
+    <a href="#tier-1" class="tier-badge t1" style="text-decoration:none">
+      <span class="tier-num">Tier 01</span>
+      <span class="tier-name">Wellness Retreat</span>
+      <span class="tier-keys">10 keys</span>
+      <span class="tier-cap">~$11M</span>
+    </a>
+    <a href="#tier-2" class="tier-badge t2" style="text-decoration:none">
+      <span class="tier-num">Tier 02</span>
+      <span class="tier-name">Wellness Boutique</span>
+      <span class="tier-keys">20 keys</span>
+      <span class="tier-cap">~$19M</span>
+    </a>
+    <a href="#tier-3" class="tier-badge t3" style="text-decoration:none">
+      <span class="tier-num">Tier 03</span>
+      <span class="tier-name">Wellness Destination</span>
+      <span class="tier-keys">30 keys</span>
+      <span class="tier-cap">~$26M</span>
+    </a>
+  </div>
+  <div class="cover-meta">
+    Cucunumic · El Pescadero · Pacific Coast · BCS<br>
+    Distributed under NDA · May 2026
+  </div>
+</section>
+
+<!-- §1 · COMPARISON SUMMARY -->
+<section class="section" id="summary">
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <div>
+      <h2 class="section-title">Three tiers at a glance</h2>
+      <p class="section-deck">The same wellness brand at three capital sizes — different theses, different investor fit.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>
+      Cucunumic's wellness destination thesis works at scale. The economics improve as the property grows because clinical-grade wellness has fixed costs — equipment, certifications, specialist staff — that get absorbed more efficiently over more keys. That same scale logic means smaller tiers operate under different brand promises: a 10-key <strong>Wellness Retreat</strong> trades clinical depth for intimate exclusivity; a 20-key <strong>Wellness Boutique</strong> hits a middle ground; the 30-key <strong>Wellness Destination</strong> is the full-program flagship.
+    </p>
+    <p>
+      Each tier is a complete, independently investable business. The choice is about investor appetite — capital size, return profile, and brand-versus-yield orientation.
+    </p>
+  </div>
+
+  <div class="compare-wrap" style="margin-top:3rem">
+    <div class="compare-row head">
+      <div>Metric</div>
+      <div><div class="tier-head" style="color:var(--rust)">Wellness Retreat<small style="color:var(--rust)">10 keys · Tier 01</small></div></div>
+      <div><div class="tier-head" style="color:var(--terra)">Wellness Boutique<small style="color:var(--terra)">20 keys · Tier 02</small></div></div>
+      <div><div class="tier-head" style="color:var(--gold)">Wellness Destination<small style="color:var(--gold)">30 keys · Tier 03</small></div></div>
+    </div>
+    <div class="compare-row">
+      <div><span class="label">Capital raise</span></div>
+      <div><span class="val">~$11M</span><div class="val sub">Range $10–12M</div></div>
+      <div><span class="val">~$19M</span><div class="val sub">Range $17–20M</div></div>
+      <div><span class="val head">~$26M</span><div class="val sub">Range $24–28M</div></div>
+    </div>
+    <div class="compare-row">
+      <div><span class="label">Per-key all-in</span></div>
+      <div><span class="val">$1.10M</span></div>
+      <div><span class="val">$945K</span></div>
+      <div><span class="val">$866K</span></div>
+    </div>
+    <div class="compare-row">
+      <div><span class="label">Health center program</span></div>
+      <div><span class="val">3 modalities</span><div class="val sub">Sauna+cold · hydro · 3 treatment rooms</div></div>
+      <div><span class="val">5 modalities</span><div class="val sub">+ HBOT · sound &amp; breath · 5 treatment rooms</div></div>
+      <div><span class="val">Full clinical</span><div class="val sub">+ IV clinic · 6 cells · Spa Reception · Treatment House</div></div>
+    </div>
+    <div class="compare-row">
+      <div><span class="label">Stabilized ADR</span></div>
+      <div><span class="val">$500</span></div>
+      <div><span class="val">$505</span></div>
+      <div><span class="val">$510</span></div>
+    </div>
+    <div class="compare-row">
+      <div><span class="label">Y5 Revenue</span></div>
+      <div><span class="val">$2.3M</span></div>
+      <div><span class="val">$5.8M</span></div>
+      <div><span class="val head">$9.5M</span></div>
+    </div>
+    <div class="compare-row">
+      <div><span class="label">Y5 EBITDA</span></div>
+      <div><span class="val">$0.50M</span><div class="val sub">22% margin</div></div>
+      <div><span class="val">$1.65M</span><div class="val sub">28% margin</div></div>
+      <div><span class="val head">$3.05M</span><div class="val sub">32% margin</div></div>
+    </div>
+    <div class="compare-row">
+      <div><span class="label">Stabilized FTE</span></div>
+      <div><span class="val">14</span></div>
+      <div><span class="val">24</span></div>
+      <div><span class="val">32</span></div>
+    </div>
+    <div class="compare-row">
+      <div><span class="label">5-year IRR (base case)</span></div>
+      <div><span class="val head">7–11%</span></div>
+      <div><span class="val head">12–16%</span></div>
+      <div><span class="val head">15–19%</span></div>
+    </div>
+    <div class="compare-row">
+      <div><span class="label">Equity multiple (5-yr)</span></div>
+      <div><span class="val">1.5–1.8×</span></div>
+      <div><span class="val">2.2–2.6×</span></div>
+      <div><span class="val">2.6–3.0×</span></div>
+    </div>
+    <div class="compare-row">
+      <div><span class="label">Best-fit investor</span></div>
+      <div><span class="val sub" style="font-style:normal;color:var(--bone-dim)">Patient capital · family office · land + brand option holder</span></div>
+      <div><span class="val sub" style="font-style:normal;color:var(--bone-dim)">Boutique hospitality LP · wellness-aligned mid-market capital</span></div>
+      <div><span class="val sub" style="font-style:normal;color:var(--bone-dim)">Institutional hospitality LP · full-thesis wellness destination</span></div>
+    </div>
+  </div>
+
+  <!-- CAPEX COMPARISON CHART -->
+  <div class="chart-frame" style="margin-top:3rem">
+    <div class="chart-title">Capital deployed by tier (USD millions)</div>
+    <svg class="chart-svg" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid meet">
+      <line class="svg-grid" x1="80" y1="250" x2="780" y2="250"/>
+      <line class="svg-grid" x1="80" y1="200" x2="780" y2="200" stroke-dasharray="2 4"/>
+      <line class="svg-grid" x1="80" y1="150" x2="780" y2="150" stroke-dasharray="2 4"/>
+      <line class="svg-grid" x1="80" y1="100" x2="780" y2="100" stroke-dasharray="2 4"/>
+      <line class="svg-grid" x1="80" y1="50" x2="780" y2="50" stroke-dasharray="2 4"/>
+
+      <text class="svg-axis" x="70" y="253" text-anchor="end">$0M</text>
+      <text class="svg-axis" x="70" y="203" text-anchor="end">$7M</text>
+      <text class="svg-axis" x="70" y="153" text-anchor="end">$14M</text>
+      <text class="svg-axis" x="70" y="103" text-anchor="end">$21M</text>
+      <text class="svg-axis" x="70" y="53" text-anchor="end">$28M</text>
+
+      <!-- Tier 1: $11M, scale ~7.14px per $M, so $11M = 78.5px tall, top y = 250 - 78.5 = 171.4 -->
+      <g transform="translate(160,0)">
+        <rect x="0" y="171.4" width="100" height="78.6" fill="#8A5A38" opacity="0.85"/>
+        <text class="svg-num" x="50" y="165" text-anchor="middle">$11M</text>
+        <text class="svg-label" x="50" y="275" text-anchor="middle">Tier 1 · 10 keys</text>
+        <text class="svg-axis" x="50" y="290" text-anchor="middle">Wellness Retreat</text>
+      </g>
+      <!-- Tier 2: $19M = 135.6px, top y = 114.4 -->
+      <g transform="translate(340,0)">
+        <rect x="0" y="114.4" width="100" height="135.6" fill="#A87850" opacity="0.85"/>
+        <text class="svg-num" x="50" y="108" text-anchor="middle">$19M</text>
+        <text class="svg-label" x="50" y="275" text-anchor="middle">Tier 2 · 20 keys</text>
+        <text class="svg-axis" x="50" y="290" text-anchor="middle">Wellness Boutique</text>
+      </g>
+      <!-- Tier 3: $26M = 185.6px, top y = 64.4 -->
+      <g transform="translate(520,0)">
+        <rect x="0" y="64.3" width="100" height="185.7" fill="#C8A83A" opacity="0.85"/>
+        <text class="svg-num" x="50" y="58" text-anchor="middle">$26M</text>
+        <text class="svg-label" x="50" y="275" text-anchor="middle">Tier 3 · 30 keys</text>
+        <text class="svg-axis" x="50" y="290" text-anchor="middle">Wellness Destination</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="prose">
+    <div class="pull">
+      <div class="pull-label">The scaling logic</div>
+      <div class="pull-body">
+        Per-key capex <em>improves</em> as the property grows ($1.10M → $945K → $866K). The wellness program's fixed costs spread over more keys; site work, off-grid plant, and soft costs benefit from economies of scale. <strong>EBITDA margin similarly scales</strong>: 22% at 10 keys, 28% at 20, 32% at 30. The 30-key destination isn't arbitrary — it's where the model crosses into venture-tier returns.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- §2 · TIER 1 -->
+<section class="section" id="tier-1">
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <div>
+      <h2 class="section-title">Tier 01 · Wellness Retreat</h2>
+      <p class="section-deck">10 keys · intimate · land + brand option.</p>
+    </div>
+  </div>
+
+  <div class="tier-hero">
+    <div>
+      <p class="tier-hero-label">Tier 01 · ~$11M raise</p>
+      <h3 class="tier-hero-name">Wellness Retreat</h3>
+      <p class="tier-hero-tag">Ten casitas. A focused health center. A private estate.</p>
+      <div class="tier-hero-stats">
+        <div class="tier-hero-stat"><div class="lab">Keys</div><div class="v">10</div></div>
+        <div class="tier-hero-stat"><div class="lab">Y5 EBITDA</div><div class="v">$0.50M</div></div>
+        <div class="tier-hero-stat"><div class="lab">5-Year IRR</div><div class="v">7–11%</div></div>
+        <div class="tier-hero-stat"><div class="lab">Equity multiple</div><div class="v">1.5–1.8×</div></div>
+      </div>
+    </div>
+    <div class="prose">
+      <p>
+        The Wellness Retreat is the smallest expression of the brand: ten luxury casitas on the same 11-hectare estate, a focused three-modality health center (sauna + cold plunge, hydrotherapy, treatment rooms — no HBOT, no IV clinic), and an intimate F&amp;B program. Less destination, more <em>residence</em>.
+      </p>
+      <p>
+        The return profile is built around <strong>land appreciation and brand option value</strong> as much as operating cash flow. At this scale, the wellness program is an amenity rather than a clinical anchor; the ADR premium comes from privacy, view, and design. For patient capital that wants exposure to the Pacific-coast BCS land thesis with modest yield and a future option to participate in the larger 30-key build, this is the cleanest entry.
+      </p>
+    </div>
+  </div>
+
+  <h4 style="font-family:var(--sans);font-weight:300;font-size:0.65rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--terra);margin:2rem 0 1rem">2.1 Capex bottom-up</h4>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Bucket</th><th>Scope</th><th style="text-align:right">USD</th></tr></thead>
+      <tbody>
+        <tr><td>10 keys</td><td>800 m² × $75k MXN/m² (premium custom)</td><td style="text-align:right"><span class="num">$3.2M</span></td></tr>
+        <tr><td>Health center (3 modalities)</td><td>400 m² · sauna+cold, hydro, 3 treatment rooms · spa reception</td><td style="text-align:right"><span class="num">$1.3M</span></td></tr>
+        <tr><td>Reception · F&amp;B · BoH</td><td>350 m² · smaller intimate scale</td><td style="text-align:right"><span class="num">$1.0M</span></td></tr>
+        <tr><td>Pool complex</td><td>Smaller pool, intimate terrace</td><td style="text-align:right"><span class="num">$0.4M</span></td></tr>
+        <tr><td>Wellness equipment</td><td>Sauna · cold plunge · hydrotherapy · 3 treatment FFE (no HBOT, no IV)</td><td style="text-align:right"><span class="num">$0.7M</span></td></tr>
+        <tr><td>Off-grid infrastructure</td><td>40 kW PV · 150 kWh battery · 4,000 GPD MBR · smaller plant</td><td style="text-align:right"><span class="num">$1.2M</span></td></tr>
+        <tr><td>Site work</td><td>Roads, grading, hardscape, landscape (Mexican labor)</td><td style="text-align:right"><span class="num">$0.8M</span></td></tr>
+        <tr><td>FFE — hotel ops</td><td>10 keys × $25K + reduced kitchen/F&amp;B</td><td style="text-align:right"><span class="num">$0.6M</span></td></tr>
+        <tr><td>Soft costs</td><td>A&amp;E, permits, owner's rep (8% hard)</td><td style="text-align:right"><span class="num">$0.7M</span></td></tr>
+        <tr><td>Pre-opening + WC</td><td>Marketing, hiring, training, 6-mo reserve</td><td style="text-align:right"><span class="num">$0.5M</span></td></tr>
+        <tr><td>Contingency</td><td>10% on hard costs</td><td style="text-align:right"><span class="num">$0.6M</span></td></tr>
+        <tr class="total-row"><td>Total Tier 1 capex</td><td></td><td style="text-align:right"><span class="num head">~$11M</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 style="font-family:var(--sans);font-weight:300;font-size:0.65rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--terra);margin:2rem 0 1rem">2.2 Revenue model</h4>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Driver</th><th>Value</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Occupancy (Y5)</td><td><span class="num">60%</span></td><td>Intimate scale, more selective bookings</td></tr>
+        <tr><td>ADR (Y5)</td><td><span class="num">$500</span></td><td>Conservative premium · less brand presence</td></tr>
+        <tr><td>Wellness attach blended</td><td><span class="num">$240 / ORN</span></td><td>50% package penetration · scaled program</td></tr>
+        <tr><td>F&amp;B per ORN</td><td><span class="num">$160</span></td><td>Smaller, less destination-grade F&amp;B</td></tr>
+        <tr><td>Retail / day-spa</td><td><span class="num">$0.15M</span></td><td>Day-spa from local market</td></tr>
+        <tr class="total-row"><td>Y5 Revenue</td><td><span class="num head">~$2.3M</span></td><td>10 × 365 × 60% × $900/ORN + day-spa</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 style="font-family:var(--sans);font-weight:300;font-size:0.65rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--terra);margin:2rem 0 1rem">2.3 OpEx · 14 FTE · 22% EBITDA margin</h4>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Line</th><th style="text-align:right">$M</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Payroll (14 FTE · $80K loaded)</td><td style="text-align:right"><span class="num">$1.12</span></td><td>GM · 2 front · 4 spa/wellness · 3 F&amp;B · 2 HK · 1 maint · 1 admin/sales</td></tr>
+        <tr><td>F&amp;B COGS</td><td style="text-align:right"><span class="num">$0.10</span></td><td>35% of F&amp;B revenue</td></tr>
+        <tr><td>Wellness supplies</td><td style="text-align:right"><span class="num">$0.10</span></td><td>Smaller program, no IV consumables</td></tr>
+        <tr><td>Utilities &amp; maintenance</td><td style="text-align:right"><span class="num">$0.25</span></td><td>Off-grid plant maintenance</td></tr>
+        <tr><td>Marketing</td><td style="text-align:right"><span class="num">$0.12</span></td><td>5% rev · word-of-mouth heavy at this scale</td></tr>
+        <tr><td>G&amp;A · mgmt · insurance</td><td style="text-align:right"><span class="num">$0.20</span></td><td>Independent operator default</td></tr>
+        <tr><td>Property tax + other</td><td style="text-align:right"><span class="num">$0.15</span></td><td>BCS rates · misc.</td></tr>
+        <tr class="total-row"><td>Total OpEx</td><td style="text-align:right"><span class="num head">$2.04</span></td><td>89% of revenue</td></tr>
+        <tr class="total-row"><td>EBITDA</td><td style="text-align:right"><span class="num head">$0.50</span></td><td>22% margin</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <h4>2.4 · Returns and exit</h4>
+    <p>
+      The Tier 1 exit case is dominated by <strong>asset basis + land appreciation</strong>, not operating multiple. Y5 going-concern at 9× EBITDA = $4.5M, well below capital deployed. The investor is protected by the underlying $11M asset basis appreciating at ~7% annually (mix of land + buildings).
+    </p>
+    <p>
+      Five-year terminal: <strong>~$13–14M total returns</strong> (asset basis + 5 years of operating distributions of $1.0–1.2M cumulative). IRR lands at <em>7–11%</em>, modest hospitality-LP / patient-capital territory. The accelerator is brand option value: if the project scales toward Tier 2 or Tier 3 down the line, Tier 1 LPs hold first-look rights at the expansion entry valuation.
+    </p>
+    <h4>Best-fit investor</h4>
+    <ul>
+      <li>Family office wanting Pacific-coast BCS land exposure with modest cash yield</li>
+      <li>Patient capital willing to underwrite asset basis as the primary return driver</li>
+      <li>Wellness-aligned LP using Tier 1 as a relationship anchor for potential Tier 2/3 participation</li>
+      <li>Individual investors at the sub-$2M check size who can pool to fill the round</li>
+    </ul>
+  </div>
+</section>
+
+<div class="tier-divider"></div>
+
+<!-- §3 · TIER 2 -->
+<section class="section" id="tier-2">
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <div>
+      <h2 class="section-title">Tier 02 · Wellness Boutique</h2>
+      <p class="section-deck">20 keys · boutique · the middle ground.</p>
+    </div>
+  </div>
+
+  <div class="tier-hero">
+    <div>
+      <p class="tier-hero-label">Tier 02 · ~$19M raise</p>
+      <h3 class="tier-hero-name">Wellness Boutique</h3>
+      <p class="tier-hero-tag">Twenty keys. Five wellness modalities including HBOT. The clinical anchor begins.</p>
+      <div class="tier-hero-stats">
+        <div class="tier-hero-stat"><div class="lab">Keys</div><div class="v">20</div></div>
+        <div class="tier-hero-stat"><div class="lab">Y5 EBITDA</div><div class="v">$1.65M</div></div>
+        <div class="tier-hero-stat"><div class="lab">5-Year IRR</div><div class="v">12–16%</div></div>
+        <div class="tier-hero-stat"><div class="lab">Equity multiple</div><div class="v">2.2–2.6×</div></div>
+      </div>
+    </div>
+    <div class="prose">
+      <p>
+        Tier 2 adds the clinical wellness anchor. Twenty keys, five wellness modalities (sauna + cold plunge, hydrotherapy, treatment rooms, <strong>HBOT</strong>, sound &amp; breath), and an expanded F&amp;B program. Still no full IV clinic — that's the Tier 3 unlock — but the property now reads as a <em>wellness boutique</em> rather than a retreat.
+      </p>
+      <p>
+        At this scale, operating economics begin to work: 28% EBITDA margin, $1.65M Y5 EBITDA on $19M capex. The hospitality-LP return profile (12–16% IRR) sits in standard mid-market boutique-luxury territory. Brand-multiple expansion at exit is plausible if the property establishes a recognizable wellness identity over Years 1–5.
+      </p>
+    </div>
+  </div>
+
+  <h4 style="font-family:var(--sans);font-weight:300;font-size:0.65rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--terra);margin:2rem 0 1rem">3.1 Capex bottom-up</h4>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Bucket</th><th>Scope</th><th style="text-align:right">USD</th></tr></thead>
+      <tbody>
+        <tr><td>20 keys</td><td>1,600 m² × $75k MXN/m²</td><td style="text-align:right"><span class="num">$6.3M</span></td></tr>
+        <tr><td>Health center (5 modalities)</td><td>600 m² · sauna+cold, hydro, HBOT, sound, 5 treatment rooms · spa reception</td><td style="text-align:right"><span class="num">$2.0M</span></td></tr>
+        <tr><td>Reception · F&amp;B · BoH</td><td>500 m² · expanded F&amp;B for boutique scale</td><td style="text-align:right"><span class="num">$1.5M</span></td></tr>
+        <tr><td>Pool complex</td><td>Mid-scale pool with terrace</td><td style="text-align:right"><span class="num">$0.5M</span></td></tr>
+        <tr><td>Wellness equipment</td><td>+ HBOT chamber ($350K), sound/breath FFE, 5 treatment rooms</td><td style="text-align:right"><span class="num">$1.6M</span></td></tr>
+        <tr><td>Off-grid infrastructure</td><td>60 kW PV · 225 kWh battery · 6,000 GPD MBR</td><td style="text-align:right"><span class="num">$1.6M</span></td></tr>
+        <tr><td>Site work</td><td>Roads, grading, hardscape, landscape</td><td style="text-align:right"><span class="num">$1.1M</span></td></tr>
+        <tr><td>FFE — hotel ops</td><td>20 keys × $25K + mid kitchen/F&amp;B</td><td style="text-align:right"><span class="num">$1.0M</span></td></tr>
+        <tr><td>Soft costs</td><td>A&amp;E, permits, owner's rep (8% hard)</td><td style="text-align:right"><span class="num">$1.1M</span></td></tr>
+        <tr><td>Pre-opening + WC</td><td>Marketing, hiring, training, 6-mo reserve</td><td style="text-align:right"><span class="num">$0.8M</span></td></tr>
+        <tr><td>Contingency</td><td>10% on hard costs</td><td style="text-align:right"><span class="num">$1.4M</span></td></tr>
+        <tr class="total-row"><td>Total Tier 2 capex</td><td></td><td style="text-align:right"><span class="num head">~$19M</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 style="font-family:var(--sans);font-weight:300;font-size:0.65rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--terra);margin:2rem 0 1rem">3.2 Revenue model</h4>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Driver</th><th>Value</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Occupancy (Y5)</td><td><span class="num">65%</span></td><td>Aligned with Cabo boutique benchmark</td></tr>
+        <tr><td>ADR (Y5)</td><td><span class="num">$505</span></td><td>Just below 30-key destination · clinical anchor justifies premium</td></tr>
+        <tr><td>Wellness attach blended</td><td><span class="num">$440 / ORN</span></td><td>55% package penetration · HBOT in program</td></tr>
+        <tr><td>F&amp;B per ORN</td><td><span class="num">$185</span></td><td>Expanded F&amp;B program</td></tr>
+        <tr><td>Retail / day-spa</td><td><span class="num">$0.25M</span></td><td>Day-spa from local market + retail</td></tr>
+        <tr class="total-row"><td>Y5 Revenue</td><td><span class="num head">~$5.8M</span></td><td>20 × 365 × 65% × $1,155/ORN + day-spa</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 style="font-family:var(--sans);font-weight:300;font-size:0.65rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--terra);margin:2rem 0 1rem">3.3 OpEx · 24 FTE · 28% EBITDA margin</h4>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Line</th><th style="text-align:right">$M</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Payroll (24 FTE · $90K loaded)</td><td style="text-align:right"><span class="num">$2.16</span></td><td>+ Wellness lead, HBOT operator, 5 spa, expanded F&amp;B</td></tr>
+        <tr><td>F&amp;B COGS</td><td style="text-align:right"><span class="num">$0.32</span></td><td>35% of F&amp;B revenue</td></tr>
+        <tr><td>Wellness supplies</td><td style="text-align:right"><span class="num">$0.30</span></td><td>HBOT consumables, oils, products</td></tr>
+        <tr><td>Utilities &amp; maintenance</td><td style="text-align:right"><span class="num">$0.40</span></td><td>Larger off-grid plant maintenance</td></tr>
+        <tr><td>Marketing</td><td style="text-align:right"><span class="num">$0.30</span></td><td>5% rev mature</td></tr>
+        <tr><td>G&amp;A · mgmt · insurance</td><td style="text-align:right"><span class="num">$0.50</span></td><td>4% mgmt fee + insurance + legal</td></tr>
+        <tr><td>Property tax + other</td><td style="text-align:right"><span class="num">$0.35</span></td><td>BCS rates · licensing</td></tr>
+        <tr class="total-row"><td>Total OpEx</td><td style="text-align:right"><span class="num head">$4.33</span></td><td>75% of revenue</td></tr>
+        <tr class="total-row"><td>EBITDA</td><td style="text-align:right"><span class="num head">$1.45</span></td><td>25% margin (Y5 ramping toward 28%)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <h4>3.4 · Returns and exit</h4>
+    <p>
+      At 20 keys, the model crosses the line into <strong>standard hospitality LP returns</strong>. Y5 going-concern valuation at 10× EBITDA = $16.5M, against $19M deployed. Asset basis floor: ~$22M (capital deployed + land appreciation − depreciation). Investors are partially protected by basis, with operating returns supplying the rest.
+    </p>
+    <p>
+      Five-year terminal: <strong>~$22–24M</strong> (going-concern multiple expanding toward asset basis + $2.5M cumulative distributions Y2–Y5). IRR <em>12–16%</em>, equity multiple <em>2.2–2.6×</em>. This is the tier where boutique-luxury hospitality LPs and family offices intersect comfortably.
+    </p>
+    <h4>Best-fit investor</h4>
+    <ul>
+      <li>Mid-market boutique hospitality LP (typical check size $2–5M)</li>
+      <li>Wellness-aligned family office wanting clinical anchor + brand exposure</li>
+      <li>Real-estate-oriented capital with hospitality experience</li>
+      <li>Investors who want clinical wellness exposure but at lower capital commitment than Tier 3</li>
+    </ul>
+  </div>
+</section>
+
+<div class="tier-divider"></div>
+
+<!-- §4 · TIER 3 -->
+<section class="section" id="tier-3">
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <div>
+      <h2 class="section-title">Tier 03 · Wellness Destination</h2>
+      <p class="section-deck">30 keys · full clinical program · the flagship.</p>
+    </div>
+  </div>
+
+  <div class="tier-hero">
+    <div>
+      <p class="tier-hero-label">Tier 03 · ~$26M raise · base case</p>
+      <h3 class="tier-hero-name">Wellness Destination</h3>
+      <p class="tier-hero-tag">Thirty keys. The full integrated clinical wellness program. Phase 2 optionality.</p>
+      <div class="tier-hero-stats">
+        <div class="tier-hero-stat"><div class="lab">Keys</div><div class="v">30</div></div>
+        <div class="tier-hero-stat"><div class="lab">Y5 EBITDA</div><div class="v">$3.05M</div></div>
+        <div class="tier-hero-stat"><div class="lab">5-Year IRR</div><div class="v">15–19%</div></div>
+        <div class="tier-hero-stat"><div class="lab">Equity multiple</div><div class="v">2.6–3.0×</div></div>
+      </div>
+    </div>
+    <div class="prose">
+      <p>
+        Tier 3 is the flagship — the model documented at length in the deck and main financial appendix. Thirty keys, the full integrated wellness program (HBOT, sauna+cold, hydrotherapy, sound+breath, recovery, reflection pool, Spa Reception, Treatment House, Recovery Garden, IV clinic), and the optionality of a Phase 2 expansion (40 base / 50 upside) gated on demand.
+      </p>
+      <p>
+        Operating economics fully scale at 30 keys: <strong>32% EBITDA margin, $3.05M Y5 EBITDA, 15–19% IRR base case</strong>. The clinical wellness program is the differentiator that earns the ADR premium and the EBITDA-multiple expansion at exit. Combined Phase 1 + Phase 2 (Y10) returns add another step-up: 17–22% combined IRR, 3.2–4.0× equity multiple.
+      </p>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">Y5 Revenue</div>
+      <div class="kpi-val">$9.5<small>M</small></div>
+      <div class="kpi-sub">$1,340 per occupied room-night</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Per ORN wellness</div>
+      <div class="kpi-val">$600</div>
+      <div class="kpi-sub">60% package penetration</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Stabilized FTE</div>
+      <div class="kpi-val">32</div>
+      <div class="kpi-sub">8 clinical · 7 spa · full program</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Phase 2 raise</div>
+      <div class="kpi-val">$18–22<small>M</small></div>
+      <div class="kpi-sub">Demand-gated · uplifted valuation</div>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>
+      Full bottom-up capex, revenue, OpEx, returns, and risk analysis for Tier 3 is documented in the <a href="./appendix.html" style="color:var(--moon);text-decoration:underline">Financial Appendix</a>. This is the model carried in the deck and the standalone investment thesis.
+    </p>
+    <h4>Best-fit investor</h4>
+    <ul>
+      <li>Institutional hospitality LP (typical check size $3–10M)</li>
+      <li>Wellness-focused private equity</li>
+      <li>Family office building a curated wellness/hospitality portfolio</li>
+      <li>Investors who want the full clinical destination thesis plus optionality on Phase 2 expansion</li>
+    </ul>
+
+    <div class="pull">
+      <div class="pull-label">Phase 2 optionality</div>
+      <div class="pull-body">
+        Tier 3 alone among the three carries a <strong>Phase 2 raise</strong> as part of the thesis. If guest demand pulls the project beyond 30 keys (gate: ADR ≥ $510 · occupancy ≥ 65% × 4Q · turnaway ≥ 15% × 2 peak seasons · DSCR ≥ 1.5×), a separate $18–22M raise at uplifted valuation funds expansion to 40 base / 50 upside keys. <em>Phase 1 LPs hold pro-rata participation rights and benefit from the valuation step-up.</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- §5 · CHOOSING -->
+<section class="section last" id="choosing">
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <div>
+      <h2 class="section-title">Choosing a tier</h2>
+      <p class="section-deck">Match the tier to the appetite, not the other way around.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>
+      The three tiers are not stages of the same project — they are distinct investments that share a brand, a site, and an operating philosophy. Each tier is fundable on its own. The choice depends on three orthogonal questions:
+    </p>
+
+    <h4>1 · Capital size</h4>
+    <p>
+      Check size sets the floor. Tier 1 can be filled by $0.5–2M individual checks pooled into an ~$11M round. Tier 2 expects $2–5M institutional or family-office checks. Tier 3 typically wants $3–10M anchor checks and a few smaller co-investors.
+    </p>
+
+    <h4>2 · Return profile</h4>
+    <p>
+      Tier 1 returns are <strong>asset-backed and patient</strong> — 7–11% IRR with strong asset basis floor, suited to capital that values land appreciation and brand option value as much as cash yield. Tier 2 returns are <strong>standard hospitality</strong> — 12–16% IRR, mid-market boutique-luxury territory. Tier 3 returns are <strong>wellness-destination scale</strong> — 15–19% Phase 1 IRR, with combined Y10 IRR expanding to 17–22% if Phase 2 unlocks.
+    </p>
+
+    <h4>3 · Brand thesis alignment</h4>
+    <p>
+      Tier 1 is private and intimate; the wellness program is an amenity, not a destination identity. Tier 2 starts to build a recognizable wellness anchor (HBOT, sound+breath) but stops short of clinical positioning. Tier 3 commits to the wellness destination thesis fully — clinical-grade, IV-clinic capable, full-program. Investors aligned with the &ldquo;wellness destination, opened complete&rdquo; brand promise belong in Tier 3.
+    </p>
+
+    <div class="pull">
+      <div class="pull-label">Hybrid pathways</div>
+      <div class="pull-body">
+        These tiers can be combined or sequenced. A natural hybrid: <em>start at Tier 1 or Tier 2, with explicit option rights to participate in a Tier 3 expansion raise within 5 years.</em> The sponsor preserves the brand thesis at Tier 3 while the LP base scales over multiple raises. Worth discussing case-by-case during raise structuring.
+      </div>
+    </div>
+
+    <h4>Common ground across all tiers</h4>
+    <ul>
+      <li><strong>Construction rate:</strong> $50–75k MXN/m² · same BCS contractor-sounding rate across all three</li>
+      <li><strong>Land contribution:</strong> 11 hectares · same escriturado private estate · negotiated value</li>
+      <li><strong>Off-grid commitment:</strong> all tiers fully off-grid (sized to scale)</li>
+      <li><strong>Brand:</strong> &ldquo;Cucunumic · Baja Wellness&rdquo; identity is consistent</li>
+      <li><strong>Management:</strong> independent operator (3–5% fee) or branded operator (6–10%) — TBD at raise structuring</li>
+      <li><strong>Asset basis floor:</strong> all three protected by the underlying real estate</li>
+    </ul>
+  </div>
+</section>
+
+<!-- END -->
+<div class="end-matter">
+  <div class="end-rule"></div>
+  <p class="end-mark">
+    A wellness destination, opened complete — at the scale that fits the room.<br>
+    Three theses. One brand. One site.
+  </p>
+  <div class="end-meta">
+    Cucunumic · Baja Wellness<br>
+    El Pescadero · Pacific Coast · BCS · Mexico<br>
+    Investment Memorandum · Scale Variants · May 2026 · Confidential
+  </div>
+</div>
+
+<a href="./index.html" class="back-deck">← Back to Deck</a>
+
+</body>
+</html>
